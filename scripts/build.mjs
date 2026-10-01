@@ -3,7 +3,7 @@
 //   node scripts/build.mjs            → dist/ (para GitHub Pages / dominio)
 //   node scripts/build.mjs --preview  → dist-preview/ (portada sin envoltorio,
 //                                       para publicarla como Artifact de pruebas)
-import { readFile, writeFile, mkdir, readdir, cp, rm } from "node:fs/promises";
+import { readFile, writeFile, mkdir, readdir, cp, rm, access } from "node:fs/promises";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import config from "../site.config.mjs";
@@ -13,10 +13,11 @@ const preview = process.argv.includes("--preview");
 const out = join(root, preview ? "dist-preview" : "dist");
 
 const read = (p) => readFile(join(root, p), "utf8");
-const [head, header, footer] = await Promise.all([
+const [head, header, footer, teide] = await Promise.all([
   read("src/partials/head.html"),
   read("src/partials/header.html"),
-  read("src/partials/footer.html")
+  read("src/partials/footer.html"),
+  read("src/partials/teide.html")
 ]);
 
 const href = (slug) => `${slug}.html`;
@@ -36,6 +37,27 @@ const socialLinks = config.social
   .filter((s) => s.url)
   .map((s) => `<a href="${s.url}" target="_blank" rel="noopener">${s.label}</a>`)
   .join("\n        ");
+
+const exists = (p) => access(join(root, p)).then(() => true, () => false);
+const SCENE_SIZES = { teide: [1000, 1300], trails: [1000, 1000], lava: [1000, 760], basalt: [1000, 1250], clouds: [1000, 1000], crater: [1000, 1300], milky: [1000, 760], sand: [1000, 1000], smoke: [1000, 1250] };
+const brandCards = (
+  await Promise.all(
+    config.brands.map(async (b, i) => {
+      const logoPath = `assets/logos/${b.slug}.svg`;
+      const logo = (await exists(logoPath))
+        ? (await read(logoPath)).replace(/<svg /, `<svg aria-hidden="true" focusable="false" `)
+        : `<span class="wordmark" aria-hidden="true">${b.name}</span>`;
+      const img = b.image || `assets/img/scenes/${b.scene}.jpg`;
+      const [w, h] = SCENE_SIZES[b.scene] || [1000, 1000];
+      const n = String(i + 1).padStart(2, "0");
+      return `<li class="bcard reveal" style="--rd:${(i % 3) * 0.08}s">
+        <img src="${img}" alt="" width="${w}" height="${h}" loading="lazy" decoding="async">
+        <div class="bcard-logo">${logo}</div>
+        <div class="bcard-meta"><span class="mono">${n}</span><h3>${b.name}</h3><span class="mono">${b.sector}</span></div>
+      </li>`;
+    })
+  )
+).join("\n      ");
 
 const fill = (tpl, vars) => tpl.replace(/\{\{(\w+)\}\}/g, (m, k) => (k in vars ? vars[k] : m));
 
@@ -64,7 +86,9 @@ for (const file of pages) {
     tagline: config.tagline,
     navLinks: navLinks(meta.nav),
     mobileLinks: mobileLinks(meta.nav),
-    socialLinks
+    socialLinks,
+    teide,
+    brandCards
   };
   const headHtml = fill(head, vars);
   const bodyHtml = fill(`${fill(header, vars)}\n<main id="main">\n${body}</main>\n${fill(footer, vars)}`, vars);

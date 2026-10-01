@@ -1,6 +1,7 @@
 <!--{"title":"Marcas · Vulkano Tribbu","description":"IKEA, Prisa Radio, Leroy Merlin, EY, Carnaval de Tenerife, Banco Santander, Coverwallet, Zertiban e Ignia Institution: marcas que han confiado en nuestro trabajo.","nav":"marcas"}-->
 <section class="hero hero--page s-dark">
-  <canvas class="embers" data-density=".55" aria-hidden="true"></canvas>
+  <canvas class="sky" data-density=".55" aria-hidden="true"></canvas>
+  {{teide}}
   <div class="wrap">
     <span class="eyebrow settle" style="--d:.1s">Marcas</span>
     <h1 class="hero-title display xl">
@@ -15,17 +16,9 @@
 
 <section class="section s-dark" aria-label="Listado de marcas">
   <div class="wrap">
-    <ol class="brand-list">
-      <li class="brand-row reveal"><span class="idx mono">01</span><h3>IKEA</h3><span class="sector mono">Hogar · Retail</span></li>
-      <li class="brand-row reveal"><span class="idx mono">02</span><h3>Prisa Radio</h3><span class="sector mono">Medios · Audio</span></li>
-      <li class="brand-row reveal"><span class="idx mono">03</span><h3>Leroy Merlin</h3><span class="sector mono">Hogar · Retail</span></li>
-      <li class="brand-row reveal"><span class="idx mono">04</span><h3>EY</h3><span class="sector mono">Consultoría</span></li>
-      <li class="brand-row reveal"><span class="idx mono">05</span><h3>Carnaval de Tenerife</h3><span class="sector mono">Cultura · Evento</span></li>
-      <li class="brand-row reveal"><span class="idx mono">06</span><h3>Banco Santander</h3><span class="sector mono">Banca</span></li>
-      <li class="brand-row reveal"><span class="idx mono">07</span><h3>Coverwallet</h3><span class="sector mono">Seguros · Digital</span></li>
-      <li class="brand-row reveal"><span class="idx mono">08</span><h3>Zertiban</h3><span class="sector mono">Empresa</span></li>
-      <li class="brand-row reveal"><span class="idx mono">09</span><h3>Ignia Institution</h3><span class="sector mono">Institución</span></li>
-    </ol>
+    <ul class="masonry" aria-label="Marcas con las que hemos trabajado">
+      {{brandCards}}
+    </ul>
   </div>
 </section>
 

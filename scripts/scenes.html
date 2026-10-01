@@ -1,0 +1,191 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Escenas volcánicas</title>
+<!-- Generador de las imágenes en blanco y negro de las cards de marcas.
+     Se ejecuta con `node scripts/render-scenes.cjs` (Playwright). -->
+<canvas id="c"></canvas>
+<script>
+function rng(seed) { let s = seed >>> 0; return () => ((s = (s * 1664525 + 1013904223) >>> 0) / 4294967296); }
+function noise2(seed) {
+  const r = rng(seed), p = new Uint8Array(512), g = [];
+  for (let i = 0; i < 256; i++) { p[i] = i; const a = r() * Math.PI * 2; g.push([Math.cos(a), Math.sin(a)]); }
+  for (let i = 255; i > 0; i--) { const j = (r() * (i + 1)) | 0; [p[i], p[j]] = [p[j], p[i]]; }
+  for (let i = 0; i < 256; i++) p[i + 256] = p[i];
+  const f = t => t * t * t * (t * (t * 6 - 15) + 10);
+  const dot = (h, x, y) => { const v = g[h]; return v[0] * x + v[1] * y; };
+  return (x, y) => {
+    const X = Math.floor(x) & 255, Y = Math.floor(y) & 255, xf = x - Math.floor(x), yf = y - Math.floor(y);
+    const u = f(xf), v = f(yf);
+    const aa = p[p[X] + Y], ab = p[p[X] + Y + 1], ba = p[p[X + 1] + Y], bb = p[p[X + 1] + Y + 1];
+    const l1 = dot(aa, xf, yf) + u * (dot(ba, xf - 1, yf) - dot(aa, xf, yf));
+    const l2 = dot(ab, xf, yf - 1) + u * (dot(bb, xf - 1, yf - 1) - dot(ab, xf, yf - 1));
+    return l1 + v * (l2 - l1);
+  };
+}
+function fbm(n, x, y, oct = 5) { let a = 0, amp = .5, f = 1; for (let i = 0; i < oct; i++) { a += amp * n(x * f, y * f); f *= 2; amp *= .5; } return a; }
+
+function field(ctx, w, h, fn) {
+  const img = ctx.createImageData(w, h), d = img.data;
+  for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
+    const v = Math.max(0, Math.min(255, fn(x, y) * 255)), i = (y * w + x) * 4;
+    d[i] = d[i + 1] = d[i + 2] = v; d[i + 3] = 255;
+  }
+  ctx.putImageData(img, 0, 0);
+}
+function grain(ctx, w, h, amt, seed) {
+  const r = rng(seed), img = ctx.getImageData(0, 0, w, h), d = img.data;
+  for (let i = 0; i < d.length; i += 4) { const n = (r() - .5) * amt; d[i] += n; d[i + 1] += n; d[i + 2] += n; }
+  ctx.putImageData(img, 0, 0);
+}
+function stars(ctx, w, h, count, seed, maxY = h) {
+  const r = rng(seed);
+  for (let i = 0; i < count; i++) {
+    const x = r() * w, y = r() * maxY, s = Math.pow(r(), 6) * 2.2 + .3, a = .25 + r() * .75;
+    ctx.fillStyle = `rgba(255,255,255,${a})`;
+    ctx.beginPath(); ctx.arc(x, y, s, 0, Math.PI * 2); ctx.fill();
+    if (s > 2) { const g = ctx.createRadialGradient(x, y, 0, x, y, s * 3.5); g.addColorStop(0, "rgba(255,255,255,.18)"); g.addColorStop(1, "rgba(255,255,255,0)"); ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, y, s * 3.5, 0, Math.PI * 2); ctx.fill(); }
+  }
+}
+function meteors(ctx, w, h, count, seed) {
+  const r = rng(seed);
+  for (let i = 0; i < count; i++) {
+    const x = r() * w * 1.1, y = r() * h * .6, len = 80 + r() * 220, ang = Math.PI * (0.72 + r() * .06);
+    const x2 = x + Math.cos(ang) * len, y2 = y + Math.sin(ang) * len;
+    const g = ctx.createLinearGradient(x, y, x2, y2);
+    g.addColorStop(0, "rgba(255,255,255,0)"); g.addColorStop(1, `rgba(255,255,255,${.5 + r() * .5})`);
+    ctx.strokeStyle = g; ctx.lineWidth = .8 + r() * 1.4; ctx.lineCap = "round";
+    ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x2, y2); ctx.stroke();
+  }
+}
+function skyGradient(ctx, w, h, top = 4, bottom = 34) {
+  const g = ctx.createLinearGradient(0, 0, 0, h);
+  g.addColorStop(0, `rgb(${top},${top},${top})`); g.addColorStop(1, `rgb(${bottom},${bottom},${bottom})`);
+  ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
+}
+// Perfil del Teide (x, y en 0..1): hombro de Pico Viejo a la izquierda, pilón y ladera larga a la derecha.
+const TEIDE = [[0, .86], [.12, .83], [.26, .77], [.36, .70], [.42, .655], [.47, .645], [.5, .62], [.545, .52], [.565, .455], [.585, .445], [.6, .46], [.63, .53], [.7, .6], [.8, .68], [.9, .74], [1, .78]];
+function ridge(ctx, w, h, pts, fill, rim, scaleY = 1, offY = 0) {
+  ctx.beginPath(); ctx.moveTo(0, h);
+  pts.forEach(([x, y]) => ctx.lineTo(x * w, (y * scaleY + offY) * h));
+  ctx.lineTo(w, h); ctx.closePath(); ctx.fillStyle = fill; ctx.fill();
+  if (rim) { ctx.beginPath(); pts.forEach(([x, y], i) => (i ? ctx.lineTo : ctx.moveTo).call(ctx, x * w, (y * scaleY + offY) * h)); ctx.strokeStyle = rim; ctx.lineWidth = 1.2; ctx.stroke(); }
+}
+
+const SCENES = {
+  teide(ctx, w, h) {
+    skyGradient(ctx, w, h, 3, 40);
+    stars(ctx, w, h, 1400, 7, h * .8); meteors(ctx, w, h, 9, 3);
+    const haze = ctx.createRadialGradient(w * .58, h * .62, 0, w * .58, h * .62, w * .7);
+    haze.addColorStop(0, "rgba(255,255,255,.14)"); haze.addColorStop(1, "rgba(255,255,255,0)");
+    ctx.fillStyle = haze; ctx.fillRect(0, 0, w, h);
+    ridge(ctx, w, h, [[0, .8], [.3, .78], [.6, .8], [1, .76]], "#141414", null);
+    ridge(ctx, w, h, TEIDE, "#050505", "rgba(255,255,255,.35)");
+  },
+  trails(ctx, w, h) {
+    skyGradient(ctx, w, h, 2, 26);
+    const r = rng(11), cx = w * .55, cy = h * .18;
+    for (let i = 0; i < 900; i++) {
+      const rad = Math.sqrt(r()) * Math.hypot(w, h), a0 = r() * Math.PI * 2, span = .35 + r() * .25;
+      ctx.strokeStyle = `rgba(255,255,255,${.08 + Math.pow(r(), 3) * .7})`; ctx.lineWidth = .6 + Math.pow(r(), 4) * 1.6;
+      ctx.beginPath(); ctx.arc(cx, cy, rad, a0, a0 + span); ctx.stroke();
+    }
+    ridge(ctx, w, h, [[0, .88], [.2, .82], [.35, .85], [.55, .76], [.7, .8], [.85, .74], [1, .79]], "#030303", "rgba(255,255,255,.25)");
+  },
+  lava(ctx, w, h) {
+    const n = noise2(5);
+    field(ctx, w, h, (x, y) => {
+      const u = x / w * 3, v = y / h * 4, warp = fbm(n, u, v, 4) * 3;
+      const ropes = Math.sin((v + warp) * 14 + u * 2) * .5 + .5;
+      return .05 + Math.pow(ropes, 3) * .55 + fbm(n, u * 8, v * 8, 3) * .25;
+    });
+    grain(ctx, w, h, 22, 2);
+  },
+  basalt(ctx, w, h) {
+    ctx.fillStyle = "#070707"; ctx.fillRect(0, 0, w, h);
+    const r = rng(21), s = 54, n = noise2(9);
+    for (let row = -1; row < h / (s * .86) + 1; row++) for (let col = -1; col < w / s + 1; col++) {
+      const cx = col * s + (row % 2) * s / 2 + (r() - .5) * 4, cy = row * s * .86 + (r() - .5) * 4, k = .95 + r() * .12;
+      ctx.beginPath();
+      for (let i = 0; i < 6; i++) { const a = Math.PI / 3 * i + Math.PI / 6 + (r() - .5) * .12, rr = s * .6 * k; ctx.lineTo(cx + Math.cos(a) * rr, cy + Math.sin(a) * rr); }
+      ctx.closePath();
+      const lum = 30 + (n(cx / 200, cy / 200) + .5) * 70 + r() * 30;
+      const g = ctx.createLinearGradient(cx - s / 2, cy - s / 2, cx + s / 2, cy + s / 2);
+      g.addColorStop(0, `rgb(${lum + 30},${lum + 30},${lum + 30})`); g.addColorStop(1, `rgb(${lum * .5},${lum * .5},${lum * .5})`);
+      ctx.fillStyle = g; ctx.fill(); ctx.strokeStyle = "#050505"; ctx.lineWidth = 2.2; ctx.stroke();
+    }
+    grain(ctx, w, h, 26, 4);
+  },
+  clouds(ctx, w, h) {
+    skyGradient(ctx, w, h, 12, 70);
+    stars(ctx, w, h, 300, 31, h * .4);
+    ridge(ctx, w, h, TEIDE, "#0a0a0a", "rgba(255,255,255,.4)", 1, -.12);
+    const n = noise2(17);
+    const img = ctx.getImageData(0, 0, w, h), d = img.data;
+    for (let y = Math.floor(h * .58); y < h; y++) for (let x = 0; x < w; x++) {
+      const t = (y - h * .58) / (h * .42), c = fbm(n, x / 260, y / 90, 5) + .5;
+      const a = Math.min(1, Math.max(0, (c - .38) * 2.4)) * Math.min(1, t * 3);
+      const v = 150 + c * 100, i = (y * w + x) * 4;
+      d[i] = d[i + 1] = d[i + 2] = d[i] * (1 - a) + v * a;
+    }
+    ctx.putImageData(img, 0, 0);
+    grain(ctx, w, h, 14, 8);
+  },
+  crater(ctx, w, h) {
+    const n = noise2(41), cx = w * .5, cy = h * .52;
+    field(ctx, w, h, (x, y) => {
+      const dx = (x - cx) / w, dy = (y - cy) / w, r = Math.hypot(dx, dy) + fbm(n, x / 180, y / 180, 4) * .06;
+      const rim = Math.exp(-Math.pow((r - .3) / .05, 2)), floor = r < .27 ? .08 : 0;
+      const rings = Math.sin(r * 90) * .04;
+      return .18 + rim * .55 - floor + rings + fbm(n, x / 40, y / 40, 3) * .18;
+    });
+    grain(ctx, w, h, 20, 6);
+  },
+  milky(ctx, w, h) {
+    skyGradient(ctx, w, h, 2, 30);
+    const n = noise2(51);
+    const img = ctx.getImageData(0, 0, w, h), d = img.data;
+    for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
+      const t = (x / w - y / h * .8 + .1), band = Math.exp(-Math.pow(t / .16, 2));
+      const c = (fbm(n, x / 120, y / 120, 5) + .5) * band * 120, i = (y * w + x) * 4;
+      d[i] = d[i + 1] = d[i + 2] = Math.min(255, d[i] + c);
+    }
+    ctx.putImageData(img, 0, 0);
+    stars(ctx, w, h, 2200, 53); meteors(ctx, w, h, 3, 9);
+    ridge(ctx, w, h, [[0, .9], [.25, .86], [.45, .9], [.6, .84], [.8, .87], [1, .83]], "#020202", null);
+  },
+  sand(ctx, w, h) {
+    const n = noise2(61);
+    field(ctx, w, h, (x, y) => {
+      const u = x / w, v = y / h, warp = fbm(n, u * 2, v * 2, 3) * 1.4;
+      const ripple = Math.sin((v * 22 + warp * 4 + u * 3)) * .5 + .5;
+      return .08 + ripple * .28 + fbm(n, u * 40, v * 40, 2) * .2;
+    });
+    grain(ctx, w, h, 40, 12);
+  },
+  smoke(ctx, w, h) {
+    skyGradient(ctx, w, h, 6, 18);
+    const n = noise2(71);
+    const img = ctx.getImageData(0, 0, w, h), d = img.data;
+    for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
+      const v = y / h, spread = .06 + (1 - v) * .45, cx = .5 + Math.sin(v * 3) * .08 + fbm(n, v * 2, 0, 3) * .2;
+      const dist = Math.abs(x / w - cx) / spread, c = fbm(n, x / 150, y / 150 + v, 5) + .5;
+      const a = Math.max(0, 1 - dist) * c * 1.4, i = (y * w + x) * 4;
+      d[i] = d[i + 1] = d[i + 2] = Math.min(255, d[i] + a * 190);
+    }
+    ctx.putImageData(img, 0, 0);
+    ridge(ctx, w, h, [[0, .95], [.3, .93], [.42, .88], [.5, .86], [.58, .88], [.7, .93], [1, .95]], "#030303", "rgba(255,255,255,.2)");
+    grain(ctx, w, h, 18, 13);
+  }
+};
+
+window.render = function (name, w, h) {
+  const c = document.getElementById("c"); c.width = w; c.height = h;
+  const ctx = c.getContext("2d");
+  SCENES[name](ctx, w, h);
+  // viñeteado suave
+  const v = ctx.createRadialGradient(w / 2, h / 2, Math.min(w, h) * .3, w / 2, h / 2, Math.hypot(w, h) * .6);
+  v.addColorStop(0, "rgba(0,0,0,0)"); v.addColorStop(1, "rgba(0,0,0,.55)");
+  ctx.fillStyle = v; ctx.fillRect(0, 0, w, h);
+  return c.toDataURL("image/jpeg", .8);
+};
+</script>

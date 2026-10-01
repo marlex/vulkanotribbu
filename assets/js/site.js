@@ -1,5 +1,5 @@
 /* Vulkano Tribbu — movimiento.
-   Fuego silencioso: todo entra con energía y termina en calma. */
+   Noche en el Teide: todo entra con energía y termina en calma. */
 (function () {
   "use strict";
 
@@ -181,13 +181,13 @@
     setTimeout(function () { requestAnimationFrame(frame); }, 600);
   });
 
-  /* ---------- Brasas (canvas) ---------- */
-  document.querySelectorAll("canvas.embers").forEach(function (canvas) {
+  /* ---------- Cielo del Teide: estrellas y lluvia de estrellas (canvas) ---------- */
+  document.querySelectorAll("canvas.sky").forEach(function (canvas) {
     var ctx = canvas.getContext("2d");
     if (!ctx) return;
     var dpr = Math.min(window.devicePixelRatio || 1, 2);
-    var w = 0, h = 0, parts = [], running = true, visible = true;
-    var pointer = { x: -9999, y: -9999 };
+    var w = 0, h = 0, stars = [], meteors = [], running = true, visible = true;
+    var px = 0, py = 0, tx = 0, ty = 0, nextMeteor = 0;
     var density = parseFloat(canvas.getAttribute("data-density") || "1");
 
     function resize() {
@@ -195,63 +195,61 @@
       w = r.width; h = r.height;
       canvas.width = Math.round(w * dpr); canvas.height = Math.round(h * dpr);
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      var target = Math.round(Math.min(110, (w * h) / 14000) * density);
-      while (parts.length < target) parts.push(spawn(true));
-      parts.length = target;
+      var target = Math.round(Math.min(420, (w * h) / 2600) * density);
+      stars = [];
+      for (var i = 0; i < target; i++) {
+        var z = Math.random();
+        stars.push({ x: Math.random() * w, y: Math.random() * h * 0.92, r: Math.pow(Math.random(), 5) * 1.6 + 0.35, z: z, a: 0.25 + Math.random() * 0.75, tw: Math.random() * Math.PI * 2, sp: 0.4 + Math.random() * 1.6 });
+      }
     }
-    function spawn(anywhere) {
-      return {
-        x: Math.random() * w,
-        y: anywhere ? Math.random() * h : h + 10,
-        r: Math.random() * 1.6 + 0.4,
-        vy: -(Math.random() * 0.35 + 0.12),
-        vx: (Math.random() - 0.5) * 0.12,
-        life: 0,
-        max: Math.random() * 600 + 400,
-        phase: Math.random() * Math.PI * 2,
-        heat: Math.random()
-      };
+    function spawnMeteor() {
+      var ang = Math.PI * (0.70 + Math.random() * 0.08);
+      var speed = 9 + Math.random() * 9;
+      meteors.push({ x: Math.random() * w * 1.1, y: -20 + Math.random() * h * 0.35, vx: Math.cos(ang) * speed, vy: Math.sin(ang) * speed, life: 0, max: 40 + Math.random() * 40, len: 90 + Math.random() * 160, wdt: 0.8 + Math.random() * 1.2 });
     }
-    function draw() {
+    function draw(t) {
       if (!running) return;
       ctx.clearRect(0, 0, w, h);
-      ctx.globalCompositeOperation = "lighter";
-      for (var i = 0; i < parts.length; i++) {
-        var p = parts[i];
-        p.life++;
-        p.phase += 0.02;
-        p.x += p.vx + Math.sin(p.phase) * 0.18;
-        p.y += p.vy;
-        var dx = p.x - pointer.x, dy = p.y - pointer.y, d2 = dx * dx + dy * dy;
-        if (d2 < 22000) { var f = (22000 - d2) / 22000; p.x += dx * 0.012 * f; p.y += dy * 0.012 * f; }
-        var k = p.life / p.max;
-        if (k >= 1 || p.y < -20) { parts[i] = spawn(false); continue; }
-        var flicker = 0.65 + Math.sin(p.phase * 3) * 0.35;
-        var a = Math.sin(Math.PI * k) * flicker * (1 - (h - p.y) / h * 0.35);
-        var hue = 18 + p.heat * 18;
-        var g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r * 6);
-        g.addColorStop(0, "hsla(" + (hue + 12) + ",100%,78%," + a + ")");
-        g.addColorStop(0.25, "hsla(" + hue + ",95%,55%," + a * 0.55 + ")");
-        g.addColorStop(1, "hsla(" + hue + ",90%,40%,0)");
-        ctx.fillStyle = g;
-        ctx.beginPath(); ctx.arc(p.x, p.y, p.r * 6, 0, Math.PI * 2); ctx.fill();
+      px += (tx - px) * 0.04; py += (ty - py) * 0.04;
+      for (var i = 0; i < stars.length; i++) {
+        var s = stars[i];
+        var tw = reduceMotion ? 1 : 0.55 + Math.sin(t / 1000 * s.sp + s.tw) * 0.45;
+        var x = s.x + px * (0.3 + s.z) * 14, y = s.y + py * (0.3 + s.z) * 10;
+        ctx.globalAlpha = s.a * tw;
+        ctx.fillStyle = "#fff";
+        ctx.beginPath(); ctx.arc(x, y, s.r, 0, Math.PI * 2); ctx.fill();
       }
-      ctx.globalCompositeOperation = "source-over";
-      requestAnimationFrame(draw);
+      ctx.globalAlpha = 1;
+      if (!reduceMotion && t > nextMeteor) {
+        spawnMeteor();
+        if (Math.random() < 0.35) spawnMeteor();
+        nextMeteor = t + 700 + Math.random() * 2600;
+      }
+      for (var m = meteors.length - 1; m >= 0; m--) {
+        var me = meteors[m];
+        me.life++; me.x += me.vx; me.y += me.vy;
+        var k = me.life / me.max, alpha = Math.sin(Math.PI * Math.min(1, k));
+        var mag = Math.hypot(me.vx, me.vy);
+        var x2 = me.x - me.vx / mag * me.len, y2 = me.y - me.vy / mag * me.len;
+        var g = ctx.createLinearGradient(me.x, me.y, x2, y2);
+        g.addColorStop(0, "rgba(255,255,255," + alpha + ")");
+        g.addColorStop(1, "rgba(255,255,255,0)");
+        ctx.strokeStyle = g; ctx.lineWidth = me.wdt; ctx.lineCap = "round";
+        ctx.beginPath(); ctx.moveTo(me.x, me.y); ctx.lineTo(x2, y2); ctx.stroke();
+        ctx.fillStyle = "rgba(255,255,255," + alpha + ")";
+        ctx.beginPath(); ctx.arc(me.x, me.y, me.wdt, 0, Math.PI * 2); ctx.fill();
+        if (k >= 1) meteors.splice(m, 1);
+      }
+      if (!reduceMotion) requestAnimationFrame(draw);
     }
     resize();
     window.addEventListener("resize", resize);
     if (finePointer) {
       window.addEventListener("pointermove", function (e) {
-        var r = canvas.getBoundingClientRect();
-        pointer.x = e.clientX - r.left; pointer.y = e.clientY - r.top;
+        tx = e.clientX / window.innerWidth - 0.5; ty = e.clientY / window.innerHeight - 0.5;
       }, { passive: true });
     }
-    if (reduceMotion) {
-      for (var s = 0; s < 120; s++) { parts.forEach(function (p) { p.life++; p.y += p.vy; }); }
-      requestAnimationFrame(function () { draw(); running = false; });
-      return;
-    }
+    if (reduceMotion) { requestAnimationFrame(draw); return; }
     if ("IntersectionObserver" in window) {
       new IntersectionObserver(function (en) {
         visible = en[0].isIntersecting;

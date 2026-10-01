@@ -2,7 +2,9 @@
 
 Web de la agencia Vulkano Tribbu. Sitio estático, sin dependencias: HTML, CSS y JavaScript propios.
 
-**Concepto:** lava que se enfría. Los titulares entran incandescentes y se asientan en piedra; el fuego vive en el movimiento (brasas, resplandores, transiciones) y la estructura es sobria. Cada página empieza con energía y termina en calma. Lema: *Todo el fuego. Nada de humo.*
+**Concepto:** volcán en blanco y negro. Noche en el Teide con lluvia de estrellas: los titulares entran incandescentes (blanco desenfocado) y se asientan en piedra; la silueta del Teide se dibuja bajo el cielo. Sin color, solo luz, ceniza y basalto. Cada página empieza con energía y termina en calma. Lema: *Todo el fuego. Nada de humo.*
+
+**Logo:** espiral de línea (`currentColor`): negra sobre fondos claros y blanca sobre oscuros. El favicon (`assets/img/mark.svg`) cambia solo según el modo claro u oscuro del sistema.
 
 ## Páginas
 
@@ -23,10 +25,12 @@ Web de la agencia Vulkano Tribbu. Sitio estático, sin dependencias: HTML, CSS y
 
 ```
 assets/css/site.css    Tokens de diseño (color, tipografía, espacio) y componentes
-assets/js/site.js      Movimiento: brasas, titulares que se enfrían, revelados, transiciones
+assets/js/site.js      Movimiento: cielo con lluvia de estrellas, titulares que se enfrían, revelados, transiciones
+assets/logos/          Logos de marcas en SVG monocromo (fill="currentColor")
+assets/img/scenes/     Imágenes en blanco y negro de las cards (generadas con scripts/render-scenes.cjs)
 src/partials/          Cabecera, pie y <head> comunes
 src/pages/             Contenido de cada página (primera línea: título y descripción en JSON)
-site.config.mjs        Dominio, email, redes y menú
+site.config.mjs        Dominio, email, redes, menú y marcas (logo, sector, imagen)
 scripts/build.mjs      Genera dist/
 ```
 
@@ -55,8 +59,14 @@ Activación (una sola vez): en GitHub, **Settings → Pages → Build and deploy
    - `www`, registro `CNAME`: `marlex.github.io`
 3. En **Settings → Pages**, escribir el dominio en *Custom domain* y marcar **Enforce HTTPS** cuando aparezca disponible.
 
+## Marcas y logos
+Las cards de marcas (portada y `marcas.html`) se generan desde `brands` en `site.config.mjs`.
+- **Logo:** se usa `assets/logos/<slug>.svg` si existe. Debe ser monocromo con `fill="currentColor"` para que salga en blanco sobre la imagen. Ahora hay logos de IKEA y Leroy Merlin (Simple Icons, CC0); el resto se muestra como marca tipográfica hasta tener su SVG.
+- **Imagen de fondo:** `scene` elige una de `assets/img/scenes/`. Para usar una foto propia, añadir `image: "assets/img/brands/archivo.jpg"`; se pasa a blanco y negro y se le aplica el velo automáticamente.
+
 ## Pendiente de validar
-- Design system definitivo (si existe uno distinto, sustituir los tokens de `:root`).
+- Design system de Claude Design "Vulkano Tribbu": no se puede leer desde esta sesión en la nube. Las tipografías están en `--font-serif` (cursivas) y `--font-display` / `--font-body` / `--font-mono` dentro de `:root`.
+- Logos en SVG de Prisa Radio, EY, Carnaval de Tenerife, Banco Santander, Coverwallet, Zertiban e Ignia Institution.
 - Email de contacto y perfiles sociales en `site.config.mjs`.
 - Sectores de Zertiban e Ignia Institution en `src/pages/marcas.html`.
 - Compromisos con cifra: respuesta en 48 h y plazos orientativos en las preguntas frecuentes.

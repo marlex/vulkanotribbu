@@ -2,12 +2,13 @@
 <div class="preloader" aria-hidden="true">
   <div>
     <div class="display ignite">Vulkano</div>
-    <div class="mono">Encendiendo · 1.200 °C</div>
+    <div class="mono">Teide · 28°16′ N · 16°38′ O</div>
   </div>
 </div>
 
 <section class="hero s-dark">
-  <canvas class="embers" aria-hidden="true"></canvas>
+  <canvas class="sky" aria-hidden="true"></canvas>
+  {{teide}}
   <div class="wrap">
     <span class="eyebrow settle" style="--d:.1s">Agencia de marca, diseño y contenido</span>
     <h1 class="hero-title display mega">
@@ -23,7 +24,7 @@
       </div>
     </div>
     <div class="hero-meta mono settle" style="--d:2.3s">
-      <span>Temperatura de trabajo · <span class="temp" data-count="1200">1.200</span> °C</span>
+      <span>Altitud de trabajo · <span class="temp" data-count="3715">3.715</span> m</span>
       <span class="scroll-cue">Desliza <i aria-hidden="true"></i></span>
       <span>Todo el fuego. Nada de humo.</span>
     </div>
@@ -60,31 +61,10 @@
     </div>
     <a class="link reveal" href="marcas.html">Ver todas las marcas <span aria-hidden="true">→</span></a>
   </div>
-  <div class="marquee" role="region" aria-label="Marcas con las que hemos trabajado">
-    <div class="marquee-track">
-      <ul class="marquee-group">
-        <li class="marquee-item">IKEA</li><li class="marquee-sep" aria-hidden="true"></li>
-        <li class="marquee-item">Prisa Radio</li><li class="marquee-sep" aria-hidden="true"></li>
-        <li class="marquee-item">Leroy Merlin</li><li class="marquee-sep" aria-hidden="true"></li>
-        <li class="marquee-item">EY</li><li class="marquee-sep" aria-hidden="true"></li>
-        <li class="marquee-item">Carnaval de Tenerife</li><li class="marquee-sep" aria-hidden="true"></li>
-        <li class="marquee-item">Banco Santander</li><li class="marquee-sep" aria-hidden="true"></li>
-        <li class="marquee-item">Coverwallet</li><li class="marquee-sep" aria-hidden="true"></li>
-        <li class="marquee-item">Zertiban</li><li class="marquee-sep" aria-hidden="true"></li>
-        <li class="marquee-item">Ignia Institution</li><li class="marquee-sep" aria-hidden="true"></li>
-      </ul>
-      <ul class="marquee-group" aria-hidden="true">
-        <li class="marquee-item">IKEA</li><li class="marquee-sep"></li>
-        <li class="marquee-item">Prisa Radio</li><li class="marquee-sep"></li>
-        <li class="marquee-item">Leroy Merlin</li><li class="marquee-sep"></li>
-        <li class="marquee-item">EY</li><li class="marquee-sep"></li>
-        <li class="marquee-item">Carnaval de Tenerife</li><li class="marquee-sep"></li>
-        <li class="marquee-item">Banco Santander</li><li class="marquee-sep"></li>
-        <li class="marquee-item">Coverwallet</li><li class="marquee-sep"></li>
-        <li class="marquee-item">Zertiban</li><li class="marquee-sep"></li>
-        <li class="marquee-item">Ignia Institution</li><li class="marquee-sep"></li>
-      </ul>
-    </div>
+  <div class="wrap">
+    <ul class="masonry" aria-label="Marcas con las que hemos trabajado">
+      {{brandCards}}
+    </ul>
   </div>
 </section>
 
