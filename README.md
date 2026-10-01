@@ -4,7 +4,7 @@ Web de la agencia Vulkano Tribbu. Sitio estático, sin dependencias: HTML, CSS y
 
 **Concepto:** volcán en blanco y negro. Noche en el Teide con lluvia de estrellas: los titulares entran incandescentes (blanco desenfocado) y se asientan en piedra; la silueta del Teide se dibuja bajo el cielo. Sin color, solo luz, ceniza y basalto. Cada página empieza con energía y termina en calma. Lema: *Todo el fuego. Nada de humo.*
 
-**Logo:** espiral de línea (`currentColor`): negra sobre fondos claros y blanca sobre oscuros. El favicon (`assets/img/mark.svg`) cambia solo según el modo claro u oscuro del sistema.
+**Logo:** la línea del Teide del héroe en pequeño (`currentColor`): negra sobre fondos claros y blanca sobre oscuros. El favicon (`assets/img/mark.svg`) cambia solo según el modo claro u oscuro del sistema.
 
 ## Páginas
 
@@ -64,18 +64,12 @@ Las cards de marcas (portada y `marcas.html`) se generan desde `brands` en `site
 - **Logo:** se usa `assets/logos/<slug>.svg` si existe. Debe ser monocromo con `fill="currentColor"` para que salga en blanco sobre la imagen. Ahora hay logos de IKEA y Leroy Merlin (Simple Icons, CC0); el resto se muestra como marca tipográfica hasta tener su SVG.
 - **Imagen de fondo:** `scene` elige una de `assets/img/scenes/`. Para usar una foto propia, añadir `image: "assets/img/brands/archivo.jpg"`; se pasa a blanco y negro y se le aplica el velo automáticamente.
 
-## Tipografía (design system Vulkano Tribbu)
-- **Sharphy** (atipo): solo las cursivas (300 Light Italic).
-- **Geist** (Google Fonts): títulos (500, caja normal, interlineado 0.82–0.95).
-- **Manrope** (Google Fonts): texto (400), etiquetas (500), eyebrow y botones (600 / mayúscula con tracking amplio).
-- **Monoespaciada del sistema** para cifras y datos.
-
-Sharphy se sirve desde `assets/fonts/`. El build declara solo los archivos que encuentra, con este nombre:
-`Sharphy-<Thin|ExtraLight|Light|Regular|Medium|SemiBold|Bold>[Italic].<woff2|woff|ttf|otf>` (p. ej. `Sharphy-Medium.woff2`, `Sharphy-LightItalic.woff2`).
-Mientras no estén, las cursivas se muestran en Manrope sin errores. Basta con las cursivas: `LightItalic` (y `RegularItalic` / `MediumItalic` si se quieren más pesos).
+## Tipografía
+- **Geist** (Google Fonts): títulos en regular (400) y frases de contraste en light (300).
+- **Manrope** (Google Fonts): texto, etiquetas, menú y botones.
+- Solo dos pesos, regular y light. Sin negritas ni cursivas en ningún sitio.
 
 ## Pendiente de validar
-- Archivos de Sharphy en `assets/fonts/` (ver arriba).
 - Logos en SVG de Prisa Radio, EY, Carnaval de Tenerife, Banco Santander, Coverwallet, Zertiban e Ignia Institution.
 - Email de contacto y perfiles sociales en `site.config.mjs`.
 - Sectores de Zertiban e Ignia Institution en `src/pages/marcas.html`.

@@ -59,40 +59,11 @@ const brandCards = (
   )
 ).join("\n      ");
 
-// Sharphy (atipo) se sirve desde assets/fonts/. Solo se declaran los archivos que
-// existen, así no hay peticiones fallidas mientras falten; hasta entonces se usa Manrope.
-// Nombres esperados: Sharphy-<Peso>[Italic].<woff2|woff|ttf|otf>, p. ej. Sharphy-MediumItalic.woff2
-const WEIGHTS = { Thin: 100, ExtraLight: 200, Light: 300, Regular: 400, Medium: 500, SemiBold: 600, Bold: 700 };
-const FORMATS = { woff2: "woff2", woff: "woff", ttf: "truetype", otf: "opentype" };
-const fontFiles = (await readdir(join(root, "assets/fonts")).catch(() => [])).filter((f) => /^Sharphy-/i.test(f));
-const faces = new Map();
-for (const f of fontFiles) {
-  const m = f.match(/^Sharphy-(Thin|ExtraLight|Light|Regular|Medium|SemiBold|Bold)?(Italic)?\.(woff2|woff|ttf|otf)$/i);
-  if (!m) continue;
-  const weightName = Object.keys(WEIGHTS).find((k) => k.toLowerCase() === (m[1] || "Regular").toLowerCase());
-  const key = `${WEIGHTS[weightName]}-${m[2] ? "italic" : "normal"}`;
-  if (!faces.has(key)) faces.set(key, []);
-  faces.get(key).push({ file: f, format: FORMATS[m[3].toLowerCase()] });
-}
-const order = ["woff2", "woff", "opentype", "truetype"];
-const fontCss = [...faces.entries()]
-  .map(([key, files]) => {
-    const [weight, style] = key.split("-");
-    const src = files
-      .sort((a, b) => order.indexOf(a.format) - order.indexOf(b.format))
-      .map((x) => `url("../fonts/${x.file}") format("${x.format}")`)
-      .join(", ");
-    return `@font-face { font-family: "Sharphy"; src: ${src}; font-weight: ${weight}; font-style: ${style}; font-display: swap; }`;
-  })
-  .join("\n");
-const fontFaces = fontCss ? `<link rel="stylesheet" href="assets/css/fonts.css">` : "";
-
 const fill = (tpl, vars) => tpl.replace(/\{\{(\w+)\}\}/g, (m, k) => (k in vars ? vars[k] : m));
 
 await rm(out, { recursive: true, force: true });
 await mkdir(out, { recursive: true });
 await cp(join(root, "assets"), join(out, "assets"), { recursive: true });
-if (fontCss) await writeFile(join(out, "assets/css/fonts.css"), `/* Generado por scripts/build.mjs */\n${fontCss}\n`);
 
 const pages = (await readdir(join(root, "src/pages"))).filter((f) => f.endsWith(".html"));
 const urls = [];
@@ -117,8 +88,7 @@ for (const file of pages) {
     mobileLinks: mobileLinks(meta.nav),
     socialLinks,
     teide,
-    brandCards,
-    fontFaces
+    brandCards
   };
   const headHtml = fill(head, vars);
   const bodyHtml = fill(`${fill(header, vars)}\n<main id="main">\n${body}</main>\n${fill(footer, vars)}`, vars);
@@ -143,4 +113,4 @@ if (!preview) {
   }
 }
 
-console.log(`✓ ${pages.length} páginas → ${out}${faces.size ? ` · Sharphy: ${faces.size} estilos` : " · Sharphy: sin archivos en assets/fonts (se usa Manrope)"}`);
+console.log(`✓ ${pages.length} páginas → ${out}`);
