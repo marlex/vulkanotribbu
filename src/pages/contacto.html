@@ -1,0 +1,76 @@
+<!--{"title":"Contacto · Vulkano Tribbu","description":"Cuéntanos qué quieres encender. Respondemos en menos de 48 horas, siempre una persona.","nav":"contacto"}-->
+<section class="hero hero--page s-dark">
+  <canvas class="embers" data-density=".55" aria-hidden="true"></canvas>
+  <div class="wrap">
+    <span class="eyebrow settle" style="--d:.1s">Contacto</span>
+    <h1 class="hero-title display xl">
+      <span class="line ignite" style="--d:.2s">Encendamos</span>
+      <span class="serif-line serif settle" style="--d:1.2s">algo juntos.</span>
+    </h1>
+    <div class="hero-foot">
+      <div class="lead settle copy-row" style="--d:1.5s;max-width:none">
+        <a class="big-mail" href="mailto:{{email}}">{{email}}</a>
+        <button class="copy-btn" type="button" data-copy="{{email}}">Copiar</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section s-dark" aria-labelledby="form-title">
+  <div class="wrap grid-12">
+    <div class="col-head stack">
+      <span class="eyebrow">Cuéntanos</span>
+      <h2 class="display l" id="form-title">Tu proyecto<br><span class="serif">en cinco líneas</span></h2>
+      <p class="muted">Respondemos en menos de 48 horas laborables. Te escribirá una persona del equipo, nunca un sistema automático.</p>
+    </div>
+    <div class="col-body">
+      <form class="form" id="contact-form" data-to="{{email}}" novalidate>
+        <div class="field"><label for="f-nombre">Nombre</label><input id="f-nombre" name="nombre" autocomplete="name" required></div>
+        <div class="field"><label for="f-empresa">Empresa o marca</label><input id="f-empresa" name="empresa" autocomplete="organization"></div>
+        <div class="field field--full"><label for="f-email">Email</label><input id="f-email" name="email" type="email" autocomplete="email" required></div>
+        <fieldset class="field field--full" style="border:0;padding:0;margin:0">
+          <legend class="mono muted" style="margin-bottom:.9rem">¿Qué necesitas?</legend>
+          <div class="chips">
+            <label class="chip"><input type="checkbox" id="n-estrategia" name="necesidad" value="Estrategia"><span>Estrategia</span></label>
+            <label class="chip"><input type="checkbox" id="n-identidad" name="necesidad" value="Identidad"><span>Identidad</span></label>
+            <label class="chip"><input type="checkbox" id="n-web" name="necesidad" value="Web"><span>Web</span></label>
+            <label class="chip"><input type="checkbox" id="n-campana" name="necesidad" value="Campaña"><span>Campaña</span></label>
+            <label class="chip"><input type="checkbox" id="n-motion" name="necesidad" value="Motion"><span>Motion</span></label>
+            <label class="chip"><input type="checkbox" id="n-evento" name="necesidad" value="Evento"><span>Evento</span></label>
+            <label class="chip"><input type="checkbox" id="n-nose" name="necesidad" value="Aún no lo sé"><span>Aún no lo sé</span></label>
+          </div>
+        </fieldset>
+        <div class="field field--full">
+          <label for="f-presupuesto">Presupuesto orientativo</label>
+          <select id="f-presupuesto" name="presupuesto">
+            <option value="">Prefiero hablarlo</option>
+            <option>Menos de 10.000 €</option>
+            <option>10.000 – 30.000 €</option>
+            <option>30.000 – 60.000 €</option>
+            <option>Más de 60.000 €</option>
+          </select>
+        </div>
+        <div class="field field--full"><label for="f-mensaje">Cuéntanos tu idea</label><textarea id="f-mensaje" name="mensaje" placeholder="Qué quieres conseguir, para cuándo y cualquier cosa que debamos saber."></textarea></div>
+        <div class="form-note">
+          <p class="muted" style="font-size:var(--fs-s);max-width:44ch">Al enviar se abrirá tu correo con el mensaje preparado. Tus datos solo se usan para responderte. <a class="link" href="legal.html#privacidad">Privacidad</a></p>
+          <button class="btn" type="submit">Enviar <span class="arrow" aria-hidden="true">→</span></button>
+        </div>
+        <div class="form-status" id="form-status" role="status" hidden>
+          <strong>Tu correo debería abrirse con el mensaje listo.</strong>
+          <span class="muted">Si no se abre, escríbenos directamente a <span class="mono">{{email}}</span>.</span>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<section class="section s-light" aria-labelledby="otras-title">
+  <div class="wrap">
+    <div class="section-head"><span class="eyebrow">Otras conversaciones</span><h2 class="display l" id="otras-title">También<br><span class="serif">nos encanta hablar de</span></h2></div>
+    <div class="principles">
+      <article class="principle reveal"><span class="mono muted">Talento</span><h3>Unirte a la tribbu</h3><p>Envíanos tu portfolio y cuéntanos qué te mueve.</p><a class="link" href="agencia.html#unete">Saber más →</a></article>
+      <article class="principle reveal" style="--rd:.1s"><span class="mono muted">Prensa</span><h3>Medios y charlas</h3><p>Entrevistas, ponencias, jurados y colaboraciones editoriales.</p><a class="link" href="mailto:{{email}}">Escribir →</a></article>
+      <article class="principle reveal" style="--rd:.2s"><span class="mono muted">Alianzas</span><h3>Colaborar con otros estudios</h3><p>Productoras, desarrolladores y agencias con las que sumar fuego.</p><a class="link" href="mailto:{{email}}">Escribir →</a></article>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,35 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>{{title}}</title>
+<meta name="description" content="{{description}}">
+<meta name="theme-color" content="#12100e">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Vulkano Tribbu">
+<meta property="og:title" content="{{title}}">
+<meta property="og:description" content="{{description}}">
+<meta property="og:locale" content="es_ES">
+<meta name="twitter:card" content="summary_large_image">
+{{canonical}}
+<link rel="icon" href="assets/img/mark.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anybody:wdth,wght@50..150,100..900&family=Hanken+Grotesk:wght@300..600&family=IBM+Plex+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,300..500;1,6..72,300..500&display=swap">
+<link rel="stylesheet" href="assets/css/site.css">
+<script>
+  (function (d) {
+    d.classList.add("js");
+    try {
+      if (sessionStorage.getItem("vt-nav") === "1" && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        d.classList.add("is-arriving");
+      }
+      sessionStorage.removeItem("vt-nav");
+    } catch (e) {}
+    setTimeout(function () {
+      // Red de seguridad: si el script principal no llegó a cargar, nada se queda oculto.
+      if (window.__vtReady) return;
+      var r = document.querySelectorAll(".reveal");
+      for (var i = 0; i < r.length; i++) r[i].classList.add("is-in");
+      d.classList.remove("is-arriving");
+    }, 4500);
+  })(document.documentElement);
+</script>

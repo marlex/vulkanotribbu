@@ -1,0 +1,15 @@
+{
+  "name": "vulkanotribbu",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Web de Vulkano Tribbu",
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "build:preview": "node scripts/build.mjs --preview",
+    "dev": "node scripts/build.mjs && npx --yes serve dist -l 4173"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
