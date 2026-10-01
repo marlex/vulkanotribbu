@@ -27,7 +27,8 @@ Web de la agencia Vulkano Tribbu. Sitio estático, sin dependencias: HTML, CSS y
 assets/css/site.css    Tokens de diseño (color, tipografía, espacio) y componentes
 assets/js/site.js      Movimiento: cielo con lluvia de estrellas, titulares que se enfrían, revelados, transiciones
 assets/logos/          Logos de marcas en SVG monocromo (fill="currentColor")
-assets/img/scenes/     Imágenes en blanco y negro de las cards (generadas con scripts/render-scenes.cjs)
+assets/img/scenes/     Imágenes de línea de las cards (generadas con scripts/render-media.cjs)
+assets/video/          Vídeo abstracto del héroe, MP4 + WebM + póster (scripts/render-media.cjs)
 src/partials/          Cabecera, pie y <head> comunes
 src/pages/             Contenido de cada página (primera línea: título y descripción en JSON)
 site.config.mjs        Dominio, email, redes, menú y marcas (logo, sector, imagen)

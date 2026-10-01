@@ -1,0 +1,151 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Vulkano · escenas abstractas</title>
+<!-- Generador del vídeo del héroe y de las imágenes de las cards de marcas.
+     Lo usan scripts/render-media.cjs (Playwright + ffmpeg). Todo es dibujo de
+     línea en blanco y negro: sin neblinas, sin humo, sin grano. -->
+<canvas id="c"></canvas>
+<script>
+const TAU = Math.PI * 2;
+function rng(seed) { let s = seed >>> 0; return () => ((s = (s * 1664525 + 1013904223) >>> 0) / 4294967296); }
+function noise1(seed) {
+  const r = rng(seed), v = Array.from({ length: 256 }, r);
+  return (x) => { const i = Math.floor(x), f = x - i, a = v[i & 255], b = v[(i + 1) & 255], u = f * f * (3 - 2 * f); return a + (b - a) * u; };
+}
+const n1 = noise1(7), n2 = noise1(19), n3 = noise1(31);
+
+// Perfil del Teide (igual que la línea del héroe y el logo), x/y en 0..1
+const TEIDE = [[0,.86],[.12,.83],[.26,.77],[.36,.70],[.42,.655],[.47,.645],[.5,.62],[.545,.52],[.565,.455],[.585,.445],[.6,.46],[.63,.53],[.7,.6],[.8,.68],[.9,.74],[1,.78]];
+
+const SCENES = {
+  // Curvas de nivel de un volcán que respiran
+  contours(ctx, w, h, t, c) {
+    const cx = w * .5, cy = h * .56, R = Math.max(w, h) * .62;
+    for (let k = 1; k <= 26; k++) {
+      const base = (k / 26) * R;
+      ctx.beginPath();
+      for (let a = 0; a <= 220; a++) {
+        const th = a / 220 * TAU;
+        const d = base * (1 + .11 * (n1(Math.cos(th) * 1.4 + k * .35 + t * .25) + n3(Math.sin(th) * 1.4 + k * .3 - t * .2) - 1) + .07 * Math.sin(th * 3 + t * .4 + k * .2));
+        const x = cx + Math.cos(th) * d * 1.25, y = cy + Math.sin(th) * d * .72;
+        a ? ctx.lineTo(x, y) : ctx.moveTo(x, y);
+      }
+      ctx.closePath();
+      ctx.strokeStyle = c.line(.14 + .5 * (1 - k / 26)); ctx.lineWidth = c.lw; ctx.stroke();
+    }
+  },
+  // Anillos de cráter que se expanden
+  rings(ctx, w, h, t, c) {
+    const cx = w * .5, cy = h * .5, R = Math.hypot(w, h) * .55, n = 34;
+    for (let k = 0; k < n; k++) {
+      const p = ((k / n) + t * .045) % 1, r = Math.pow(p, 1.35) * R;
+      ctx.beginPath(); ctx.arc(cx, cy, r, 0, TAU);
+      ctx.strokeStyle = c.line(.6 * Math.sin(Math.PI * p)); ctx.lineWidth = c.lw; ctx.stroke();
+    }
+  },
+  // Constelación: puntos que derivan unidos por líneas finas
+  constellation(ctx, w, h, t, c) {
+    const r = rng(5), pts = [];
+    for (let i = 0; i < 90; i++) {
+      const bx = r() * w, by = r() * h, sp = .2 + r() * .4, ph = r() * TAU;
+      pts.push([bx + Math.cos(t * sp + ph) * 40, by + Math.sin(t * sp * .8 + ph) * 30]);
+    }
+    const lim = Math.min(w, h) * .2;
+    for (let i = 0; i < pts.length; i++) for (let j = i + 1; j < pts.length; j++) {
+      const d = Math.hypot(pts[i][0] - pts[j][0], pts[i][1] - pts[j][1]);
+      if (d < lim) { ctx.beginPath(); ctx.moveTo(pts[i][0], pts[i][1]); ctx.lineTo(pts[j][0], pts[j][1]); ctx.strokeStyle = c.line(.45 * (1 - d / lim)); ctx.lineWidth = c.lw; ctx.stroke(); }
+    }
+    pts.forEach(([x, y]) => { ctx.beginPath(); ctx.arc(x, y, c.lw * 1.6, 0, TAU); ctx.fillStyle = c.line(.7); ctx.fill(); });
+  },
+  // Estratos: líneas paralelas que ondulan como capas de lava solidificada
+  strata(ctx, w, h, t, c) {
+    const n = 42;
+    for (let k = 0; k < n; k++) {
+      const y0 = (k + .5) / n * h;
+      ctx.beginPath();
+      for (let x = 0; x <= w; x += w / 160) {
+        const u = x / w;
+        const y = y0 + Math.sin(u * 5 + t * .5 + k * .18) * h * .025 + (n2(u * 3 + k * .12 + t * .15) - .5) * h * .07;
+        x ? ctx.lineTo(x, y) : ctx.moveTo(x, y);
+      }
+      ctx.strokeStyle = c.line(.18 + .3 * Math.sin(Math.PI * k / n)); ctx.lineWidth = c.lw; ctx.stroke();
+    }
+  },
+  // Retícula de puntos atravesada por una onda
+  dots(ctx, w, h, t, c) {
+    const step = Math.min(w, h) / 22;
+    for (let y = step / 2; y < h; y += step) for (let x = step / 2; x < w; x += step) {
+      const d = Math.hypot(x - w * .5, y - h * .55) / Math.min(w, h);
+      const s = .5 + .5 * Math.sin(d * 12 - t * 1.2);
+      ctx.beginPath(); ctx.arc(x, y, c.lw * (.6 + s * 2.2), 0, TAU); ctx.fillStyle = c.line(.15 + s * .5); ctx.fill();
+    }
+  },
+  // La línea del Teide que se dibuja, con horizontes paralelos
+  teide(ctx, w, h, t, c) {
+    const draw = Math.min(1, t / 2.2);
+    for (let k = 4; k >= 0; k--) {
+      const off = k * .045, scale = 1 - k * .06;
+      const pts = TEIDE.map(([x, y]) => [x * w, (y * scale + off - .05) * h]);
+      const total = k === 0 ? draw : 1;
+      ctx.beginPath();
+      const last = Math.max(1, Math.floor((pts.length - 1) * total));
+      for (let i = 0; i <= last; i++) i ? ctx.lineTo(pts[i][0], pts[i][1]) : ctx.moveTo(pts[i][0], pts[i][1]);
+      if (total < 1) {
+        const f = (pts.length - 1) * total - last, a = pts[last], b = pts[Math.min(pts.length - 1, last + 1)];
+        ctx.lineTo(a[0] + (b[0] - a[0]) * f, a[1] + (b[1] - a[1]) * f);
+      }
+      ctx.strokeStyle = c.line(k === 0 ? .75 : .12 + (4 - k) * .05); ctx.lineWidth = c.lw * (k === 0 ? 1.3 : 1); ctx.stroke();
+    }
+  },
+  // Columnas de basalto: teselado hexagonal de línea
+  basalt(ctx, w, h, t, c) {
+    const s = Math.min(w, h) / 9, r = rng(3);
+    for (let row = -1; row < h / (s * .866) + 1; row++) for (let col = -1; col < w / s + 1; col++) {
+      const cx = col * s + (row % 2) * s / 2, cy = row * s * .866, k = .98 + r() * .04;
+      ctx.beginPath();
+      for (let i = 0; i < 6; i++) { const a = TAU / 6 * i + Math.PI / 6; ctx.lineTo(cx + Math.cos(a) * s * .577 * k, cy + Math.sin(a) * s * .577 * k); }
+      ctx.closePath(); ctx.strokeStyle = c.line(.25 + r() * .35); ctx.lineWidth = c.lw; ctx.stroke();
+    }
+  },
+  // Rastros de estrellas: arcos concéntricos
+  trails(ctx, w, h, t, c) {
+    const r = rng(11), cx = w * .5, cy = h * .3;
+    for (let i = 0; i < 260; i++) {
+      const rad = Math.sqrt(r()) * Math.hypot(w, h) * .8, a0 = r() * TAU + t * .05, span = .25 + r() * .4;
+      ctx.beginPath(); ctx.arc(cx, cy, rad, a0, a0 + span); ctx.strokeStyle = c.line(.12 + Math.pow(r(), 3) * .6); ctx.lineWidth = c.lw; ctx.stroke();
+    }
+  }
+};
+
+function colors(mode, lw) {
+  return mode === "dark"
+    ? { bg: "#1c1c1e", line: (a) => `rgba(255,255,255,${a})`, lw }
+    : { bg: "#fffcfc", line: (a) => `rgba(48,48,48,${a})`, lw };
+}
+
+// Un fotograma de cualquier escena (cards de marcas).
+window.still = function (name, w, h, t, mode) {
+  const cv = document.getElementById("c"); cv.width = w; cv.height = h;
+  const ctx = cv.getContext("2d"), c = colors(mode || "dark", Math.max(1, w / 900));
+  ctx.fillStyle = c.bg; ctx.fillRect(0, 0, w, h);
+  SCENES[name](ctx, w, h, t, c);
+  return cv.toDataURL("image/jpeg", .88);
+};
+
+// Vídeo del héroe: escenas encadenadas con fundido; el final enlaza con el principio.
+const SEQ = ["contours", "constellation", "rings", "strata", "dots", "teide"];
+const SCENE_LEN = 3.5, FADE = .9;
+window.videoDuration = SEQ.length * SCENE_LEN;
+window.videoFrame = function (time, w, h) {
+  const cv = document.getElementById("c");
+  if (cv.width !== w) { cv.width = w; cv.height = h; }
+  const ctx = cv.getContext("2d"), c = colors("light", Math.max(1, w / 1200));
+  const idx = Math.floor(time / SCENE_LEN) % SEQ.length, local = time - idx * SCENE_LEN;
+  ctx.globalAlpha = 1; ctx.fillStyle = c.bg; ctx.fillRect(0, 0, w, h);
+  const fadeOut = local > SCENE_LEN - FADE ? (local - (SCENE_LEN - FADE)) / FADE : 0;
+  ctx.globalAlpha = 1 - fadeOut; SCENES[SEQ[idx]](ctx, w, h, local, c);
+  if (fadeOut > 0) { ctx.globalAlpha = fadeOut; SCENES[SEQ[(idx + 1) % SEQ.length]](ctx, w, h, local - SCENE_LEN, c); }
+  ctx.globalAlpha = 1;
+  return cv.toDataURL("image/jpeg", .92);
+};
+</script>

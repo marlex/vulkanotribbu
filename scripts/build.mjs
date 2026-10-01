@@ -39,7 +39,8 @@ const socialLinks = config.social
   .join("\n        ");
 
 const exists = (p) => access(join(root, p)).then(() => true, () => false);
-const SCENE_SIZES = { teide: [1000, 1300], trails: [1000, 1000], lava: [1000, 760], basalt: [1000, 1250], clouds: [1000, 1000], crater: [1000, 1300], milky: [1000, 760], sand: [1000, 1000], smoke: [1000, 1250] };
+// Medidas de las imágenes que genera scripts/render-media.cjs
+const SCENE_SIZES = { basalt: [1000, 1250], constellation: [1000, 760], rings: [1000, 1300], trails: [1000, 1000], teide: [1000, 1300], strata: [1000, 760], contours: [1000, 1000], dots: [1000, 1000], contoursTall: [1000, 1250] };
 const brandCards = (
   await Promise.all(
     config.brands.map(async (b, i) => {

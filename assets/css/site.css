@@ -124,14 +124,14 @@ p { text-wrap: pretty; }
 
 .display {
   font-family: var(--font-display);
-  font-weight: 300;
+  font-weight: 400;
   line-height: .9;
   letter-spacing: -.035em;
 }
 .mega { font-size: var(--fs-mega); }
 .xl { font-size: var(--fs-xl); }
 .l { font-size: var(--fs-l); line-height: .95; }
-.serif { font-family: var(--font-serif); font-weight: 300; text-transform: none; letter-spacing: -.035em; }
+.serif { font-family: var(--font-serif); font-weight: 300; text-transform: none; letter-spacing: -.02em; color: inherit; }
 .lead { font-size: var(--fs-m); line-height: 1.5; font-weight: 400; max-width: 40ch; }
 .body-l { font-size: var(--fs-m); line-height: 1.65; max-width: 62ch; color: color-mix(in oklab, currentColor 82%, transparent); }
 .muted { color: var(--pumice); }
@@ -286,7 +286,7 @@ p { text-wrap: pretty; }
 
 .hero-title { margin-top: 1.5rem; }
 .hero-title .line { display: block; }
-.hero-title .serif-line { display: block; font-size: 1em; line-height: .95; margin-top: .04em; color: var(--pumice); }
+.hero-title .serif-line { display: block; font-size: 1em; line-height: .95; margin-top: .04em; }
 .hero-foot {
   margin-top: clamp(2.5rem, 6vw, 5rem);
   display: grid; grid-template-columns: repeat(12, 1fr); gap: 2rem var(--gutter); align-items: end;
@@ -416,7 +416,7 @@ p { text-wrap: pretty; }
 .principles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; border-top: 1px solid var(--line-dark); }
 .principle { padding: clamp(1.75rem, 3vw, 2.75rem) clamp(1rem, 2.5vw, 2.5rem) 0 0; display: grid; align-content: start; gap: 1.1rem; }
 .principle + .principle { padding-left: clamp(1rem, 2.5vw, 2.5rem); border-left: 1px solid var(--line-dark); }
-.principle h3 { font-family: var(--font-serif); font-weight: 300; font-size: var(--fs-headline); line-height: 1.05; letter-spacing: -.02em; }
+.principle h3 { font-family: var(--font-display); font-weight: 400; font-size: var(--fs-headline); line-height: 1.05; letter-spacing: -.03em; }
 .principle p { color: color-mix(in oklab, currentColor 78%, transparent); max-width: 40ch; }
 @media (max-width: 860px) {
   .principles { grid-template-columns: 1fr; }
@@ -549,7 +549,7 @@ p { text-wrap: pretty; }
 }
 .footer-top { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 2.5rem var(--gutter); }
 .footer-claim { grid-column: 1 / span 5; display: grid; gap: 1.5rem; align-content: start; justify-items: start; }
-.footer-claim p { font-family: var(--font-serif); font-weight: 300; font-size: var(--fs-headline); line-height: 1.05; letter-spacing: -.02em; max-width: 14ch; }
+.footer-claim p { font-family: var(--font-display); font-weight: 400; font-size: var(--fs-headline); line-height: 1.05; letter-spacing: -.03em; max-width: 18ch; }
 .footer-col { display: grid; gap: .9rem; align-content: start; grid-column: span 2; }
 .footer-col:first-of-type { grid-column: 7 / span 2; }
 .footer-col h4 { font-family: var(--font-body); font-size: var(--fs-micro); letter-spacing: .16em; text-transform: uppercase; color: var(--pumice); font-weight: 400; margin-bottom: .4rem; }
@@ -650,12 +650,12 @@ p { text-wrap: pretty; }
 }
 .bcard img {
   width: 100%; height: auto; display: block;
-  filter: grayscale(1) contrast(1.05) brightness(.9);
+  filter: grayscale(1) contrast(1.15) brightness(1.15);
   transform: scale(1.01); transition: transform 1.6s var(--ease-out), filter 1s var(--ease-out);
 }
 .bcard::after {
   content: ""; position: absolute; inset: 0; z-index: 1;
-  background: linear-gradient(180deg, rgb(0 0 0 / .35) 0%, rgb(0 0 0 / .55) 55%, rgb(0 0 0 / .85) 100%);
+  background: linear-gradient(180deg, rgb(0 0 0 / .05) 0%, rgb(0 0 0 / .2) 60%, rgb(0 0 0 / .7) 100%);
   transition: opacity .8s var(--ease-out);
 }
 .bcard-logo {
@@ -686,3 +686,21 @@ p { text-wrap: pretty; }
 .slogan { font-family: var(--font-body); font-weight: 400; letter-spacing: .16em; text-transform: uppercase; }
 .hero-meta { align-items: center; }
 .sky { color: var(--ink); }
+
+/* --------------------------------------------------------------------------
+   Héroe de portada: vídeo abstracto de fondo y contenido centrado
+   -------------------------------------------------------------------------- */
+.hero--home { min-height: 100svh; justify-content: space-between; padding-top: 96px; }
+.hero--home::after { display: none; }
+.hero-video {
+  position: absolute; inset: 0; z-index: -1; width: 100%; height: 100%;
+  object-fit: cover; opacity: .7; pointer-events: none;
+}
+.hero-center {
+  flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; gap: clamp(1.25rem, 2.5vw, 2rem); padding-block: 2rem;
+}
+.hero-center .hero-title { margin-top: 0; }
+.hero-center .actions { display: flex; flex-wrap: wrap; gap: .75rem; justify-content: center; margin-top: clamp(.5rem, 1.5vw, 1rem); }
+.hero--home .hero-meta { margin-top: 0; }
+@media (prefers-reduced-motion: reduce) { .hero-video { display: none; } .hero--home { background: var(--basalt) url("../video/hero-poster.jpg") center / cover no-repeat; } }

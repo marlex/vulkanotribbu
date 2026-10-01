@@ -17,14 +17,14 @@ export default {
   // La imagen de fondo sale de assets/img/scenes/<scene>.jpg (o de image si se indica).
   brands: [
     { slug: "ikea", name: "IKEA", sector: "Hogar · Retail", scene: "basalt" },
-    { slug: "prisa-radio", name: "Prisa Radio", sector: "Medios · Audio", scene: "milky" },
-    { slug: "leroymerlin", name: "Leroy Merlin", sector: "Hogar · Retail", scene: "crater" },
+    { slug: "prisa-radio", name: "Prisa Radio", sector: "Medios · Audio", scene: "constellation" },
+    { slug: "leroymerlin", name: "Leroy Merlin", sector: "Hogar · Retail", scene: "rings" },
     { slug: "ey", name: "EY", sector: "Consultoría", scene: "trails" },
     { slug: "carnaval-tenerife", name: "Carnaval de Tenerife", sector: "Cultura · Evento", scene: "teide" },
-    { slug: "santander", name: "Banco Santander", sector: "Banca", scene: "lava" },
-    { slug: "coverwallet", name: "Coverwallet", sector: "Seguros · Digital", scene: "clouds" },
-    { slug: "zertiban", name: "Zertiban", sector: "Empresa", scene: "sand" },
-    { slug: "ignia", name: "Ignia Institution", sector: "Institución", scene: "smoke" }
+    { slug: "santander", name: "Banco Santander", sector: "Banca", scene: "strata" },
+    { slug: "coverwallet", name: "Coverwallet", sector: "Seguros · Digital", scene: "contours" },
+    { slug: "zertiban", name: "Zertiban", sector: "Empresa", scene: "dots" },
+    { slug: "ignia", name: "Ignia Institution", sector: "Institución", scene: "contoursTall" }
   ],
   nav: [
     { slug: "agencia", label: "Agencia" },
