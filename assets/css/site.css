@@ -1,7 +1,7 @@
 /* ==========================================================================
    Vulkano Tribbu — sistema visual
    Tipografía y neutros del design system Vulkano Tribbu (Claude Design):
-   Sharphy en títulos y cursivas, Manrope en texto, monoespaciada del sistema.
+   Sharphy solo en las cursivas, Geist en títulos, Manrope en texto.
    Esquinas rectas, sin degradados de color, sin rojo.
    Concepto: volcán en blanco y negro. Noche en el Teide, lluvia de estrellas.
    Los titulares entran incandescentes (blanco puro, desenfocado) y se
@@ -25,8 +25,8 @@
   --radius: 2px;
 
   /* Tipografía */
-  --font-display: "Sharphy", "Manrope", "Helvetica Neue", Arial, sans-serif;
-  --font-serif: "Sharphy", "Manrope", "Helvetica Neue", Arial, sans-serif; /* cursivas: Sharphy Italic */
+  --font-display: "Geist", "Manrope", "Helvetica Neue", Arial, sans-serif; /* títulos */
+  --font-serif: "Sharphy", "Manrope", "Helvetica Neue", Arial, sans-serif;  /* solo cursivas: Sharphy Italic */
   --font-body: "Manrope", "Helvetica Neue", Helvetica, Arial, sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 
@@ -119,7 +119,7 @@ p { text-wrap: pretty; }
   font-family: var(--font-display);
   font-weight: 500;
   line-height: .9;
-  letter-spacing: .01em;
+  letter-spacing: -.035em;
 }
 .mega { font-size: var(--fs-mega); }
 .xl { font-size: var(--fs-xl); }
@@ -220,9 +220,9 @@ p { text-wrap: pretty; }
 .brand-word { display: flex; align-items: baseline; gap: .35rem; }
 .brand-word b {
   font-family: var(--font-display); font-weight: 500;
-  font-size: 1.2rem; letter-spacing: .01em;
+  font-size: 1.2rem; letter-spacing: -.01em;
 }
-.brand-word i { font-family: var(--font-serif); font-style: italic; font-weight: 300; font-size: 1.2rem; letter-spacing: .01em; }
+.brand-word i { font-family: var(--font-serif); font-style: italic; font-weight: 300; font-size: 1.2rem; letter-spacing: -.01em; }
 
 .nav { display: flex; align-items: center; gap: clamp(1rem, 2.2vw, 2.25rem); }
 .nav a:not(.btn) {
@@ -256,7 +256,7 @@ p { text-wrap: pretty; }
 .mobile-menu nav { display: grid; gap: .25rem; }
 .mobile-menu nav a {
   font-family: var(--font-display); font-weight: 500;
-  font-size: clamp(2.3rem, 11vw, 4rem); line-height: .95; letter-spacing: .01em;
+  font-size: clamp(2.3rem, 11vw, 4rem); line-height: .95; letter-spacing: -.03em;
   display: flex; align-items: baseline; gap: 1rem;
 }
 .mobile-menu nav a small { font-family: var(--font-mono); font-size: var(--fs-micro); letter-spacing: .14em; color: var(--pumice); }
@@ -316,7 +316,7 @@ p { text-wrap: pretty; }
 /* --------------------------------------------------------------------------
    Manifiesto que se ilumina al hacer scroll
    -------------------------------------------------------------------------- */
-.lit-text { font-family: var(--font-display); font-weight: 300; font-size: var(--fs-l); line-height: 1.08; letter-spacing: .01em; max-width: 22ch; }
+.lit-text { font-family: var(--font-display); font-weight: 300; font-size: var(--fs-l); line-height: 1.08; letter-spacing: -.025em; max-width: 22ch; }
 .lit-text em { font-family: var(--font-serif); font-style: italic; }
 .lit-text .w { transition: color .5s var(--ease-out), text-shadow .5s; }
 .js .lit-text .w { color: rgb(230 226 219 / .16); }
@@ -340,7 +340,7 @@ p { text-wrap: pretty; }
 .facts { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 1px solid var(--line-dark); }
 .fact { padding: 1.75rem 1.5rem 0 0; display: grid; gap: .5rem; }
 .fact + .fact { padding-left: 1.5rem; border-left: 1px solid var(--line-dark); }
-.fact strong { font-family: var(--font-display); font-weight: 200; letter-spacing: .01em; font-size: clamp(3rem, 7vw, 6rem); line-height: .9; font-variant-numeric: tabular-nums; }
+.fact strong { font-family: var(--font-display); font-weight: 200; letter-spacing: -.04em; font-size: clamp(3rem, 7vw, 6rem); line-height: .9; font-variant-numeric: tabular-nums; }
 .fact span { color: var(--pumice); font-size: var(--fs-s); }
 @media (max-width: 760px) {
   .facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -400,10 +400,10 @@ p { text-wrap: pretty; }
 .service summary::-webkit-details-marker { display: none; }
 .service h3 {
   font-family: var(--font-display); font-weight: 500;
-  font-size: clamp(1.75rem, 4.4vw, 3.75rem); line-height: .95; letter-spacing: .01em;
+  font-size: clamp(1.75rem, 4.4vw, 3.75rem); line-height: .95; letter-spacing: -.03em;
   transition: letter-spacing .7s var(--ease-out), color .4s, transform .7s var(--ease-out);
 }
-.service summary:hover h3 { letter-spacing: .03em; }
+.service summary:hover h3 { letter-spacing: -.01em; }
 .service[open] h3 { color: var(--star); }
 .s-light .service[open] h3 { color: var(--stone); }
 .service .plus { width: 44px; height: 44px; border-radius: var(--radius); box-shadow: inset 0 0 0 1px var(--line-dark); position: relative; flex: none; transition: transform .6s var(--ease-out), background .4s; }
@@ -496,7 +496,7 @@ p { text-wrap: pretty; }
 /* Diario */
 .posts { border-top: 1px solid var(--line-dark); }
 .post { display: grid; grid-template-columns: 9rem minmax(0, 1fr) auto; gap: 1rem 2rem; align-items: baseline; padding-block: clamp(1.5rem, 3vw, 2.5rem); border-bottom: 1px solid var(--line-dark); }
-.post h3 { font-family: var(--font-display); font-weight: 500; font-size: var(--fs-headline); line-height: 1.05; letter-spacing: .01em; }
+.post h3 { font-family: var(--font-display); font-weight: 500; font-size: var(--fs-headline); line-height: 1.05; letter-spacing: -.02em; }
 .post p { margin-top: .6rem; color: color-mix(in oklab, currentColor 72%, transparent); max-width: 60ch; }
 .post .when { color: var(--pumice); }
 @media (max-width: 760px) { .post { grid-template-columns: 1fr; } }
@@ -564,7 +564,7 @@ p { text-wrap: pretty; }
 .footer-word {
   margin-top: clamp(4rem, 8vw, 7rem);
   font-family: var(--font-display); font-weight: 500;
-  font-size: clamp(3rem, 19vw, 19rem); line-height: .82; letter-spacing: .01em; white-space: nowrap;
+  font-size: clamp(3rem, 19vw, 19rem); line-height: .82; letter-spacing: -.05em; white-space: nowrap;
   background: linear-gradient(180deg, var(--ash) 30%, rgb(230 226 219 / .08));
   -webkit-background-clip: text; background-clip: text; color: transparent;
   user-select: none;
@@ -673,7 +673,7 @@ p { text-wrap: pretty; }
 .bcard-logo svg { width: clamp(90px, 46%, 190px); height: auto; max-height: 45%; }
 .wordmark {
   font-family: var(--font-display); font-weight: 500;
-  font-size: clamp(1.6rem, 3vw, 2.6rem); letter-spacing: .01em; line-height: 1; text-align: center; text-wrap: balance;
+  font-size: clamp(1.6rem, 3vw, 2.6rem); letter-spacing: -.02em; line-height: 1; text-align: center; text-wrap: balance;
 }
 .bcard-meta {
   position: absolute; left: 0; right: 0; bottom: 0; z-index: 2;

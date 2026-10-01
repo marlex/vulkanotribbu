@@ -65,13 +65,14 @@ Las cards de marcas (portada y `marcas.html`) se generan desde `brands` en `site
 - **Imagen de fondo:** `scene` elige una de `assets/img/scenes/`. Para usar una foto propia, añadir `image: "assets/img/brands/archivo.jpg"`; se pasa a blanco y negro y se le aplica el velo automáticamente.
 
 ## Tipografía (design system Vulkano Tribbu)
-- **Sharphy** (atipo): títulos (500 Medium, interlineado 0.82–0.95, tracking +0.01em) y todas las cursivas (300 Light Italic).
+- **Sharphy** (atipo): solo las cursivas (300 Light Italic).
+- **Geist** (Google Fonts): títulos (500, caja normal, interlineado 0.82–0.95).
 - **Manrope** (Google Fonts): texto (400), etiquetas (500), eyebrow y botones (600 / mayúscula con tracking amplio).
 - **Monoespaciada del sistema** para cifras y datos.
 
 Sharphy se sirve desde `assets/fonts/`. El build declara solo los archivos que encuentra, con este nombre:
 `Sharphy-<Thin|ExtraLight|Light|Regular|Medium|SemiBold|Bold>[Italic].<woff2|woff|ttf|otf>` (p. ej. `Sharphy-Medium.woff2`, `Sharphy-LightItalic.woff2`).
-Mientras no estén, se usa Manrope sin errores. Mínimo recomendado: `Medium`, `MediumItalic`, `Light`, `LightItalic`, `Thin`/`ExtraLight` (cifras).
+Mientras no estén, las cursivas se muestran en Manrope sin errores. Basta con las cursivas: `LightItalic` (y `RegularItalic` / `MediumItalic` si se quieren más pesos).
 
 ## Pendiente de validar
 - Archivos de Sharphy en `assets/fonts/` (ver arriba).
