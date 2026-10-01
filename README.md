@@ -2,7 +2,7 @@
 
 Web de la agencia Vulkano Tribbu. Sitio estático, sin dependencias: HTML, CSS y JavaScript propios.
 
-**Concepto:** volcán en blanco y negro. Noche en el Teide con lluvia de estrellas: los titulares entran incandescentes (blanco desenfocado) y se asientan en piedra; la silueta del Teide se dibuja bajo el cielo. Sin color, solo luz, ceniza y basalto. Cada página empieza con energía y termina en calma. Lema: *Todo el fuego. Nada de humo.*
+**Concepto:** modo claro, minimalista y editorial (referencia: Pentagram). Papel y tinta, líneas finas y mucho aire. El Teide se dibuja como una línea fina bajo un cielo de estrellas discretas; los titulares entran con un desenfoque suave y se asientan. Sin color: luz, piedra y basalto. Cada página empieza con energía y termina en calma. Lema: *Fuego que impulsa. Marcas que ganan.* El tono es siempre positivo: impulsar, crecer, ganar.
 
 **Logo:** la línea del Teide del héroe en pequeño (`currentColor`): negra sobre fondos claros y blanca sobre oscuros. El favicon (`assets/img/mark.svg`) cambia solo según el modo claro u oscuro del sistema.
 
@@ -65,11 +65,17 @@ Las cards de marcas (portada y `marcas.html`) se generan desde `brands` en `site
 - **Imagen de fondo:** `scene` elige una de `assets/img/scenes/`. Para usar una foto propia, añadir `image: "assets/img/brands/archivo.jpg"`; se pasa a blanco y negro y se le aplica el velo automáticamente.
 
 ## Tipografía
-- **Geist** (Google Fonts): títulos en regular (400) y frases de contraste en light (300).
+- **Geist** (Google Fonts): títulos en regular (400).
+- **Sharphy** (atipo): frases de contraste en Light (300) y logotipo ("Vulkano" en Regular, "tribbu" en Light). Nunca en cursiva.
 - **Manrope** (Google Fonts): texto, etiquetas, menú y botones.
 - Solo dos pesos, regular y light. Sin negritas ni cursivas en ningún sitio.
 
+Sharphy se sirve desde `assets/fonts/`; el build declara solo los archivos que encuentra:
+`Sharphy-Light.<woff2|woff|ttf|otf>` y `Sharphy-Regular.<…>`. Los archivos *Italic se ignoran.
+Mientras falten, se usa Geist en su lugar, sin errores.
+
 ## Pendiente de validar
+- Archivos `Sharphy-Light` y `Sharphy-Regular` en `assets/fonts/`.
 - Logos en SVG de Prisa Radio, EY, Carnaval de Tenerife, Banco Santander, Coverwallet, Zertiban e Ignia Institution.
 - Email de contacto y perfiles sociales en `site.config.mjs`.
 - Sectores de Zertiban e Ignia Institution en `src/pages/marcas.html`.

@@ -5,7 +5,7 @@ export default {
   // para GitHub Pages y las URLs canónicas del sitemap.
   domain: "",
   email: "hola@vulkanotribbu.com",
-  tagline: "Todo el fuego. Nada de humo.",
+  tagline: "Fuego que impulsa. Marcas que ganan.",
   social: [
     // Sustituir por los perfiles reales. Los vacíos no se muestran.
     { label: "Instagram", url: "" },

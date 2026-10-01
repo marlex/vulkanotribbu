@@ -188,7 +188,9 @@
     var dpr = Math.min(window.devicePixelRatio || 1, 2);
     var w = 0, h = 0, stars = [], meteors = [], running = true, visible = true;
     var px = 0, py = 0, tx = 0, ty = 0, nextMeteor = 0;
-    var density = parseFloat(canvas.getAttribute("data-density") || "1");
+    var density = parseFloat(canvas.getAttribute("data-density") || "1") * 0.45;
+    // Color del cielo según el tema (tinta sobre papel en modo claro).
+    var rgb = (getComputedStyle(canvas).color.match(/\d+/g) || [48, 48, 48]).slice(0, 3).join(",");
 
     function resize() {
       var r = canvas.getBoundingClientRect();
@@ -215,15 +217,14 @@
         var s = stars[i];
         var tw = reduceMotion ? 1 : 0.55 + Math.sin(t / 1000 * s.sp + s.tw) * 0.45;
         var x = s.x + px * (0.3 + s.z) * 14, y = s.y + py * (0.3 + s.z) * 10;
-        ctx.globalAlpha = s.a * tw;
-        ctx.fillStyle = "#fff";
+        ctx.globalAlpha = s.a * tw * 0.55;
+        ctx.fillStyle = "rgb(" + rgb + ")";
         ctx.beginPath(); ctx.arc(x, y, s.r, 0, Math.PI * 2); ctx.fill();
       }
       ctx.globalAlpha = 1;
       if (!reduceMotion && t > nextMeteor) {
         spawnMeteor();
-        if (Math.random() < 0.35) spawnMeteor();
-        nextMeteor = t + 700 + Math.random() * 2600;
+        nextMeteor = t + 2200 + Math.random() * 4800;
       }
       for (var m = meteors.length - 1; m >= 0; m--) {
         var me = meteors[m];
@@ -232,11 +233,11 @@
         var mag = Math.hypot(me.vx, me.vy);
         var x2 = me.x - me.vx / mag * me.len, y2 = me.y - me.vy / mag * me.len;
         var g = ctx.createLinearGradient(me.x, me.y, x2, y2);
-        g.addColorStop(0, "rgba(255,255,255," + alpha + ")");
-        g.addColorStop(1, "rgba(255,255,255,0)");
+        g.addColorStop(0, "rgba(" + rgb + "," + alpha * 0.6 + ")");
+        g.addColorStop(1, "rgba(" + rgb + ",0)");
         ctx.strokeStyle = g; ctx.lineWidth = me.wdt; ctx.lineCap = "round";
         ctx.beginPath(); ctx.moveTo(me.x, me.y); ctx.lineTo(x2, y2); ctx.stroke();
-        ctx.fillStyle = "rgba(255,255,255," + alpha + ")";
+        ctx.fillStyle = "rgba(" + rgb + "," + alpha * 0.6 + ")";
         ctx.beginPath(); ctx.arc(me.x, me.y, me.wdt, 0, Math.PI * 2); ctx.fill();
         if (k >= 1) meteors.splice(m, 1);
       }
