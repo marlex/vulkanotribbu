@@ -10,9 +10,10 @@ Web de la agencia Vulkano Tribbu. Sitio estático, sin dependencias: HTML, CSS y
 
 | Archivo | Contenido |
 | --- | --- |
-| `index.html` | Portada: intro animada, manifiesto, cifras, marcas, servicios, método, ética, trabajo, cierre |
+| `index.html` | Portada: héroe con vídeo, manifiesto, cifras, marcas, servicios, diagnóstico de marca interactivo, método, ética, trabajo, cierre |
 | `agencia.html` | Origen, cómo somos, equipo, únete a la tribbu |
 | `servicios.html` | Seis disciplinas, formatos de colaboración, preguntas frecuentes |
+| `servicio-<slug>.html` | Una página por servicio (estrategia, identidad, web, contenido, motion, experiencias), generada desde `src/data/services.mjs` |
 | `marcas.html` | Las nueve marcas con las que hemos trabajado |
 | `manifiesto.html` | Lo que creemos y nuestros compromisos éticos |
 | `trabajo.html` | Casos en preparación (se irán añadiendo) |
@@ -32,6 +33,8 @@ assets/video/          Vídeo abstracto del héroe, MP4 + WebM + póster (script
 src/partials/          Cabecera, pie y <head> comunes
 src/pages/             Contenido de cada página (primera línea: título y descripción en JSON)
 site.config.mjs        Dominio, email, redes, menú y marcas (logo, sector, imagen)
+src/data/services.mjs  Contenido de los seis servicios (páginas, tarjetas y ejes del diagnóstico)
+scripts/templates.mjs  Plantillas de página de servicio, tarjetas y diagnóstico
 scripts/build.mjs      Genera dist/
 ```
 
@@ -59,6 +62,12 @@ Activación (una sola vez): en GitHub, **Settings → Pages → Build and deploy
    - Registros `AAAA` (opcional): `2606:50c0:8000::153`, `2606:50c0:8001::153`, `2606:50c0:8002::153`, `2606:50c0:8003::153`
    - `www`, registro `CNAME`: `marlex.github.io`
 3. En **Settings → Pages**, escribir el dominio en *Custom domain* y marcar **Enforce HTTPS** cuando aparezca disponible.
+
+## Contraste entre bloques
+Las secciones alternan papel (`s-light`), niebla (`s-mist`) y tinta (`s-ink`). `s-ink` invierte los tokens dentro de su ámbito, así cualquier componente funciona sobre fondo oscuro sin estilos extra; la cabecera cambia a claro al pasar por encima.
+
+## Diagnóstico de marca
+Seis ejes (uno por servicio) con deslizadores de 0 a 10. El radar se dibuja en vivo, calcula el índice de marca (media × 10), muestra con línea discontinua el potencial de cada eje y recomienda empezar por los dos ejes con más recorrido, enlazando a su página de servicio.
 
 ## Marcas y logos
 Las cards de marcas (portada y `marcas.html`) se generan desde `brands` en `site.config.mjs`.

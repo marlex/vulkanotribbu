@@ -107,7 +107,7 @@
 
   /* ---------- Cabecera ---------- */
   var header = document.querySelector(".site-header");
-  var lightSections = Array.prototype.slice.call(document.querySelectorAll(".s-light"));
+  var darkSections = Array.prototype.slice.call(document.querySelectorAll(".s-ink"));
   var lastY = window.scrollY;
   function updateHeader() {
     if (!header) return;
@@ -118,11 +118,11 @@
     if (y < lastY - 2 || y < 400) header.classList.remove("is-hidden");
     lastY = y;
     var probe = 38;
-    var onLight = !menuOpen && lightSections.some(function (s) {
+    var onDark = !menuOpen && darkSections.some(function (s) {
       var r = s.getBoundingClientRect();
       return r.top <= probe && r.bottom >= probe;
     });
-    header.classList.toggle("on-light", onLight);
+    header.classList.toggle("on-dark", onDark);
   }
 
   var ticking = false;
@@ -374,6 +374,82 @@
     if (!el) return;
     var range = document.createRange(); range.selectNodeContents(el);
     var sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+  }
+
+  /* ---------- Diagnóstico de marca: radar en vivo ---------- */
+  var diag = document.querySelector(".diag");
+  if (diag) {
+    var inputs = Array.prototype.slice.call(diag.querySelectorAll('input[type="range"]'));
+    var svgNS = "http://www.w3.org/2000/svg";
+    var R = 118, N = inputs.length;
+    var shape = diag.querySelector(".radar-shape"), target = diag.querySelector(".radar-target");
+    var gridG = diag.querySelector(".radar-grid"), dotsG = diag.querySelector(".radar-dots"), labelsG = diag.querySelector(".radar-labels");
+    var scoreEl = diag.querySelector("[data-score]"), recoEl = diag.querySelector("[data-reco]");
+    var angle = function (i) { return -Math.PI / 2 + (i / N) * Math.PI * 2; };
+    var pt = function (i, v) { var a = angle(i); return [Math.cos(a) * R * v / 10, Math.sin(a) * R * v / 10]; };
+    var el = function (name, attrs, parent) {
+      var n = document.createElementNS(svgNS, name);
+      for (var k in attrs) n.setAttribute(k, attrs[k]);
+      parent.appendChild(n); return n;
+    };
+    for (var ring = 1; ring <= 5; ring++) {
+      el("polygon", { points: inputs.map(function (_, i) { return pt(i, ring * 2).join(","); }).join(" ") }, gridG);
+    }
+    var dots = inputs.map(function (inp, i) {
+      var end = pt(i, 10);
+      el("line", { x1: 0, y1: 0, x2: end[0], y2: end[1] }, gridG);
+      var lp = pt(i, 12.4), t = el("text", { x: lp[0], y: lp[1], "text-anchor": Math.abs(lp[0]) < 4 ? "middle" : lp[0] > 0 ? "start" : "end", "dominant-baseline": "middle" }, labelsG);
+      t.textContent = inp.getAttribute("data-name").split(" ")[0];
+      return el("circle", { r: 3.2, cx: 0, cy: 0 }, dotsG);
+    });
+    var current = inputs.map(function () { return 0; });
+    var goal = inputs.map(function (inp) { return +inp.value; });
+    var shownScore = 0, raf = null;
+
+    function render() {
+      shape.setAttribute("points", current.map(function (v, i) { return pt(i, v).join(","); }).join(" "));
+      current.forEach(function (v, i) { var p = pt(i, v); dots[i].setAttribute("cx", p[0]); dots[i].setAttribute("cy", p[1]); });
+    }
+    function tick() {
+      var moving = false;
+      current = current.map(function (v, i) {
+        var d = goal[i] - v;
+        if (Math.abs(d) > 0.01) { moving = true; return v + d * 0.14; }
+        return goal[i];
+      });
+      var targetScore = Math.round(goal.reduce(function (a, b) { return a + b; }, 0) / N * 10);
+      if (shownScore !== targetScore) { shownScore += Math.sign(targetScore - shownScore) * Math.max(1, Math.round(Math.abs(targetScore - shownScore) * 0.2)); moving = true; }
+      scoreEl.textContent = shownScore;
+      render();
+      raf = moving ? requestAnimationFrame(tick) : null;
+    }
+    function update() {
+      goal = inputs.map(function (inp) { return +inp.value; });
+      inputs.forEach(function (inp) {
+        inp.style.setProperty("--fill", inp.value * 10 + "%");
+        inp.nextElementSibling.textContent = inp.value;
+      });
+      // Potencial: cada eje sube al menos tres puntos, hasta un mínimo de 8.
+      target.setAttribute("points", goal.map(function (v, i) { return pt(i, Math.min(10, Math.max(v + 3, 8))).join(","); }).join(" "));
+      var order = inputs.map(function (inp, i) { return { i: i, v: goal[i] }; }).sort(function (a, b) { return a.v - b.v || a.i - b.i; });
+      var first = inputs[order[0].i], second = inputs[order[1].i];
+      var link = function (inp) { return '<a href="' + inp.getAttribute("data-href") + '">' + inp.getAttribute("data-name") + "</a>"; };
+      recoEl.innerHTML = "Empieza por " + link(first) + ", donde tu marca tiene más recorrido, y sigue con " + link(second) + ". La línea discontinua muestra hasta dónde puede llegar.";
+      if (reduceMotion) { current = goal.slice(); shownScore = Math.round(goal.reduce(function (a, b) { return a + b; }, 0) / N * 10); scoreEl.textContent = shownScore; render(); return; }
+      if (!raf) raf = requestAnimationFrame(tick);
+    }
+    inputs.forEach(function (inp) { inp.addEventListener("input", update); });
+    // El radar se dibuja cuando el bloque entra en pantalla.
+    if ("IntersectionObserver" in window && !reduceMotion) {
+      var started = false;
+      new IntersectionObserver(function (en, obs) {
+        if (en[0].isIntersecting && !started) { started = true; update(); obs.disconnect(); }
+      }, { threshold: 0.25 }).observe(diag);
+      update(); current = current.map(function () { return 0; }); shownScore = 0; scoreEl.textContent = "0"; render();
+      if (raf) { cancelAnimationFrame(raf); raf = null; }
+    } else {
+      update();
+    }
   }
 
   /* ---------- Año ---------- */

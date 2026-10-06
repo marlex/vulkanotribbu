@@ -7,6 +7,8 @@ import { readFile, writeFile, mkdir, readdir, cp, rm, access } from "node:fs/pro
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import config from "../site.config.mjs";
+import services from "../src/data/services.mjs";
+import { serviceCards, diagnostic, servicePage, servicePath } from "./templates.mjs";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const preview = process.argv.includes("--preview");
@@ -96,15 +98,20 @@ await mkdir(out, { recursive: true });
 await cp(join(root, "assets"), join(out, "assets"), { recursive: true });
 if (fontCss) await writeFile(join(out, "assets/css/fonts.css"), `/* Generado por scripts/build.mjs */\n${fontCss}\n`);
 
-const pages = (await readdir(join(root, "src/pages"))).filter((f) => f.endsWith(".html"));
-const urls = [];
-
-for (const file of pages) {
+// Páginas escritas a mano (src/pages) + páginas de servicio generadas desde los datos.
+const pages = [];
+for (const file of (await readdir(join(root, "src/pages"))).filter((f) => f.endsWith(".html"))) {
   const src = await read(`src/pages/${file}`);
   const metaMatch = src.match(/^<!--(\{.*?\})-->\s*/s);
   if (!metaMatch) throw new Error(`Falta la cabecera JSON en ${file}`);
-  const meta = JSON.parse(metaMatch[1]);
-  const body = src.slice(metaMatch[0].length);
+  pages.push({ file, meta: JSON.parse(metaMatch[1]), body: src.slice(metaMatch[0].length) });
+}
+for (const s of services) pages.push({ file: servicePath(s), ...servicePage(s, services) });
+const svcCards = serviceCards(services);
+const diag = diagnostic(services);
+const urls = [];
+
+for (const { file, meta, body } of pages) {
   const slug = file.replace(/\.html$/, "");
   const pageUrl = config.domain ? `https://${config.domain}/${slug === "index" ? "" : file}` : "";
   if (config.domain && slug !== "404") urls.push(pageUrl);
@@ -120,7 +127,9 @@ for (const file of pages) {
     socialLinks,
     teide,
     brandCards,
-    fontFaces
+    fontFaces,
+    serviceCards: svcCards,
+    diagnostic: diag
   };
   const headHtml = fill(head, vars);
   const bodyHtml = fill(`${fill(header, vars)}\n<main id="main">\n${body}</main>\n${fill(footer, vars)}`, vars);
