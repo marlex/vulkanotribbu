@@ -36,67 +36,53 @@ const mobileLinks = (active) =>
     })
     .join("\n    ");
 const socialLinks = config.social
-  .filter((s) => s.url)
-  .map((s) => `<a href="${s.url}" target="_blank" rel="noopener">${s.label}</a>`)
+  .map((s) => (s.url ? `<a href="${s.url}" target="_blank" rel="noopener">${s.label}</a>` : `<span class="soon">${s.label}</span>`))
   .join("\n        ");
 
 const exists = (p) => access(join(root, p)).then(() => true, () => false);
-// Medidas de las imágenes que genera scripts/render-media.cjs
-const SCENE_SIZES = { basalt: [1000, 1250], constellation: [1000, 760], rings: [1000, 1300], trails: [1000, 1000], strata: [1000, 760], strataTall: [1000, 1300], contours: [1000, 1000], dots: [1000, 1000], contoursTall: [1000, 1250] };
-const brandCards = (
-  await Promise.all(
-    config.brands.map(async (b, i) => {
-      const logoPath = `assets/logos/${b.slug}.svg`;
-      const logo = (await exists(logoPath))
-        ? (await read(logoPath)).replace(/<svg /, `<svg aria-hidden="true" focusable="false" `)
-        : `<span class="wordmark" aria-hidden="true">${b.name}</span>`;
+const pad = (i) => String(i + 1).padStart(2, "0");
+
+// Marcas: tarjetas apiladas con render 3D de fondo (scripts/render-media.cjs → assets/img/scenes).
+const brandStack = (list) =>
+  list
+    .map((b, i) => {
       const img = b.image || `assets/img/scenes/${b.scene}.jpg`;
-      const [w, h] = SCENE_SIZES[b.scene] || [1000, 1000];
-      const n = String(i + 1).padStart(2, "0");
-      return `<li class="bcard reveal" style="--rd:${(i % 3) * 0.08}s">
-        <img src="${img}" alt="" width="${w}" height="${h}" loading="lazy" decoding="async">
-        <div class="bcard-logo">${logo}</div>
-        <div class="bcard-meta"><span class="mono">${n}</span><h3>${b.name}</h3><span class="mono">${b.sector}</span></div>
+      return `<li class="stack-item" id="${b.slug}" style="--i:${i}">
+        <a class="stack-card" href="marcas.html#${b.slug}" data-cursor="Ver">
+          <img src="${img}" alt="" width="1600" height="1000" loading="lazy" decoding="async">
+          <span class="stack-name">${b.name}</span>
+          <span class="stack-meta"><span>${pad(i)}</span><span>${b.sector}</span></span>
+        </a>
       </li>`;
+    })
+    .join("\n      ");
+const brandLogos = (
+  await Promise.all(
+    config.brands.map(async (b) => {
+      const logoPath = `assets/logos/${b.slug}.svg`;
+      const inner = (await exists(logoPath))
+        ? (await read(logoPath)).replace(/<svg /, `<svg role="img" aria-label="${b.name}" `)
+        : `<span>${b.name}</span>`;
+      return `<li class="logo">${inner}</li>`;
     })
   )
 ).join("\n      ");
-
-// Sharphy (atipo) se sirve desde assets/fonts/. Solo se declaran los archivos que
-// existen, así no hay peticiones fallidas mientras falten; hasta entonces se usa Manrope.
-// Nombres esperados: Sharphy-<Peso>.<woff2|woff|ttf|otf>, p. ej. Sharphy-Light.woff2.
-// Las cursivas no se usan nunca: los archivos *Italic se ignoran.
-const WEIGHTS = { Thin: 100, ExtraLight: 200, Light: 300, Regular: 400, Medium: 500, SemiBold: 600, Bold: 700 };
-const FORMATS = { woff2: "woff2", woff: "woff", ttf: "truetype", otf: "opentype" };
-const fontFiles = (await readdir(join(root, "assets/fonts")).catch(() => [])).filter((f) => /^Sharphy-/i.test(f));
-const faces = new Map();
-for (const f of fontFiles) {
-  const m = f.match(/^Sharphy-(Thin|ExtraLight|Light|Regular|Medium|SemiBold|Bold)?(Italic)?\.(woff2|woff|ttf|otf)$/i);
-  if (!m || m[2]) continue;
-  const weightName = Object.keys(WEIGHTS).find((k) => k.toLowerCase() === (m[1] || "Regular").toLowerCase());
-  const key = `${WEIGHTS[weightName]}-${m[2] ? "italic" : "normal"}`;
-  if (!faces.has(key)) faces.set(key, []);
-  faces.get(key).push({ file: f, format: FORMATS[m[3].toLowerCase()] });
-}
-const order = ["woff2", "woff", "opentype", "truetype"];
-const fontCss = [...faces.entries()]
-  .map(([key, files]) => {
-    const [weight, style] = key.split("-");
-    const src = files
-      .sort((a, b) => order.indexOf(a.format) - order.indexOf(b.format))
-      .map((x) => `url("../fonts/${x.file}") format("${x.format}")`)
-      .join(", ");
-    return `@font-face { font-family: "Sharphy"; src: ${src}; font-weight: ${weight}; font-style: ${style}; font-display: swap; }`;
-  })
-  .join("\n");
-const fontFaces = fontCss ? `<link rel="stylesheet" href="assets/css/fonts.css">` : "";
+const gallery = config.gallery
+  .map((g, i) => `<li class="gallery-item gallery-item--${g.shape}"><img src="assets/img/gallery/${g.scene}.jpg" alt="" width="720" height="900" loading="lazy" decoding="async"></li>`)
+  .join("\n      ");
+const expertise = services
+  .map((s, i) => `<li class="exp-row reveal">
+        <span class="exp-num">${pad(i)}</span>
+        <h3><a href="${servicePath(s)}">${s.name}</a></h3>
+        <p>${s.lead.split(". ")[0]}.</p>
+      </li>`)
+  .join("\n      ");
 
 const fill = (tpl, vars) => tpl.replace(/\{\{(\w+)\}\}/g, (m, k) => (k in vars ? vars[k] : m));
 
 await rm(out, { recursive: true, force: true });
 await mkdir(out, { recursive: true });
 await cp(join(root, "assets"), join(out, "assets"), { recursive: true });
-if (fontCss) await writeFile(join(out, "assets/css/fonts.css"), `/* Generado por scripts/build.mjs */\n${fontCss}\n`);
 
 // Páginas escritas a mano (src/pages) + páginas de servicio generadas desde los datos.
 const pages = [];
@@ -126,8 +112,12 @@ for (const { file, meta, body } of pages) {
     mobileLinks: mobileLinks(meta.nav),
     socialLinks,
     heroVideo,
-    brandCards,
-    fontFaces,
+    brandStack: brandStack(config.brands),
+    brandStackHome: brandStack(config.brands.filter((b) => b.featured)),
+    brandLogos,
+    gallery,
+    expertise,
+    contactCurrent: meta.nav === "contacto" ? ' aria-current="page"' : "",
     serviceCards: svcCards,
     diagnostic: diag
   };
@@ -154,4 +144,4 @@ if (!preview) {
   }
 }
 
-console.log(`✓ ${pages.length} páginas → ${out}${faces.size ? ` · Sharphy: ${faces.size} pesos` : " · Sharphy: sin archivos en assets/fonts (se usa Geist)"}`);
+console.log(`✓ ${pages.length} páginas → ${out}`);

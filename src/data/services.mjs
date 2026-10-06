@@ -2,7 +2,7 @@
 //  - las páginas de detalle (servicio-<slug>.html),
 //  - las tarjetas de servicios de la portada y de servicios.html,
 //  - los ejes del diagnóstico de marca.
-// Títulos en dos tonos: [primera parte (Geist regular), segunda parte (Sharphy Light)].
+// Títulos en dos partes: [primera línea, segunda línea].
 
 export default [
   {

@@ -82,7 +82,6 @@ export function servicePage(s, services) {
   return {
     meta: { title: `${s.name} · Vulkano Tribbu`, description: `${s.short} ${s.lead.split(". ")[0]}.`, nav: "servicios" },
     body: `<section class="hero hero--page s-light">
-  {{heroVideo}}
   <div class="wrap">
     <nav class="crumbs mono settle" style="--d:.05s" aria-label="Migas"><a href="servicios.html">Servicios</a> <span aria-hidden="true">/</span> ${num(i)}</nav>
     <span class="eyebrow settle" style="--d:.1s">${esc(s.name)}</span>

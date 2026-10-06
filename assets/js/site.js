@@ -1,5 +1,6 @@
 /* Vulkano Tribbu — movimiento.
-   Noche en el Teide: todo entra con energía y termina en calma. */
+   Titulares que suben desde una máscara, vídeo que crece con el scroll,
+   contadores con paralaje, tarjetas apiladas, galería horizontal y cursor propio. */
 (function () {
   "use strict";
 
@@ -25,13 +26,11 @@
             if (/^\s+$/.test(part)) { frag.appendChild(document.createTextNode(" ")); return; }
             var word = document.createElement("span");
             word.className = "word";
-            Array.prototype.forEach.call(part, function (c) {
-              var ch = document.createElement("span");
-              ch.className = "ch";
-              ch.textContent = c;
-              ch.style.setProperty("--i", index++);
-              word.appendChild(ch);
-            });
+            var ch = document.createElement("span");
+            ch.className = "ch";
+            ch.textContent = part;
+            ch.style.setProperty("--wi", index++);
+            word.appendChild(ch);
             frag.appendChild(word);
           });
           child.parentNode.replaceChild(frag, child);
@@ -125,12 +124,51 @@
     header.classList.toggle("on-dark", onDark);
   }
 
+  /* ---------- Efectos ligados al scroll ---------- */
+  var clamp01 = function (v) { return Math.max(0, Math.min(1, v)); };
+  var $$ = function (sel) { return Array.prototype.slice.call(document.querySelectorAll(sel)); };
+  var reel = document.querySelector(".reel");
+  var counters = $$(".counter");
+  var stackItems = $$(".stack-item");
+  var galleryWrap = document.querySelector(".gallery-wrap"), gallery = document.querySelector(".gallery");
+  var expertise = document.querySelector(".expertise");
+  function updateEffects() {
+    var vh = window.innerHeight, vw = document.documentElement.clientWidth;
+    if (reduceMotion) return;
+    if (reel) {
+      var rr = reel.getBoundingClientRect();
+      reel.style.setProperty("--p", clamp01(1 - rr.top / (vh * 0.7)).toFixed(3));
+    }
+    counters.forEach(function (c) {
+      var r = c.getBoundingClientRect();
+      var rel = (r.top + r.height / 2 - vh / 2) / vh;
+      c.style.setProperty("--y", (rel * (c.getAttribute("data-speed") === "1" ? 90 : -30)).toFixed(1) + "px");
+    });
+    stackItems.forEach(function (item, i) {
+      var card = item.firstElementChild, next = stackItems[i + 1];
+      if (!next) return;
+      var top = parseFloat(getComputedStyle(item).top) || 0;
+      var p = clamp01(1 - (next.getBoundingClientRect().top - top) / item.offsetHeight);
+      card.style.setProperty("--s", (1 - p * 0.08).toFixed(4));
+      card.style.setProperty("--dim", p.toFixed(3));
+    });
+    if (galleryWrap && gallery) {
+      var gr = galleryWrap.getBoundingClientRect();
+      var gp = clamp01((vh - gr.top) / (vh + gr.height));
+      gallery.style.setProperty("--x", (-(gallery.scrollWidth - vw) * gp).toFixed(1) + "px");
+    }
+    if (expertise) {
+      var er = expertise.getBoundingClientRect();
+      expertise.style.setProperty("--p", clamp01((vh - er.bottom) / (vh * 0.5)).toFixed(3));
+    }
+  }
+
   var ticking = false;
   function onScroll() {
     if (ticking) return;
     ticking = true;
     requestAnimationFrame(function () {
-      updateHeader(); updateLit(); updateSteps();
+      updateHeader(); updateLit(); updateSteps(); updateEffects();
       ticking = false;
     });
   }
@@ -181,34 +219,65 @@
     setTimeout(function () { requestAnimationFrame(frame); }, 600);
   });
 
-  /* ---------- Resplandor que sigue al cursor ---------- */
+  /* ---------- Contadores ---------- */
+  $$(".counter strong[data-to]").forEach(function (el) {
+    var to = +el.getAttribute("data-to"), suffix = el.getAttribute("data-suffix") || "";
+    if (reduceMotion || !("IntersectionObserver" in window)) return;
+    el.textContent = "0" + suffix;
+    new IntersectionObserver(function (en, obs) {
+      if (!en[0].isIntersecting) return;
+      obs.disconnect();
+      var t0 = null;
+      (function frame(t) {
+        if (!t0) t0 = t;
+        var k = Math.min(1, (t - t0) / 1600);
+        el.textContent = Math.round(to * (1 - Math.pow(1 - k, 3))) + suffix;
+        if (k < 1) requestAnimationFrame(frame);
+      })(performance.now());
+    }, { threshold: 0.4 }).observe(el);
+  });
+
+  /* ---------- Vídeo a pantalla completa ---------- */
+  var play = document.querySelector(".reel-play");
+  if (play) {
+    var box = document.createElement("div");
+    box.className = "lightbox";
+    box.setAttribute("role", "dialog");
+    box.setAttribute("aria-modal", "true");
+    box.setAttribute("aria-label", "Vídeo de presentación");
+    box.innerHTML = '<video controls loop playsinline muted><source src="assets/video/hero.webm" type="video/webm"><source src="assets/video/hero.mp4" type="video/mp4"></video><button class="lightbox-close" type="button" aria-label="Cerrar">×</button>';
+    document.body.appendChild(box);
+    var bv = box.querySelector("video"), closeBtn = box.querySelector(".lightbox-close");
+    var close = function () { box.classList.remove("is-open"); bv.pause(); play.focus(); };
+    play.addEventListener("click", function () { box.classList.add("is-open"); bv.currentTime = 0; var pr = bv.play(); if (pr && pr.catch) pr.catch(function () {}); closeBtn.focus(); });
+    closeBtn.addEventListener("click", close);
+    box.addEventListener("click", function (e) { if (e.target === box) close(); });
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape" && box.classList.contains("is-open")) close(); });
+  }
+
+  /* ---------- Cursor propio ---------- */
   if (finePointer && !reduceMotion) {
-    var glow = document.createElement("div");
-    glow.className = "cursor-glow";
-    glow.setAttribute("aria-hidden", "true");
-    document.body.appendChild(glow);
-    var gx = window.innerWidth / 2, gy = window.innerHeight / 2, tx = gx, ty = gy;
+    var cur = document.createElement("div");
+    cur.className = "cursor is-hidden";
+    cur.setAttribute("aria-hidden", "true");
+    cur.innerHTML = "<span></span>";
+    document.body.appendChild(cur);
+    var label = cur.firstChild;
+    var cx = -100, cy = -100, tx = cx, ty = cy;
     window.addEventListener("pointermove", function (e) {
-      tx = e.clientX; ty = e.clientY; glow.classList.add("is-on");
-      var el = document.elementFromPoint(e.clientX, e.clientY);
-      document.body.classList.toggle("on-light-cursor", !!(el && el.closest(".s-light")));
+      tx = e.clientX; ty = e.clientY; cur.classList.remove("is-hidden");
+      var t = e.target.closest ? e.target.closest("[data-cursor], a, button, input, select, textarea, label") : null;
+      var text = t && t.getAttribute("data-cursor");
+      cur.classList.toggle("is-label", !!text);
+      cur.classList.toggle("is-link", !!t && !text);
+      if (text) label.textContent = text;
     }, { passive: true });
-    document.addEventListener("pointerleave", function () { glow.classList.remove("is-on"); });
+    document.documentElement.addEventListener("pointerleave", function () { cur.classList.add("is-hidden"); });
     (function loop() {
-      gx += (tx - gx) * 0.08; gy += (ty - gy) * 0.08;
-      glow.style.transform = "translate3d(" + gx + "px," + gy + "px,0)";
+      cx += (tx - cx) * 0.2; cy += (ty - cy) * 0.2;
+      cur.style.transform = "translate3d(" + cx.toFixed(1) + "px," + cy.toFixed(1) + "px,0) translate(-50%,-50%)";
       requestAnimationFrame(loop);
     })();
-
-    /* Botones magnéticos */
-    document.querySelectorAll(".btn").forEach(function (b) {
-      b.addEventListener("pointermove", function (e) {
-        var r = b.getBoundingClientRect();
-        var mx = (e.clientX - r.left - r.width / 2) * 0.18, my = (e.clientY - r.top - r.height / 2) * 0.3;
-        b.style.transform = "translate(" + mx + "px," + my + "px)";
-      });
-      b.addEventListener("pointerleave", function () { b.style.transform = ""; });
-    });
   }
 
   /* ---------- Transición entre páginas ---------- */

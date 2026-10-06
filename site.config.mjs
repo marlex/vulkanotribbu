@@ -13,18 +13,25 @@ export default {
     { label: "Behance", url: "" }
   ],
   // Marcas: el logo se toma de assets/logos/<slug>.svg si existe (en monocromo,
-  // fill="currentColor"); si no, se muestra el nombre como marca tipográfica.
-  // La imagen de fondo sale de assets/img/scenes/<scene>.jpg (o de image si se indica).
+  // fill="currentColor"); si no, se muestra el nombre.
+  // scene: render 3D de assets/img/scenes/<scene>.jpg (o una foto propia en image).
+  // featured: aparece en las tarjetas apiladas de la portada.
   brands: [
-    { slug: "ikea", name: "IKEA", sector: "Hogar · Retail", scene: "basalt" },
-    { slug: "prisa-radio", name: "Prisa Radio", sector: "Medios · Audio", scene: "constellation" },
-    { slug: "leroymerlin", name: "Leroy Merlin", sector: "Hogar · Retail", scene: "rings" },
-    { slug: "ey", name: "EY", sector: "Consultoría", scene: "trails" },
-    { slug: "carnaval-tenerife", name: "Carnaval de Tenerife", sector: "Cultura · Evento", scene: "strataTall" },
-    { slug: "santander", name: "Banco Santander", sector: "Banca", scene: "strata" },
-    { slug: "coverwallet", name: "Coverwallet", sector: "Seguros · Digital", scene: "contours" },
-    { slug: "zertiban", name: "Zertiban", sector: "Empresa", scene: "dots" },
-    { slug: "ignia", name: "Ignia Institution", sector: "Institución", scene: "contoursTall" }
+    { slug: "ikea", name: "IKEA", sector: "Hogar · Retail", scene: "knot", featured: true },
+    { slug: "santander", name: "Banco Santander", sector: "Banca", scene: "ember", featured: true },
+    { slug: "ey", name: "EY", sector: "Consultoría", scene: "noir", featured: true },
+    { slug: "prisa-radio", name: "Prisa Radio", sector: "Medios · Audio", scene: "spheres", featured: true },
+    { slug: "leroymerlin", name: "Leroy Merlin", sector: "Hogar · Retail", scene: "lime", featured: true },
+    { slug: "carnaval-tenerife", name: "Carnaval de Tenerife", sector: "Cultura · Evento", scene: "silk" },
+    { slug: "coverwallet", name: "Coverwallet", sector: "Seguros · Digital", scene: "rings" },
+    { slug: "zertiban", name: "Zertiban", sector: "Empresa", scene: "drop" },
+    { slug: "ignia", name: "Ignia Institution", sector: "Institución", scene: "twist" }
+  ],
+  // Galería horizontal de la portada (assets/img/gallery). shape: tall | wide | square
+  gallery: [
+    { scene: "rock", shape: "square" }, { scene: "pearl", shape: "wide" }, { scene: "twist", shape: "tall" },
+    { scene: "sunrock", shape: "square" }, { scene: "knot", shape: "wide" }, { scene: "drop", shape: "tall" },
+    { scene: "rings", shape: "square" }, { scene: "lime", shape: "wide" }
   ],
   nav: [
     { slug: "agencia", label: "Agencia" },

@@ -2,19 +2,30 @@
 
 Web de la agencia Vulkano Tribbu. Sitio estático, sin dependencias: HTML, CSS y JavaScript propios.
 
-**Concepto:** agencia independiente de marca, diseño y tecnología. Modo claro, minimalista y editorial (referencias: Pentagram en lo visual, Palantir en el tono). Papel y tinta, líneas finas, mucho aire y bandas de tinta para el contraste. Lenguaje profesional y declarativo, orientado a resultados, sin metáforas. Lema: *Direction that build. Passion that create.*
+**Concepto:** agencia independiente de marca, diseño y tecnología. Estética de estudio creativo contemporáneo (referencia visual: Uncode *Creative Lab*): blanco limpio y secciones casi negras (`#141416`), titulares grandes en Plus Jakarta Sans, texto ligero, tarjetas y vídeo con esquinas muy redondeadas, acentos pastel (amarillo, lila, melocotón, agua) y renders 3D abstractos. Lenguaje profesional y declarativo (tono Palantir). Lema: *Direction that build. Passion that create.*
 
-**Logo:** línea de horizonte (`currentColor`): negra sobre fondos claros y blanca sobre oscuros. El favicon (`assets/img/mark.svg`) cambia solo según el modo claro u oscuro del sistema.
+**Logo:** logotipo tipográfico «Vulkano Tribbu.» con el punto en lila.
+
+## Portada
+1. Titular centrado que entra palabra a palabra.
+2. Vídeo con esquinas redondeadas que crece hasta ocupar todo el ancho al hacer scroll; el botón de play lo abre a pantalla completa.
+3. Párrafo que se colorea palabra a palabra con el scroll.
+4. Cuatro contadores de color con paralaje escalonado y cuenta animada.
+5. Fila de logos de las nueve marcas.
+6. Sección oscura con tarjetas apiladas (sticky): la anterior se reduce y se oscurece al llegar la siguiente.
+7. Galería horizontal que se desplaza de lado con el scroll.
+8. «Nuestra especialidad»: los seis servicios numerados en una tarjeta blanca que se superpone al pie.
+9. Pie con «Hablemos» gigante y cuatro columnas. Cursor propio: punto lila que se convierte en píldora («Ver», «Play») sobre tarjetas y vídeo.
 
 ## Páginas
 
 | Archivo | Contenido |
 | --- | --- |
-| `index.html` | Portada: héroe con vídeo, manifiesto, cifras, marcas, servicios, diagnóstico de marca interactivo, método, ética, trabajo, cierre |
+| `index.html` | Portada (ver arriba) |
 | `agencia.html` | Origen, cómo somos, equipo, únete a la tribbu |
-| `servicios.html` | Seis disciplinas, formatos de colaboración, preguntas frecuentes |
+| `servicios.html` | Seis disciplinas, diagnóstico de marca interactivo, formatos de colaboración, preguntas frecuentes |
 | `servicio-<slug>.html` | Una página por servicio (estrategia, identidad, web, contenido, motion, experiencias), generada desde `src/data/services.mjs` |
-| `marcas.html` | Las nueve marcas con las que hemos trabajado |
+| `marcas.html` | Las nueve marcas en tarjetas apiladas |
 | `manifiesto.html` | Lo que creemos y nuestros compromisos éticos |
 | `trabajo.html` | Casos en preparación (se irán añadiendo) |
 | `diario.html` | Blog con los primeros temas en preparación |
@@ -28,9 +39,10 @@ Web de la agencia Vulkano Tribbu. Sitio estático, sin dependencias: HTML, CSS y
 assets/css/site.css    Tokens de diseño (color, tipografía, espacio) y componentes
 assets/js/site.js      Movimiento: entrada de titulares, revelados, transiciones, diagnóstico de marca
 assets/logos/          Logos de marcas en SVG monocromo (fill="currentColor")
-assets/img/scenes/     Imágenes de línea de las cards (generadas con scripts/render-media.cjs)
-assets/video/          Vídeo abstracto de los héroes, MP4 + WebM + póster (scripts/flow.html → scripts/render-media.cjs)
-src/partials/          Cabecera, pie, <head> y vídeo de héroe comunes
+assets/img/scenes/     Renders 3D de las tarjetas de marcas (scripts/studio.html → scripts/render-media.cjs)
+assets/img/gallery/    Renders 3D de la galería horizontal
+assets/video/          Vídeo de la portada, MP4 + WebM + póster
+src/partials/          Cabecera, pie, <head> y vídeo de la portada
 src/pages/             Contenido de cada página (primera línea: título y descripción en JSON)
 site.config.mjs        Dominio, email, redes, menú y marcas (logo, sector, imagen)
 src/data/services.mjs  Contenido de los seis servicios (páginas, tarjetas y ejes del diagnóstico)
@@ -63,34 +75,26 @@ Activación (una sola vez): en GitHub, **Settings → Pages → Build and deploy
    - `www`, registro `CNAME`: `marlex.github.io`
 3. En **Settings → Pages**, escribir el dominio en *Custom domain* y marcar **Enforce HTTPS** cuando aparezca disponible.
 
-## Vídeo de los héroes
-Formas fluidas abstractas en grises muy claros sobre papel, con líneas de flujo finísimas. Cinco imágenes de 5 s que se funden lentamente y enlazan en bucle sin corte (25 s). Se renderiza con un shader WebGL (`scripts/flow.html`): para regenerarlo, `node scripts/render-media.cjs` (Playwright + ffmpeg). Las escenas se ajustan en el array `SCENES` (escala, flujo, dirección, densidad de líneas, contraste).
+## Vídeo e imágenes 3D
+Todo es generado, sin fotos de stock: renders 3D abstractos de estudio (esferas, nudos, gotas líquidas, roca, anillos, seda) hechos con raymarching en WebGL (`scripts/studio.html`). El vídeo de la portada son cuatro tomas de 4,5 s que se funden y enlazan en bucle (18 s). Para regenerar todo: `node scripts/render-media.cjs` (Playwright + ffmpeg). Las paletas y formas se ajustan en `LOOKS`; las tomas del vídeo, en `SHOTS`.
 
 ## Contraste entre bloques
-Las secciones alternan papel (`s-light`), niebla (`s-mist`) y tinta (`s-ink`). `s-ink` invierte los tokens dentro de su ámbito, así cualquier componente funciona sobre fondo oscuro sin estilos extra; la cabecera cambia a claro al pasar por encima.
+Las secciones alternan blanco (`s-light`), gris muy claro (`s-mist`) y casi negro (`s-ink`). `s-ink` invierte los tokens dentro de su ámbito, así cualquier componente funciona sobre fondo oscuro sin estilos extra; la cabecera cambia a claro al pasar por encima.
 
 ## Diagnóstico de marca
 Seis ejes (uno por servicio) con deslizadores de 0 a 10. El radar se dibuja en vivo, calcula el índice de marca (media × 10), muestra con línea discontinua el potencial de cada eje y recomienda empezar por los dos ejes con más recorrido, enlazando a su página de servicio.
 
 ## Marcas y logos
-Las cards de marcas (portada y `marcas.html`) se generan desde `brands` en `site.config.mjs`.
-- **Logo:** se usa `assets/logos/<slug>.svg` si existe. Debe ser monocromo con `fill="currentColor"` para que salga en blanco sobre la imagen. Ahora hay logos de IKEA y Leroy Merlin (Simple Icons, CC0); el resto se muestra como marca tipográfica hasta tener su SVG.
-- **Imagen de fondo:** `scene` elige una de `assets/img/scenes/`. Para usar una foto propia, añadir `image: "assets/img/brands/archivo.jpg"`; se pasa a blanco y negro y se le aplica el velo automáticamente.
+Las marcas se definen en `brands` (`site.config.mjs`). Las que llevan `featured: true` aparecen en las tarjetas apiladas de la portada; `marcas.html` muestra las nueve.
+- **Logo** (fila de logos de la portada): se usa `assets/logos/<slug>.svg` si existe, monocromo con `fill="currentColor"`. Ahora hay logos de IKEA y Leroy Merlin (Simple Icons, CC0); el resto se muestra con su nombre.
+- **Imagen de fondo:** `scene` elige un render de `assets/img/scenes/`. Para usar una foto propia, añadir `image: "assets/img/brands/archivo.jpg"`.
 
 ## Tipografía
-- **Geist** (Google Fonts): títulos en regular (400).
-- **Sharphy** (atipo): frases de contraste en Light (300) y logotipo ("Vulkano" en Regular, "tribbu" en Light). Nunca en cursiva.
-- **Manrope** (Google Fonts): texto, etiquetas, menú y botones.
-- Solo dos pesos, regular y light. Sin negritas ni cursivas en ningún sitio.
-
-Sharphy se sirve desde `assets/fonts/`; el build declara solo los archivos que encuentra:
-`Sharphy-Light.<woff2|woff|ttf|otf>` y `Sharphy-Regular.<…>`. Los archivos *Italic se ignoran.
-Mientras falten, se usa Geist en su lugar, sin errores.
+- **Plus Jakarta Sans** (Google Fonts) en todo el sitio: titulares en 700 con interletraje cerrado, párrafos grandes en 300, texto en 400–600.
 
 ## Pendiente de validar
-- Archivos `Sharphy-Light` y `Sharphy-Regular` en `assets/fonts/`.
 - Logos en SVG de Prisa Radio, EY, Carnaval de Tenerife, Banco Santander, Coverwallet, Zertiban e Ignia Institution.
 - Email de contacto y perfiles sociales en `site.config.mjs`.
-- Sectores de Zertiban e Ignia Institution en `src/pages/marcas.html`.
+- Sectores de Zertiban e Ignia Institution en `site.config.mjs`.
 - Compromisos con cifra: respuesta en 48 h y plazos orientativos en las preguntas frecuentes.
 - Datos fiscales en `legal.html`.

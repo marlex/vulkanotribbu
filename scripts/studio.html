@@ -1,0 +1,200 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Vulkano · studio</title>
+<!-- Renders 3D abstractos de estudio (raymarching WebGL2): esferas, anillos, gotas, roca, seda.
+     Los usa scripts/render-media.cjs:
+       studioStill(name, w, h, t)   → imágenes de proyectos y galería
+       studioFrame(t, w, h)         → fotogramas del vídeo de la portada -->
+<canvas id="c" width="1600" height="900"></canvas>
+<script id="fs" type="x-shader/x-fragment">#version 300 es
+precision highp float;
+uniform vec2 uRes;
+uniform float uTime, uSeed, uZoom;
+uniform int uScene;
+uniform vec3 uBg0, uBg1, uA, uB, uC;
+out vec4 outColor;
+
+float h1(float n) { return fract(sin(n) * 43758.5453); }
+float n3(vec3 x) {
+  vec3 p = floor(x), f = fract(x); f = f * f * (3.0 - 2.0 * f);
+  float n = p.x + p.y * 57.0 + 113.0 * p.z;
+  return mix(mix(mix(h1(n), h1(n + 1.0), f.x), mix(h1(n + 57.0), h1(n + 58.0), f.x), f.y),
+             mix(mix(h1(n + 113.0), h1(n + 114.0), f.x), mix(h1(n + 170.0), h1(n + 171.0), f.x), f.y), f.z);
+}
+float smin(float a, float b, float k) { float h = clamp(0.5 + 0.5 * (b - a) / k, 0.0, 1.0); return mix(b, a, h) - k * h * (1.0 - h); }
+mat2 rot(float a) { float c = cos(a), s = sin(a); return mat2(c, -s, s, c); }
+float sdTorus(vec3 p, vec2 t) { vec2 q = vec2(length(p.xz) - t.x, p.y); return length(q) - t.y; }
+
+// x: distancia, y: material (0,1,2)
+vec2 map(vec3 p) {
+  float t = uTime;
+  if (uScene == 0) {                       // esferas flotando
+    vec2 r = vec2(1e5, 0.0);
+    for (int i = 0; i < 16; i++) {
+      float fi = float(i) + uSeed * 7.0;
+      vec3 c = vec3(h1(fi * 1.3) - 0.5, h1(fi * 2.7) - 0.5, h1(fi * 3.1) - 0.5) * vec3(4.6, 2.4, 2.2);
+      c.y += 0.18 * sin(t * 0.6 + fi);
+      c.x += 0.12 * cos(t * 0.45 + fi * 1.7);
+      float rad = 0.16 + 0.42 * pow(h1(fi * 5.9), 2.0);
+      float d = length(p - c) - rad;
+      if (d < r.x) r = vec2(d, mod(float(i), 3.0));
+    }
+    return r;
+  }
+  if (uScene == 1) {                       // anillos entrelazados (nudo)
+    p.xz *= rot(t * 0.25); p.xy *= rot(0.35 + t * 0.1);
+    vec3 a = p; a.xy *= rot(0.0);
+    vec3 b = p - vec3(0.55, 0.0, 0.0); b.yz *= rot(1.5708);
+    vec3 c = p + vec3(0.28, 0.0, 0.48); c.xy *= rot(1.5708); c.xz *= rot(0.6);
+    float d = sdTorus(a, vec2(0.62, 0.17));
+    d = min(d, sdTorus(b, vec2(0.62, 0.17)));
+    d = min(d, sdTorus(c, vec2(0.62, 0.17)));
+    return vec2(d, 0.0);
+  }
+  if (uScene == 2) {                       // gota líquida (metabolas)
+    float d = 1e5;
+    for (int i = 0; i < 6; i++) {
+      float fi = float(i) + uSeed;
+      vec3 c = 0.55 * vec3(sin(t * 0.5 + fi * 2.1), cos(t * 0.43 + fi * 1.3), sin(t * 0.37 + fi * 3.7));
+      d = smin(d, length(p - c) - (0.38 + 0.12 * h1(fi)), 0.45);
+    }
+    return vec2(d, 0.0);
+  }
+  if (uScene == 3) {                       // roca
+    p.xz *= rot(t * 0.2 + uSeed); p.xy *= rot(0.4);
+    float d = length(p) - 0.95;
+    d += 0.22 * n3(p * 1.6 + uSeed) + 0.09 * n3(p * 4.1) + 0.035 * n3(p * 9.0);
+    d = max(d, abs(p.y + 0.15 * p.x) - 0.85);            // corte facetado
+    return vec2(d * 0.7, 0.0);
+  }
+  if (uScene == 4) {                       // pila de anillos
+    vec2 r = vec2(1e5, 0.0);
+    for (int i = 0; i < 5; i++) {
+      float fi = float(i);
+      vec3 q = p - vec3(0.0, (fi - 2.0) * 0.36, 0.0);
+      q.xz *= rot(t * 0.3 + fi * 0.5); q.xy *= rot(0.25 * sin(t * 0.4 + fi));
+      float d = sdTorus(q, vec2(0.95 - fi * 0.06, 0.12));
+      if (d < r.x) r = vec2(d, mod(fi, 3.0));
+    }
+    return r;
+  }
+  // 5: barra retorcida
+  p.xy *= rot(0.6 + 0.2 * sin(t * 0.3));
+  p.xz *= rot(p.y * 1.4 + t * 0.4);
+  vec3 q = abs(p) - vec3(0.42, 1.05, 0.14);
+  return vec2((length(max(q, 0.0)) + min(max(q.x, max(q.y, q.z)), 0.0) - 0.08) * 0.6, 0.0);
+}
+
+vec3 normal(vec3 p) { vec2 e = vec2(0.0015, 0.0); return normalize(vec3(map(p + e.xyy).x - map(p - e.xyy).x, map(p + e.yxy).x - map(p - e.yxy).x, map(p + e.yyx).x - map(p - e.yyx).x)); }
+
+vec3 bg(vec2 uv) { return mix(uBg1, uBg0, smoothstep(-0.7, 0.8, uv.y + 0.25 * uv.x)) * (1.0 - 0.18 * dot(uv, uv)); }
+
+vec3 silk(vec2 uv) {                       // seda: degradado fluido suave
+  vec2 p = uv * 1.1 * uZoom + uSeed;
+  float t = uTime * 0.12;
+  for (int i = 1; i < 6; i++) {
+    float fi = float(i);
+    p += 0.45 / fi * vec2(sin(fi * p.y + t + 0.3 * fi), cos(fi * p.x - t * 0.8 + 0.5 * fi));
+  }
+  float a = 0.5 + 0.5 * sin(p.x * 1.2), b = 0.5 + 0.5 * sin(p.y * 1.4 + 1.3);
+  vec3 col = mix(uA, uB, smoothstep(0.1, 0.9, a));
+  col = mix(col, uC, smoothstep(0.55, 1.0, b) * 0.9);
+  float sheen = pow(0.5 + 0.5 * sin(p.x * 2.0 + p.y * 1.5), 12.0);
+  col += sheen * 0.35 * mix(uC, vec3(1.0), 0.5);
+  col = mix(uBg0, col, 0.92);
+  return col * (1.0 - 0.22 * dot(uv, uv));
+}
+
+void main() {
+  vec2 uv = (gl_FragCoord.xy - 0.5 * uRes) / uRes.y;
+  if (uScene == 6) { outColor = vec4(pow(clamp(silk(uv), 0.0, 1.0), vec3(1.0)), 1.0); return; }
+  vec3 ro = vec3(0.0, 0.0, 4.2 / uZoom), rd = normalize(vec3(uv, -1.6));
+  float t = 0.0; vec2 h = vec2(0.0); bool hit = false;
+  for (int i = 0; i < 110; i++) {
+    h = map(ro + rd * t);
+    if (h.x < 0.0008 * t) { hit = true; break; }
+    t += h.x;
+    if (t > 12.0) break;
+  }
+  vec3 col = bg(uv);
+  if (hit) {
+    vec3 p = ro + rd * t, n = normal(p), v = -rd;
+    vec3 base = h.y < 0.5 ? uA : (h.y < 1.5 ? uB : uC);
+    vec3 L = normalize(vec3(-0.6, 0.8, 0.6));
+    float dif = clamp(dot(n, L), 0.0, 1.0);
+    float ao = 0.0, sc = 1.0;
+    for (int k = 1; k <= 5; k++) { float d = 0.06 * float(k); ao += (d - map(p + n * d).x) * sc; sc *= 0.7; }
+    ao = clamp(1.0 - 2.2 * ao, 0.0, 1.0);
+    float fre = pow(1.0 - clamp(dot(n, v), 0.0, 1.0), 3.0);
+    float spec = pow(clamp(dot(reflect(-L, n), v), 0.0, 1.0), 60.0);
+    float spec2 = pow(clamp(dot(reflect(-normalize(vec3(0.8, 0.3, 0.5)), n), v), 0.0, 1.0), 20.0);
+    float sky = 0.5 + 0.5 * n.y;
+    vec3 amb = mix(uBg1, uBg0, sky);
+    col = base * (0.18 + 0.95 * dif) * ao + base * amb * 0.35 * ao;
+    col += fre * mix(uBg0, vec3(1.0), 0.3) * 0.45;
+    col += spec * 0.9 + spec2 * 0.18 * mix(base, vec3(1.0), 0.5);
+    col = mix(col, bg(uv), smoothstep(6.0, 9.0, t));
+  }
+  col = pow(clamp(col, 0.0, 1.0), vec3(0.95));
+  outColor = vec4(col, 1.0);
+}
+</script>
+<script>
+const cv = document.getElementById("c");
+const gl = cv.getContext("webgl2", { preserveDrawingBuffer: true, antialias: false });
+function sh(type, src) { const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(s)); return s; }
+const prog = gl.createProgram();
+gl.attachShader(prog, sh(gl.VERTEX_SHADER, "#version 300 es\nin vec2 a; void main(){ gl_Position = vec4(a, 0.0, 1.0); }"));
+gl.attachShader(prog, sh(gl.FRAGMENT_SHADER, document.getElementById("fs").textContent));
+gl.linkProgram(prog); gl.useProgram(prog);
+gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
+gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
+const loc = gl.getAttribLocation(prog, "a"); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+const U = (n) => gl.getUniformLocation(prog, n);
+const hex = (h) => [1, 3, 5].map((i) => Math.pow(parseInt(h.slice(i, i + 2), 16) / 255, 1));
+
+// Escenas: forma (0 esferas, 1 nudo, 2 gota, 3 roca, 4 anillos, 5 cápsula, 6 seda), fondo arriba/abajo, materiales.
+const LOOKS = {
+  spheres: { s: 0, bg: ["#3a3a44", "#121216"], m: ["#c8202d", "#f2c6cc", "#24323a"], zoom: 1.0, seed: 1 },
+  knot:    { s: 1, bg: ["#e2a27c", "#c98a64"], m: ["#e3401f", "#e3401f", "#e3401f"], zoom: 1.35, seed: 0 },
+  drop:    { s: 2, bg: ["#2a2350", "#0d0b1c"], m: ["#b58cff", "#b58cff", "#b58cff"], zoom: 1.25, seed: 2 },
+  rock:    { s: 3, bg: ["#f8c7ae", "#eeb091"], m: ["#4a4542", "#4a4542", "#4a4542"], zoom: 1.4, seed: 3 },
+  rings:   { s: 4, bg: ["#bfe3e2", "#93c9c8"], m: ["#ffffff", "#1f5c63", "#f4cf2a"], zoom: 1.2, seed: 0 },
+  twist:   { s: 5, bg: ["#d6b2f7", "#b88be8"], m: ["#2a1c3d", "#2a1c3d", "#2a1c3d"], zoom: 1.3, seed: 0 },
+  silk:    { s: 6, bg: ["#0b0b0d", "#0b0b0d"], m: ["#0e8f6a", "#2342e0", "#ef3f5a"], zoom: 1.5, seed: 0.5 },
+  ember:   { s: 6, bg: ["#0b0b0d", "#0b0b0d"], m: ["#14070a", "#b3121f", "#f4e1c8"], zoom: 2.4, seed: 3.1 },
+  sunrock: { s: 3, bg: ["#f6d84a", "#eac421"], m: ["#2b2b2e", "#2b2b2e", "#2b2b2e"], zoom: 1.4, seed: 7 },
+  pearl:   { s: 0, bg: ["#f3eee8", "#d9d2ca"], m: ["#ffffff", "#e9c9b6", "#1b1b1f"], zoom: 1.0, seed: 4 },
+  lime:    { s: 2, bg: ["#e9f5c8", "#cfe39a"], m: ["#2b6b4f", "#2b6b4f", "#2b6b4f"], zoom: 1.25, seed: 5 },
+  noir:    { s: 4, bg: ["#2a2a30", "#0f0f12"], m: ["#e8e8ee", "#8a8a95", "#c8202d"], zoom: 1.2, seed: 0 }
+};
+function draw(name, t) {
+  const L = LOOKS[name];
+  gl.uniform2f(U("uRes"), cv.width, cv.height);
+  gl.uniform1f(U("uTime"), t); gl.uniform1f(U("uSeed"), L.seed); gl.uniform1f(U("uZoom"), L.zoom);
+  gl.uniform1i(U("uScene"), L.s);
+  gl.uniform3fv(U("uBg0"), hex(L.bg[0])); gl.uniform3fv(U("uBg1"), hex(L.bg[1]));
+  ["uA", "uB", "uC"].forEach((u, i) => gl.uniform3fv(U(u), hex(L.m[i])));
+  gl.drawArrays(gl.TRIANGLES, 0, 3);
+}
+function size(w, h) { if (cv.width !== w || cv.height !== h) { cv.width = w; cv.height = h; gl.viewport(0, 0, w, h); } }
+window.LOOKS = Object.keys(LOOKS);
+window.studioStill = function (name, w, h, t = 2) { size(w, h); draw(name, t); return cv.toDataURL("image/jpeg", 0.9); };
+
+// Vídeo: cuatro tomas que se funden y enlazan en bucle.
+const SHOTS = ["ember", "spheres", "silk", "drop"];
+const SHOT = 4.5, FADE = 1.2;
+window.videoDuration = SHOTS.length * SHOT;
+const tmp = document.createElement("canvas"), tctx = tmp.getContext("2d");
+window.studioFrame = function (time, w, h) {
+  size(w, h); tmp.width = w; tmp.height = h;
+  const i = Math.floor(time / SHOT) % SHOTS.length, local = time - i * SHOT;
+  draw(SHOTS[i], local + 2); tctx.globalAlpha = 1; tctx.drawImage(cv, 0, 0);
+  const fade = local > SHOT - FADE ? (local - (SHOT - FADE)) / FADE : 0;
+  if (fade > 0) {
+    draw(SHOTS[(i + 1) % SHOTS.length], local - SHOT + 2);
+    tctx.globalAlpha = fade * fade * (3 - 2 * fade); tctx.drawImage(cv, 0, 0); tctx.globalAlpha = 1;
+  }
+  return tmp.toDataURL("image/jpeg", 0.9);
+};
+</script>
