@@ -82,8 +82,7 @@ export function servicePage(s, services) {
   return {
     meta: { title: `${s.name} · Vulkano Tribbu`, description: `${s.short} ${s.lead.split(". ")[0]}.`, nav: "servicios" },
     body: `<section class="hero hero--page s-light">
-  <canvas class="sky" data-density=".45" aria-hidden="true"></canvas>
-  {{teide}}
+  {{heroVideo}}
   <div class="wrap">
     <nav class="crumbs mono settle" style="--d:.05s" aria-label="Migas"><a href="servicios.html">Servicios</a> <span aria-hidden="true">/</span> ${num(i)}</nav>
     <span class="eyebrow settle" style="--d:.1s">${esc(s.name)}</span>
@@ -144,11 +143,11 @@ ${s.process.map(([t, d], k) => `      <li class="step reveal" style="--rd:${k * 
   <div class="wrap">
     <div class="section-head">
       <span class="eyebrow">Formas de trabajar juntos</span>
-      <h2 class="display xl reveal" id="formatos-title">Elige la intensidad<br><span class="serif">de la llama</span></h2>
+      <h2 class="display xl reveal" id="formatos-title">Tres formas<br><span class="serif">de trabajar con nosotros</span></h2>
     </div>
     <div class="table-scroll reveal">
       <table class="compare">
-        <thead><tr><th scope="col"><span class="sr-only">Comparativa</span></th><th scope="col">Chispa</th><th scope="col" class="is-featured">Llama</th><th scope="col">Hogar</th></tr></thead>
+        <thead><tr><th scope="col"><span class="sr-only">Comparativa</span></th><th scope="col">Proyecto</th><th scope="col" class="is-featured">Programa</th><th scope="col">Partner</th></tr></thead>
         <tbody>
 ${formats.map(([h, a, b, c]) => `          <tr><th scope="row">${esc(h)}</th><td>${esc(a)}</td><td class="is-featured">${esc(b)}</td><td>${esc(c)}</td></tr>`).join("\n")}
         </tbody>

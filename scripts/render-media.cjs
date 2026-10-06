@@ -1,6 +1,6 @@
 // Genera:
 //   assets/img/scenes/<escena>.jpg  → imágenes de las cards de marcas (scripts/motion.html)
-//   assets/video/hero.mp4 / hero.webm / hero-poster.jpg → vídeo de lava del héroe (scripts/lava.html, WebGL)
+//   assets/video/hero.mp4 / hero.webm / hero-poster.jpg → vídeo abstracto de los héroes (scripts/flow.html, WebGL)
 // Requiere Playwright y ffmpeg (con libx264 y libvpx-vp9).
 const { writeFileSync, mkdirSync, rmSync, readdirSync } = require("node:fs");
 const { join } = require("node:path");
@@ -12,7 +12,7 @@ const root = join(__dirname, "..");
 // Escena → [ancho, alto, instante]
 const STILLS = {
   basalt: [1000, 1250, 0], constellation: [1000, 760, 2], rings: [1000, 1300, 8],
-  trails: [1000, 1000, 0], teide: [1000, 1300, 9], strata: [1000, 760, 3],
+  trails: [1000, 1000, 0], strata: [1000, 760, 3], strataTall: [1000, 1300, 6],
   contours: [1000, 1000, 1], dots: [1000, 1000, 2.5], contoursTall: [1000, 1250, 4]
 };
 
@@ -33,19 +33,19 @@ function ffmpeg(args, frames) {
   rmSync(scenesDir, { recursive: true, force: true });
   mkdirSync(scenesDir, { recursive: true });
   for (const [name, [w, h, t]] of Object.entries(STILLS)) {
-    const scene = name === "contoursTall" ? "contours" : name;
+    const scene = name.replace(/Tall$/, "");
     const url = await page.evaluate(([s, w, h, t]) => window.still(s, w, h, t, "dark"), [scene, w, h, t]);
     writeFileSync(join(scenesDir, `${name}.jpg`), Buffer.from(url.split(",")[1], "base64"));
     console.log("✓ imagen", name);
   }
 
-  await page.goto("file://" + join(__dirname, "lava.html"));
+  await page.goto("file://" + join(__dirname, "flow.html"));
   const W = 1600, H = 900, FPS = 24;
   const duration = await page.evaluate(() => window.videoDuration);
   const total = Math.round(duration * FPS);
   const frames = [];
   for (let i = 0; i < total; i++) {
-    const url = await page.evaluate(([t, w, h]) => window.lavaFrame(t, w, h), [i / FPS, W, H]);
+    const url = await page.evaluate(([t, w, h]) => window.flowFrame(t, w, h), [i / FPS, W, H]);
     frames.push(Buffer.from(url.split(",")[1], "base64"));
   }
   await browser.close();

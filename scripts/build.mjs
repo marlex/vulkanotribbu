@@ -15,11 +15,11 @@ const preview = process.argv.includes("--preview");
 const out = join(root, preview ? "dist-preview" : "dist");
 
 const read = (p) => readFile(join(root, p), "utf8");
-const [head, header, footer, teide] = await Promise.all([
+const [head, header, footer, heroVideo] = await Promise.all([
   read("src/partials/head.html"),
   read("src/partials/header.html"),
   read("src/partials/footer.html"),
-  read("src/partials/teide.html")
+  read("src/partials/hero-video.html")
 ]);
 
 const href = (slug) => `${slug}.html`;
@@ -42,7 +42,7 @@ const socialLinks = config.social
 
 const exists = (p) => access(join(root, p)).then(() => true, () => false);
 // Medidas de las imágenes que genera scripts/render-media.cjs
-const SCENE_SIZES = { basalt: [1000, 1250], constellation: [1000, 760], rings: [1000, 1300], trails: [1000, 1000], teide: [1000, 1300], strata: [1000, 760], contours: [1000, 1000], dots: [1000, 1000], contoursTall: [1000, 1250] };
+const SCENE_SIZES = { basalt: [1000, 1250], constellation: [1000, 760], rings: [1000, 1300], trails: [1000, 1000], strata: [1000, 760], strataTall: [1000, 1300], contours: [1000, 1000], dots: [1000, 1000], contoursTall: [1000, 1250] };
 const brandCards = (
   await Promise.all(
     config.brands.map(async (b, i) => {
@@ -125,7 +125,7 @@ for (const { file, meta, body } of pages) {
     navLinks: navLinks(meta.nav),
     mobileLinks: mobileLinks(meta.nav),
     socialLinks,
-    teide,
+    heroVideo,
     brandCards,
     fontFaces,
     serviceCards: svcCards,

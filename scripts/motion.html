@@ -3,7 +3,7 @@
 <title>Vulkano · escenas abstractas</title>
 <!-- Generador de las imágenes de las cards de marcas (scripts/render-media.cjs).
      Todo es dibujo de línea en blanco y negro: sin neblinas, sin humo, sin grano.
-     El vídeo del héroe sale de scripts/lava.html. -->
+     El vídeo de los héroes sale de scripts/flow.html. -->
 <canvas id="c"></canvas>
 <script>
 const TAU = Math.PI * 2;
@@ -14,8 +14,6 @@ function noise1(seed) {
 }
 const n1 = noise1(7), n2 = noise1(19), n3 = noise1(31);
 
-// Perfil del Teide (igual que la línea del héroe y el logo), x/y en 0..1
-const TEIDE = [[0,.86],[.12,.83],[.26,.77],[.36,.70],[.42,.655],[.47,.645],[.5,.62],[.545,.52],[.565,.455],[.585,.445],[.6,.46],[.63,.53],[.7,.6],[.8,.68],[.9,.74],[1,.78]];
 
 const SCENES = {
   // Curvas de nivel de un volcán que respiran
@@ -57,7 +55,7 @@ const SCENES = {
     }
     pts.forEach(([x, y]) => { ctx.beginPath(); ctx.arc(x, y, c.lw * 1.6, 0, TAU); ctx.fillStyle = c.line(.7); ctx.fill(); });
   },
-  // Estratos: líneas paralelas que ondulan como capas de lava solidificada
+  // Estratos: líneas paralelas que ondulan como capas de roca
   strata(ctx, w, h, t, c) {
     const n = 42;
     for (let k = 0; k < n; k++) {
@@ -78,23 +76,6 @@ const SCENES = {
       const d = Math.hypot(x - w * .5, y - h * .55) / Math.min(w, h);
       const s = .5 + .5 * Math.sin(d * 12 - t * 1.2);
       ctx.beginPath(); ctx.arc(x, y, c.lw * (.6 + s * 2.2), 0, TAU); ctx.fillStyle = c.line(.15 + s * .5); ctx.fill();
-    }
-  },
-  // La línea del Teide que se dibuja, con horizontes paralelos
-  teide(ctx, w, h, t, c) {
-    const draw = Math.min(1, t / 2.2);
-    for (let k = 4; k >= 0; k--) {
-      const off = k * .045, scale = 1 - k * .06;
-      const pts = TEIDE.map(([x, y]) => [x * w, (y * scale + off - .05) * h]);
-      const total = k === 0 ? draw : 1;
-      ctx.beginPath();
-      const last = Math.max(1, Math.floor((pts.length - 1) * total));
-      for (let i = 0; i <= last; i++) i ? ctx.lineTo(pts[i][0], pts[i][1]) : ctx.moveTo(pts[i][0], pts[i][1]);
-      if (total < 1) {
-        const f = (pts.length - 1) * total - last, a = pts[last], b = pts[Math.min(pts.length - 1, last + 1)];
-        ctx.lineTo(a[0] + (b[0] - a[0]) * f, a[1] + (b[1] - a[1]) * f);
-      }
-      ctx.strokeStyle = c.line(k === 0 ? .75 : .12 + (4 - k) * .05); ctx.lineWidth = c.lw * (k === 0 ? 1.3 : 1); ctx.stroke();
     }
   },
   // Columnas de basalto: teselado hexagonal de línea

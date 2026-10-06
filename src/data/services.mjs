@@ -14,7 +14,7 @@ export default [
     tags: ["Posicionamiento", "Propósito", "Arquitectura", "Naming", "Tono de voz"],
     axis: "¿Tienes claro qué te hace imprescindible?",
     hero: ["La idea", "que lo ordena todo."],
-    lead: "Bajamos al subsuelo de tu marca para encontrar lo que la hace única y lo convertimos en una plataforma clara, compartida y accionable. El mapa que hace que cada decisión posterior sea más fácil y más rentable.",
+    lead: "Analizamos en profundidad tu compañía, tu mercado y tus clientes para identificar lo que te hace único y lo convertimos en una plataforma clara, compartida y accionable. El mapa que hace que cada decisión posterior sea más fácil y más rentable.",
     outcomes: [
       { title: ["Foco", "compartido"], text: "Dirección, equipo y agencias reman en la misma dirección con un relato que todos entienden y pueden contar." },
       { title: ["Decisiones", "más rápidas"], text: "Cada campaña, producto o mensaje se valida contra una plataforma clara. Menos debate, más avance." },

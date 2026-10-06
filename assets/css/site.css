@@ -620,20 +620,9 @@ p { text-wrap: pretty; }
 @media (max-width: 860px) { .principles--2 { grid-template-columns: 1fr; } .principles--2 .principle { padding-left: 0; border-left: 0; } }
 
 
-/* --------------------------------------------------------------------------
-   Noche en el Teide: cielo con lluvia de estrellas y silueta del volcán
-   -------------------------------------------------------------------------- */
-.sky { position: absolute; inset: 0; z-index: -1; width: 100%; height: 100%; pointer-events: none; }
-.teide { position: absolute; z-index: -1; left: 0; right: 0; bottom: 0; width: 100%; height: clamp(180px, 46%, 460px); pointer-events: none; }
-.hero--page .teide { height: clamp(120px, 34%, 300px); opacity: .9; }
-.teide .far { fill: none; }
-.teide .near { fill: var(--basalt); }
-.teide .rim { fill: none; stroke: rgb(48 48 48 / .55); stroke-width: 1; vector-effect: non-scaling-stroke; stroke-dasharray: 2600; stroke-dashoffset: 2600; animation: rim 4.5s var(--ease-out) .4s forwards; }
-@keyframes rim { to { stroke-dashoffset: 0; } }
 .hero .wrap { position: relative; }
-@media (prefers-reduced-motion: reduce) { .teide .rim { stroke-dashoffset: 0; } }
 
-/* Logo: la línea del Teide del héroe, en pequeño */
+/* Logo: línea de horizonte */
 .brand-mark { color: currentColor; }
 .brand-mark path { fill: none; stroke: currentColor; stroke-width: 1.4; stroke-linejoin: round; stroke-linecap: round; vector-effect: non-scaling-stroke; stroke-dasharray: 120; stroke-dashoffset: 0; }
 .brand:hover .brand-mark path { animation: redraw 1.4s var(--ease-out); }
@@ -679,13 +668,8 @@ p { text-wrap: pretty; }
 .bcard:hover::after { opacity: .7; }
 .bcard:hover .bcard-logo { transform: translateY(-4px) scale(1.03); }
 @media (max-width: 520px) { .bcard-meta { grid-template-columns: auto minmax(0, 1fr); } .bcard-meta .mono:last-child { grid-column: 2; } }
-@media (max-width: 760px) {
-  .teide { height: 200px; }
-  .hero--page .teide { height: 140px; }
-}
 .slogan { font-family: var(--font-body); font-weight: 400; letter-spacing: .16em; text-transform: uppercase; }
 .hero-meta { align-items: center; }
-.sky { color: var(--ink); }
 
 /* --------------------------------------------------------------------------
    Héroe de portada: vídeo abstracto de fondo y contenido centrado

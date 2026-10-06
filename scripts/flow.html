@@ -1,7 +1,7 @@
 <!doctype html>
 <meta charset="utf-8">
-<title>Vulkano · lava</title>
-<!-- Vídeo del héroe: formas de lava abstractas, en grises muy claros sobre papel.
+<title>Vulkano · flujo</title>
+<!-- Vídeo de los héroes: formas fluidas abstractas, en grises muy claros sobre papel.
      Cinco "imágenes" (escenas) que se funden lentamente y enlazan en bucle.
      Lo renderiza scripts/render-media.cjs fotograma a fotograma. -->
 <canvas id="c" width="1600" height="900"></canvas>
@@ -41,13 +41,13 @@ void main() {
   vec2 p = mat2(c, -s, s, c) * uv * uScale + uSeed;
   float t = uTime * 0.06;
 
-  // Flujo de lava: dominio deformado en dos niveles, todo con formas amplias.
+  // Flujo: dominio deformado en dos niveles, todo con formas amplias.
   vec2 q = vec2(fbm(p + vec2(0.0, t), 3), fbm(p + vec2(5.2, 1.3) - t, 3));
   vec2 r = vec2(fbm(p + uWarp * q + vec2(1.7, 9.2) + 0.7 * t, 3), fbm(p + uWarp * q + vec2(8.3, 2.8) - 0.5 * t, 3));
   float f = fbm(p + uWarp * r, 3);
   float v = clamp(0.5 + 1.1 * f, 0.0, 1.0);
 
-  // Relieve muy suave: luz rasante sobre la colada.
+  // Relieve muy suave: luz rasante sobre la superficie.
   vec3 n = normalize(vec3(-dFdx(v) * uRes.y * 0.35, -dFdy(v) * uRes.y * 0.35, 1.0));
   float light = dot(n, normalize(vec3(-0.45, 0.6, 0.66)));
 
@@ -57,7 +57,7 @@ void main() {
   vec3 col = mix(paper, stone, tone * uDepth);
   col += (light - 0.86) * 0.12 * uDepth;
 
-  // Pocas líneas de flujo, finísimas: las crestas de la colada.
+  // Pocas líneas de flujo, finísimas: las crestas del flujo.
   float l = abs(fract(v * uLines) - 0.5);
   float w = fwidth(v * uLines) * 0.9;
   float line = 1.0 - smoothstep(0.0, w, l);
@@ -102,7 +102,7 @@ function draw(scene, t) {
   gl.drawArrays(gl.TRIANGLES, 0, 3);
 }
 // Fotograma en el instante `time` (s): fundido entre escenas consecutivas.
-window.lavaFrame = function (time, w, h) {
+window.flowFrame = function (time, w, h) {
   if (cv.width !== w) { cv.width = w; cv.height = h; tmp.width = w; tmp.height = h; gl.viewport(0, 0, w, h); }
   if (tmp.width !== w) { tmp.width = w; tmp.height = h; }
   const idx = Math.floor(time / SCENE_LEN) % SCENES.length, local = time - idx * SCENE_LEN;

@@ -5,7 +5,7 @@ export default {
   // para GitHub Pages y las URLs canónicas del sitemap.
   domain: "",
   email: "hola@vulkanotribbu.com",
-  tagline: "Fuego que impulsa. Marcas que ganan.",
+  tagline: "Direction that build. Passion that create.",
   social: [
     // Sustituir por los perfiles reales. Los vacíos no se muestran.
     { label: "Instagram", url: "" },
@@ -20,7 +20,7 @@ export default {
     { slug: "prisa-radio", name: "Prisa Radio", sector: "Medios · Audio", scene: "constellation" },
     { slug: "leroymerlin", name: "Leroy Merlin", sector: "Hogar · Retail", scene: "rings" },
     { slug: "ey", name: "EY", sector: "Consultoría", scene: "trails" },
-    { slug: "carnaval-tenerife", name: "Carnaval de Tenerife", sector: "Cultura · Evento", scene: "teide" },
+    { slug: "carnaval-tenerife", name: "Carnaval de Tenerife", sector: "Cultura · Evento", scene: "strataTall" },
     { slug: "santander", name: "Banco Santander", sector: "Banca", scene: "strata" },
     { slug: "coverwallet", name: "Coverwallet", sector: "Seguros · Digital", scene: "contours" },
     { slug: "zertiban", name: "Zertiban", sector: "Empresa", scene: "dots" },
