@@ -133,6 +133,7 @@
   var stackItems = $$(".stack-item");
   var galleryWrap = document.querySelector(".gallery-wrap"), gallery = document.querySelector(".gallery");
   var expertise = document.querySelector(".expertise");
+  var footer = document.querySelector(".page-index .site-footer");
   function updateEffects() {
     var vh = window.innerHeight, vw = document.documentElement.clientWidth;
     if (reduceMotion) return;
@@ -159,9 +160,12 @@
       var gp = clamp01((vh - gr.top) / (vh + gr.height));
       gallery.style.setProperty("--x", (-(gallery.scrollWidth - vw) * gp).toFixed(1) + "px");
     }
-    if (expertise) {
-      var er = expertise.getBoundingClientRect();
-      expertise.style.setProperty("--p", clamp01((vh - er.bottom) / (vh * 0.5)).toFixed(3));
+    if (expertise && footer) {
+      // El pie fijo se descubre detrás de la tarjeta de especialidades.
+      footer.classList.toggle("is-static", footer.offsetHeight > vh);
+      var fp = clamp01((vh - expertise.getBoundingClientRect().bottom) / footer.offsetHeight);
+      expertise.style.setProperty("--p", fp.toFixed(3));
+      footer.style.setProperty("--fp", fp.toFixed(3));
     }
   }
 

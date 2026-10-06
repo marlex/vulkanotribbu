@@ -74,7 +74,7 @@ const expertise = services
   .map((s, i) => `<li class="exp-row reveal">
         <span class="exp-num">${pad(i)}</span>
         <h3><a href="${servicePath(s)}">${s.name}</a></h3>
-        <p>${s.lead.split(". ")[0]}.</p>
+        <p>${s.lead.split(". ")[0].replace(/\.$/, "")}.</p>
       </li>`)
   .join("\n      ");
 
