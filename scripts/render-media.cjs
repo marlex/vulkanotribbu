@@ -1,6 +1,6 @@
-// Genera, a partir de scripts/motion.html:
-//   assets/img/scenes/<escena>.jpg  → imágenes de las cards de marcas (línea blanca sobre negro)
-//   assets/video/hero.mp4 / hero.webm / hero-poster.jpg → vídeo abstracto del héroe
+// Genera:
+//   assets/img/scenes/<escena>.jpg  → imágenes de las cards de marcas (scripts/motion.html)
+//   assets/video/hero.mp4 / hero.webm / hero-poster.jpg → vídeo de lava del héroe (scripts/lava.html, WebGL)
 // Requiere Playwright y ffmpeg (con libx264 y libvpx-vp9).
 const { writeFileSync, mkdirSync, rmSync, readdirSync } = require("node:fs");
 const { join } = require("node:path");
@@ -25,7 +25,7 @@ function ffmpeg(args, frames) {
 }
 
 (async () => {
-  const browser = await chromium.launch();
+  const browser = await chromium.launch({ args: ["--use-angle=swiftshader", "--enable-unsafe-swiftshader", "--ignore-gpu-blocklist"] });
   const page = await browser.newPage();
   await page.goto("file://" + join(__dirname, "motion.html"));
 
@@ -39,12 +39,13 @@ function ffmpeg(args, frames) {
     console.log("✓ imagen", name);
   }
 
+  await page.goto("file://" + join(__dirname, "lava.html"));
   const W = 1600, H = 900, FPS = 24;
   const duration = await page.evaluate(() => window.videoDuration);
   const total = Math.round(duration * FPS);
   const frames = [];
   for (let i = 0; i < total; i++) {
-    const url = await page.evaluate(([t, w, h]) => window.videoFrame(t, w, h), [i / FPS, W, H]);
+    const url = await page.evaluate(([t, w, h]) => window.lavaFrame(t, w, h), [i / FPS, W, H]);
     frames.push(Buffer.from(url.split(",")[1], "base64"));
   }
   await browser.close();

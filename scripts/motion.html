@@ -1,9 +1,9 @@
 <!doctype html>
 <meta charset="utf-8">
 <title>Vulkano · escenas abstractas</title>
-<!-- Generador del vídeo del héroe y de las imágenes de las cards de marcas.
-     Lo usan scripts/render-media.cjs (Playwright + ffmpeg). Todo es dibujo de
-     línea en blanco y negro: sin neblinas, sin humo, sin grano. -->
+<!-- Generador de las imágenes de las cards de marcas (scripts/render-media.cjs).
+     Todo es dibujo de línea en blanco y negro: sin neblinas, sin humo, sin grano.
+     El vídeo del héroe sale de scripts/lava.html. -->
 <canvas id="c"></canvas>
 <script>
 const TAU = Math.PI * 2;
@@ -132,20 +132,4 @@ window.still = function (name, w, h, t, mode) {
   return cv.toDataURL("image/jpeg", .88);
 };
 
-// Vídeo del héroe: escenas encadenadas con fundido; el final enlaza con el principio.
-const SEQ = ["contours", "constellation", "rings", "strata", "dots", "teide"];
-const SCENE_LEN = 3.5, FADE = .9;
-window.videoDuration = SEQ.length * SCENE_LEN;
-window.videoFrame = function (time, w, h) {
-  const cv = document.getElementById("c");
-  if (cv.width !== w) { cv.width = w; cv.height = h; }
-  const ctx = cv.getContext("2d"), c = colors("light", Math.max(1, w / 1200));
-  const idx = Math.floor(time / SCENE_LEN) % SEQ.length, local = time - idx * SCENE_LEN;
-  ctx.globalAlpha = 1; ctx.fillStyle = c.bg; ctx.fillRect(0, 0, w, h);
-  const fadeOut = local > SCENE_LEN - FADE ? (local - (SCENE_LEN - FADE)) / FADE : 0;
-  ctx.globalAlpha = 1 - fadeOut; SCENES[SEQ[idx]](ctx, w, h, local, c);
-  if (fadeOut > 0) { ctx.globalAlpha = fadeOut; SCENES[SEQ[(idx + 1) % SEQ.length]](ctx, w, h, local - SCENE_LEN, c); }
-  ctx.globalAlpha = 1;
-  return cv.toDataURL("image/jpeg", .92);
-};
 </script>

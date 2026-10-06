@@ -29,7 +29,7 @@ assets/css/site.css    Tokens de diseño (color, tipografía, espacio) y compone
 assets/js/site.js      Movimiento: cielo con lluvia de estrellas, titulares que se enfrían, revelados, transiciones
 assets/logos/          Logos de marcas en SVG monocromo (fill="currentColor")
 assets/img/scenes/     Imágenes de línea de las cards (generadas con scripts/render-media.cjs)
-assets/video/          Vídeo abstracto del héroe, MP4 + WebM + póster (scripts/render-media.cjs)
+assets/video/          Vídeo de lava del héroe, MP4 + WebM + póster (scripts/lava.html → scripts/render-media.cjs)
 src/partials/          Cabecera, pie y <head> comunes
 src/pages/             Contenido de cada página (primera línea: título y descripción en JSON)
 site.config.mjs        Dominio, email, redes, menú y marcas (logo, sector, imagen)
@@ -62,6 +62,9 @@ Activación (una sola vez): en GitHub, **Settings → Pages → Build and deploy
    - Registros `AAAA` (opcional): `2606:50c0:8000::153`, `2606:50c0:8001::153`, `2606:50c0:8002::153`, `2606:50c0:8003::153`
    - `www`, registro `CNAME`: `marlex.github.io`
 3. En **Settings → Pages**, escribir el dominio en *Custom domain* y marcar **Enforce HTTPS** cuando aparezca disponible.
+
+## Vídeo del héroe
+Formas de lava abstractas en grises muy claros sobre papel, con líneas de flujo finísimas. Cinco imágenes de 5 s que se funden lentamente y enlazan en bucle sin corte (25 s). Se renderiza con un shader WebGL (`scripts/lava.html`): para regenerarlo, `node scripts/render-media.cjs` (Playwright + ffmpeg). Las escenas se ajustan en el array `SCENES` (escala, flujo, dirección, densidad de líneas, contraste).
 
 ## Contraste entre bloques
 Las secciones alternan papel (`s-light`), niebla (`s-mist`) y tinta (`s-ink`). `s-ink` invierte los tokens dentro de su ámbito, así cualquier componente funciona sobre fondo oscuro sin estilos extra; la cabecera cambia a claro al pasar por encima.
