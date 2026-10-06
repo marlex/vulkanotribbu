@@ -168,10 +168,10 @@ const LOOKS = {
   lime:    { s: 2, bg: ["#e9f5c8", "#cfe39a"], m: ["#2b6b4f", "#2b6b4f", "#2b6b4f"], zoom: 1.25, seed: 5 },
   noir:    { s: 4, bg: ["#2a2a30", "#0f0f12"], m: ["#e8e8ee", "#8a8a95", "#c8202d"], zoom: 1.2, seed: 0 }
 };
-function draw(name, t) {
+function draw(name, t, zoomMul = 1) {
   const L = LOOKS[name];
   gl.uniform2f(U("uRes"), cv.width, cv.height);
-  gl.uniform1f(U("uTime"), t); gl.uniform1f(U("uSeed"), L.seed); gl.uniform1f(U("uZoom"), L.zoom);
+  gl.uniform1f(U("uTime"), t); gl.uniform1f(U("uSeed"), L.seed); gl.uniform1f(U("uZoom"), L.zoom * zoomMul);
   gl.uniform1i(U("uScene"), L.s);
   gl.uniform3fv(U("uBg0"), hex(L.bg[0])); gl.uniform3fv(U("uBg1"), hex(L.bg[1]));
   ["uA", "uB", "uC"].forEach((u, i) => gl.uniform3fv(U(u), hex(L.m[i])));
@@ -181,20 +181,14 @@ function size(w, h) { if (cv.width !== w || cv.height !== h) { cv.width = w; cv.
 window.LOOKS = Object.keys(LOOKS);
 window.studioStill = function (name, w, h, t = 2) { size(w, h); draw(name, t); return cv.toDataURL("image/jpeg", 0.9); };
 
-// Vídeo: cuatro tomas que se funden y enlazan en bucle.
-const SHOTS = ["ember", "spheres", "silk", "drop"];
-const SHOT = 4.5, FADE = 1.2;
+// Vídeo: montaje de planos cortos con corte seco y un leve empuje de cámara en cada uno.
+const SHOTS = ["ember", "spheres", "knot", "silk", "noir", "drop"];
+const SHOT = 2;
 window.videoDuration = SHOTS.length * SHOT;
-const tmp = document.createElement("canvas"), tctx = tmp.getContext("2d");
 window.studioFrame = function (time, w, h) {
-  size(w, h); tmp.width = w; tmp.height = h;
+  size(w, h);
   const i = Math.floor(time / SHOT) % SHOTS.length, local = time - i * SHOT;
-  draw(SHOTS[i], local + 2); tctx.globalAlpha = 1; tctx.drawImage(cv, 0, 0);
-  const fade = local > SHOT - FADE ? (local - (SHOT - FADE)) / FADE : 0;
-  if (fade > 0) {
-    draw(SHOTS[(i + 1) % SHOTS.length], local - SHOT + 2);
-    tctx.globalAlpha = fade * fade * (3 - 2 * fade); tctx.drawImage(cv, 0, 0); tctx.globalAlpha = 1;
-  }
-  return tmp.toDataURL("image/jpeg", 0.9);
+  draw(SHOTS[i], 2 + local * 1.8, 1 + local * 0.05);
+  return cv.toDataURL("image/jpeg", 0.9);
 };
 </script>

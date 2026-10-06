@@ -27,7 +27,9 @@ const save = (file, url) => writeFileSync(file, Buffer.from(url.split(",")[1], "
   const page = await browser.newPage();
   await page.goto("file://" + join(__dirname, "studio.html"));
 
-  for (const [dir, list, w, h] of [["scenes", SCENES, 1600, 1000], ["gallery", GALLERY, 720, 900]]) {
+  // node scripts/render-media.cjs --video  → solo el vídeo
+  const stills = process.argv.includes("--video") ? [] : [["scenes", SCENES, 1600, 1000], ["gallery", GALLERY, 720, 900]];
+  for (const [dir, list, w, h] of stills) {
     const out = join(root, "assets/img", dir);
     rmSync(out, { recursive: true, force: true });
     mkdirSync(out, { recursive: true });

@@ -128,6 +128,7 @@
   var clamp01 = function (v) { return Math.max(0, Math.min(1, v)); };
   var $$ = function (sel) { return Array.prototype.slice.call(document.querySelectorAll(sel)); };
   var reel = document.querySelector(".reel");
+  var heroTitle = document.querySelector(".hero--home .hero-title");
   var counters = $$(".counter");
   var stackItems = $$(".stack-item");
   var galleryWrap = document.querySelector(".gallery-wrap"), gallery = document.querySelector(".gallery");
@@ -135,9 +136,10 @@
   function updateEffects() {
     var vh = window.innerHeight, vw = document.documentElement.clientWidth;
     if (reduceMotion) return;
+    if (heroTitle) heroTitle.style.setProperty("--hp", clamp01(window.scrollY / vh).toFixed(4));
     if (reel) {
       var rr = reel.getBoundingClientRect();
-      reel.style.setProperty("--p", clamp01(1 - rr.top / (vh * 0.7)).toFixed(3));
+      reel.style.setProperty("--p", clamp01((vh * 0.5 - rr.top) / (vh * 0.38)).toFixed(3));
     }
     counters.forEach(function (c) {
       var r = c.getBoundingClientRect();
