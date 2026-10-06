@@ -133,7 +133,8 @@
   var stackItems = $$(".stack-item");
   var galleryWrap = document.querySelector(".gallery-wrap"), gallery = document.querySelector(".gallery");
   var expertise = document.querySelector(".expertise");
-  var footer = document.querySelector(".page-index .site-footer");
+  var footer = expertise && document.querySelector(".site-footer");
+  if (footer) doc.classList.add("has-reveal");
   function updateEffects() {
     var vh = window.innerHeight, vw = document.documentElement.clientWidth;
     if (reduceMotion) return;
