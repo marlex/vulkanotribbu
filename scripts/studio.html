@@ -154,19 +154,20 @@ const U = (n) => gl.getUniformLocation(prog, n);
 const hex = (h) => [1, 3, 5].map((i) => Math.pow(parseInt(h.slice(i, i + 2), 16) / 255, 1));
 
 // Escenas: forma (0 esferas, 1 nudo, 2 gota, 3 roca, 4 anillos, 5 cápsula, 6 seda), fondo arriba/abajo, materiales.
+// Todo en blanco y negro: cerámica blanca, laca negra y grises sobre fondos de estudio.
 const LOOKS = {
-  spheres: { s: 0, bg: ["#3a3a44", "#121216"], m: ["#c8202d", "#f2c6cc", "#24323a"], zoom: 1.0, seed: 1 },
-  knot:    { s: 1, bg: ["#e2a27c", "#c98a64"], m: ["#e3401f", "#e3401f", "#e3401f"], zoom: 1.35, seed: 0 },
-  drop:    { s: 2, bg: ["#2a2350", "#0d0b1c"], m: ["#b58cff", "#b58cff", "#b58cff"], zoom: 1.25, seed: 2 },
-  rock:    { s: 3, bg: ["#f8c7ae", "#eeb091"], m: ["#4a4542", "#4a4542", "#4a4542"], zoom: 1.4, seed: 3 },
-  rings:   { s: 4, bg: ["#bfe3e2", "#93c9c8"], m: ["#ffffff", "#1f5c63", "#f4cf2a"], zoom: 1.2, seed: 0 },
-  twist:   { s: 5, bg: ["#d6b2f7", "#b88be8"], m: ["#2a1c3d", "#2a1c3d", "#2a1c3d"], zoom: 1.3, seed: 0 },
-  silk:    { s: 6, bg: ["#0b0b0d", "#0b0b0d"], m: ["#0e8f6a", "#2342e0", "#ef3f5a"], zoom: 1.5, seed: 0.5 },
-  ember:   { s: 6, bg: ["#0b0b0d", "#0b0b0d"], m: ["#14070a", "#b3121f", "#f4e1c8"], zoom: 2.4, seed: 3.1 },
-  sunrock: { s: 3, bg: ["#f6d84a", "#eac421"], m: ["#2b2b2e", "#2b2b2e", "#2b2b2e"], zoom: 1.4, seed: 7 },
-  pearl:   { s: 0, bg: ["#f3eee8", "#d9d2ca"], m: ["#ffffff", "#e9c9b6", "#1b1b1f"], zoom: 1.0, seed: 4 },
-  lime:    { s: 2, bg: ["#e9f5c8", "#cfe39a"], m: ["#2b6b4f", "#2b6b4f", "#2b6b4f"], zoom: 1.25, seed: 5 },
-  noir:    { s: 4, bg: ["#2a2a30", "#0f0f12"], m: ["#e8e8ee", "#8a8a95", "#c8202d"], zoom: 1.2, seed: 0 }
+  spheres: { s: 0, bg: ["#2c2c30", "#0e0e10"], m: ["#f4f4f4", "#0c0c0d", "#8c8c90"], zoom: 1.0, seed: 1 },
+  knot:    { s: 1, bg: ["#ececec", "#cfcfcf"], m: ["#151517", "#151517", "#151517"], zoom: 1.35, seed: 0 },
+  drop:    { s: 2, bg: ["#1d1d20", "#09090a"], m: ["#e9e9ea", "#e9e9ea", "#e9e9ea"], zoom: 1.25, seed: 2 },
+  rock:    { s: 3, bg: ["#f2f2f2", "#d8d8d8"], m: ["#1c1c1e", "#1c1c1e", "#1c1c1e"], zoom: 1.4, seed: 3 },
+  rings:   { s: 4, bg: ["#e6e6e6", "#c8c8c8"], m: ["#fafafa", "#141416", "#7d7d82"], zoom: 1.2, seed: 0 },
+  twist:   { s: 5, bg: ["#efefef", "#d2d2d2"], m: ["#111113", "#111113", "#111113"], zoom: 1.3, seed: 0 },
+  silk:    { s: 6, bg: ["#0b0b0c", "#0b0b0c"], m: ["#0d0d0e", "#5e5e63", "#f2f2f2"], zoom: 1.5, seed: 0.5 },
+  ember:   { s: 6, bg: ["#0b0b0c", "#0b0b0c"], m: ["#070708", "#3a3a3e", "#e8e8e8"], zoom: 2.4, seed: 3.1 },
+  sunrock: { s: 3, bg: ["#202023", "#0b0b0c"], m: ["#e4e4e4", "#e4e4e4", "#e4e4e4"], zoom: 1.4, seed: 7 },
+  pearl:   { s: 0, bg: ["#f3f3f3", "#d6d6d6"], m: ["#ffffff", "#1a1a1c", "#9a9a9e"], zoom: 1.0, seed: 4 },
+  lime:    { s: 2, bg: ["#f0f0f0", "#d0d0d0"], m: ["#121214", "#121214", "#121214"], zoom: 1.25, seed: 5 },
+  noir:    { s: 4, bg: ["#26262a", "#0d0d0f"], m: ["#ededee", "#5a5a5f", "#151517"], zoom: 1.2, seed: 0 }
 };
 function draw(name, t, zoomMul = 1) {
   const L = LOOKS[name];

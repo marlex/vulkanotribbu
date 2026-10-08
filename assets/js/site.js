@@ -262,6 +262,85 @@
     document.addEventListener("keydown", function (e) { if (e.key === "Escape" && box.classList.contains("is-open")) close(); });
   }
 
+  /* ---------- Ficha de proyecto (panel inferior) ---------- */
+  var cards = $$("[data-project]");
+  if (cards.length) {
+    var sheet = document.createElement("div");
+    sheet.className = "sheet";
+    sheet.innerHTML = '<div class="sheet-backdrop"></div><div class="sheet-panel" role="dialog" aria-modal="true" aria-labelledby="sheet-title"><div class="sheet-bar"><button class="sheet-close" type="button" aria-label="Cerrar">×</button></div><div class="sheet-body"></div></div>';
+    document.body.appendChild(sheet);
+    var panel = sheet.querySelector(".sheet-panel"), body = sheet.querySelector(".sheet-body");
+    var bar = sheet.querySelector(".sheet-bar"), closeSheetBtn = sheet.querySelector(".sheet-close");
+    var opener = null;
+    var openSheet = function (card) {
+      var tpl = card.parentNode.querySelector(".project-tpl");
+      if (!tpl) return false;
+      opener = card;
+      body.innerHTML = "";
+      body.appendChild(tpl.content.cloneNode(true));
+      body.scrollTop = 0;
+      panel.style.setProperty("--drag", "0px");
+      sheet.classList.add("is-open");
+      doc.classList.add("sheet-lock");
+      var cursorEl = document.querySelector(".cursor");
+      if (cursorEl) cursorEl.classList.remove("is-label", "is-link");
+      setTimeout(function () { closeSheetBtn.focus({ preventScroll: true }); }, 50);
+      if (history.replaceState) history.replaceState(null, "", "#" + card.parentNode.id);
+      return true;
+    };
+    var closeSheet = function () {
+      if (!sheet.classList.contains("is-open")) return;
+      sheet.classList.remove("is-open");
+      doc.classList.remove("sheet-lock");
+      panel.style.setProperty("--drag", "0px");
+      if (history.replaceState) history.replaceState(null, "", location.pathname + location.search);
+      if (opener) opener.focus({ preventScroll: true });
+    };
+    cards.forEach(function (card) {
+      card.addEventListener("click", function (e) {
+        if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
+        if (openSheet(card)) e.preventDefault();
+      });
+    });
+    closeSheetBtn.addEventListener("click", closeSheet);
+    sheet.querySelector(".sheet-backdrop").addEventListener("click", closeSheet);
+    document.addEventListener("keydown", function (e) {
+      if (!sheet.classList.contains("is-open")) return;
+      if (e.key === "Escape") closeSheet();
+      if (e.key === "Tab") {
+        var f = Array.prototype.slice.call(panel.querySelectorAll("a[href], button"));
+        if (!f.length) return;
+        var first = f[0], last = f[f.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
+    });
+    // Arrastrar hacia abajo para cerrar
+    var startY = null;
+    bar.addEventListener("pointerdown", function (e) {
+      if (e.target === closeSheetBtn) return;
+      startY = e.clientY; sheet.classList.add("is-dragging"); bar.setPointerCapture(e.pointerId);
+    });
+    bar.addEventListener("pointermove", function (e) {
+      if (startY === null) return;
+      panel.style.setProperty("--drag", Math.max(0, e.clientY - startY) + "px");
+    });
+    var endDrag = function (e) {
+      if (startY === null) return;
+      var d = e.clientY - startY; startY = null;
+      sheet.classList.remove("is-dragging");
+      if (d > 110) closeSheet(); else panel.style.setProperty("--drag", "0px");
+    };
+    bar.addEventListener("pointerup", endDrag);
+    bar.addEventListener("pointercancel", endDrag);
+    // marcas.html#slug abre directamente su ficha
+    if (location.hash) {
+      var target = document.getElementById(decodeURIComponent(location.hash.slice(1)));
+      var tc = target && target.querySelector("[data-project]");
+      if (tc) setTimeout(function () { target.scrollIntoView({ block: "center" }); openSheet(tc); }, 400);
+    }
+  }
+
   /* ---------- Cursor propio ---------- */
   if (finePointer && !reduceMotion) {
     var cur = document.createElement("div");
@@ -299,7 +378,7 @@
   }
   document.addEventListener("click", function (e) {
     var a = e.target.closest && e.target.closest("a[href]");
-    if (!a || reduceMotion) return;
+    if (!a || reduceMotion || e.defaultPrevented) return;
     if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
     var href = a.getAttribute("href");
     if (!href || href.charAt(0) === "#" || a.target === "_blank" || a.hasAttribute("download")) return;

@@ -8,6 +8,7 @@ import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import config from "../site.config.mjs";
 import services from "../src/data/services.mjs";
+import projects from "../src/data/projects.mjs";
 import { serviceCards, diagnostic, servicePage, servicePath } from "./templates.mjs";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
@@ -47,12 +48,32 @@ const brandStack = (list) =>
   list
     .map((b, i) => {
       const img = b.image || `assets/img/scenes/${b.scene}.jpg`;
+      const p = projects[b.slug];
+      const sheet = p
+        ? `<template class="project-tpl">
+          <figure class="sheet-media"><img src="${img}" alt="" width="1600" height="1000"></figure>
+          <div class="sheet-head">
+            <span class="sheet-kicker"><span>${pad(i)}</span><span>${b.sector}</span></span>
+            <h2 class="sheet-title" id="sheet-title">${b.name}</h2>
+            <p class="sheet-lead">${p.project}</p>
+            <ul class="sheet-tags">${p.services.map((t) => `<li>${t}</li>`).join("")}</ul>
+          </div>
+          <div class="sheet-grid">
+            <section class="sheet-block"><h3>El reto</h3><p>${p.challenge}</p></section>
+            <section class="sheet-block"><h3>Cómo lo hicimos</h3><ol>${p.approach.map((t) => `<li>${t}</li>`).join("")}</ol></section>
+            <section class="sheet-block sheet-block--wide"><h3>Qué conseguimos</h3><ul class="sheet-results">${p.results.map((t) => `<li>${t}</li>`).join("")}</ul></section>
+          </div>
+          <div class="sheet-cta"><p>¿Tienes un reto parecido?</p><a class="btn" href="contacto.html">Hablemos <span class="arrow" aria-hidden="true">→</span></a></div>
+        </template>`
+        : "";
       return `<li class="stack-item" id="${b.slug}" style="--i:${i}">
-        <a class="stack-card" href="marcas.html#${b.slug}" data-cursor="Ver">
+        <a class="stack-card" href="marcas.html#${b.slug}" data-project data-cursor="Ver proyecto">
           <img src="${img}" alt="" width="1600" height="1000" loading="lazy" decoding="async">
+          <span class="stack-top"><span>${pad(i)}</span><span>${b.sector}</span></span>
           <span class="stack-name">${b.name}</span>
-          <span class="stack-meta"><span>${pad(i)}</span><span>${b.sector}</span></span>
+          <span class="stack-open">Ver proyecto <span aria-hidden="true">+</span></span>
         </a>
+        ${sheet}
       </li>`;
     })
     .join("\n      ");
