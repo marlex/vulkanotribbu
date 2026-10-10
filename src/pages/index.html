@@ -37,10 +37,15 @@
 </section>
 
 <section class="logos-wrap" aria-label="Marcas con las que hemos trabajado">
-  <div class="wrap">
-    <ul class="logos">
-      {{brandLogos}}
-    </ul>
+  <div class="logos-marquee">
+    <div class="logos-track">
+      <ul class="logos">
+        {{brandLogos}}
+      </ul>
+      <ul class="logos" aria-hidden="true">
+        {{brandLogos}}
+      </ul>
+    </div>
   </div>
 </section>
 

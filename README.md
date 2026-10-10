@@ -11,7 +11,7 @@ Web de la agencia Vulkano Tribbu. Sitio estático, sin dependencias: HTML, CSS y
 2. Vídeo con esquinas redondeadas que crece hasta ocupar todo el ancho al hacer scroll; el botón de play lo abre a pantalla completa.
 3. Párrafo que se colorea palabra a palabra con el scroll.
 4. Cuatro contadores en blanco y negro con paralaje escalonado y cuenta animada.
-5. Fila de logos de las nueve marcas.
+5. Carrusel de las nueve marcas, grande y siempre girando.
 6. Sección oscura con tarjetas apiladas (sticky): la anterior se reduce y se oscurece al llegar la siguiente. Cada tarjeta abre su ficha de proyecto.
 7. Galería horizontal que se desplaza de lado con el scroll.
 8. «Nuestra especialidad»: los seis servicios numerados en una tarjeta blanca que, al subir, descubre el pie fijo que hay detrás.
@@ -91,7 +91,7 @@ Seis ejes (uno por servicio) con deslizadores de 0 a 10. El radar se dibuja en v
 
 ## Marcas y logos
 Las marcas se definen en `brands` (`site.config.mjs`). Las que llevan `featured: true` aparecen en las tarjetas apiladas de la portada; `marcas.html` muestra las nueve.
-- **Logo** (fila de logos de la portada): se usa `assets/logos/<slug>.svg` si existe, monocromo con `fill="currentColor"`. Ahora hay logos de IKEA y Leroy Merlin (Simple Icons, CC0); el resto se muestra con su nombre.
+- **Logo** (carrusel de marcas de la portada, siempre girando): se usa `assets/logos/<slug>.svg` si existe, monocromo con `fill="currentColor"`. Ahora hay logos de IKEA y Leroy Merlin (Simple Icons, CC0); el resto se muestra con su nombre.
 - **Imagen de fondo:** `scene` elige un render de `assets/img/scenes/`. Para usar una foto propia, añadir `image: "assets/img/brands/archivo.jpg"`.
 
 ## Tipografía
