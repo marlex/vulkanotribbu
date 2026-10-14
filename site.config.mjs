@@ -3,7 +3,7 @@ export default {
   name: "Vulkano Tribbu",
   // Dominio definitivo (sin https://). Al rellenarlo se genera el archivo CNAME
   // para GitHub Pages y las URLs canónicas del sitemap.
-  domain: "",
+  domain: "vulkanotribbu.com",
   email: "hola@vulkanotribbu.com",
   tagline: "Direction that build. Passion that create.",
   social: [
