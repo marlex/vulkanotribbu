@@ -158,6 +158,36 @@ for (const { file, meta, body } of pages) {
 
 if (!preview) {
   await writeFile(join(out, ".nojekyll"), "");
+  // Para hostings Apache (p. ej. Dinahosting): portada, página 404, compresión y caché.
+  await writeFile(join(out, ".htaccess"), [
+    "DirectoryIndex index.html",
+    "ErrorDocument 404 /404.html",
+    "Options -Indexes",
+    "",
+    "# Forzar HTTPS: quitar las almohadillas cuando el certificado SSL esté activo en el hosting.",
+    "# <IfModule mod_rewrite.c>",
+    "#   RewriteEngine On",
+    "#   RewriteCond %{HTTPS} !=on",
+    "#   RewriteCond %{HTTP:X-Forwarded-Proto} !https",
+    "#   RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]",
+    "# </IfModule>",
+    "",
+    "<IfModule mod_deflate.c>",
+    "  AddOutputFilterByType DEFLATE text/html text/css application/javascript image/svg+xml",
+    "</IfModule>",
+    "",
+    "<IfModule mod_expires.c>",
+    "  ExpiresActive On",
+    "  ExpiresByType text/html \"access plus 0 seconds\"",
+    "  ExpiresByType text/css \"access plus 1 week\"",
+    "  ExpiresByType application/javascript \"access plus 1 week\"",
+    "  ExpiresByType image/jpeg \"access plus 1 month\"",
+    "  ExpiresByType image/svg+xml \"access plus 1 month\"",
+    "  ExpiresByType video/mp4 \"access plus 1 month\"",
+    "  ExpiresByType video/webm \"access plus 1 month\"",
+    "</IfModule>",
+    ""
+  ].join("\n"));
   await writeFile(join(out, "robots.txt"), `User-agent: *\nAllow: /\n${config.domain ? `Sitemap: https://${config.domain}/sitemap.xml\n` : ""}`);
   if (config.domain) {
     await writeFile(join(out, "CNAME"), `${config.domain}\n`);

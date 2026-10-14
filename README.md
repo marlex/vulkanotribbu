@@ -67,7 +67,13 @@ Cada push a `main` o a `claude/vulkano-tribbu-website-ly55uj` publica la web en 
 
 Activación (una sola vez): en GitHub, **Settings → Pages → Build and deployment → Source: GitHub Actions**. Si se publica desde una rama distinta de la principal, añadirla en **Settings → Environments → github-pages → Deployment branches**.
 
-### Dominio propio
+### Subir a Dinahosting (hosting propio)
+1. `npm run build` genera `dist/` (incluye `.htaccess` con portada, página 404, compresión y caché).
+2. Subir **el contenido** de `dist/` (no la carpeta) a la carpeta `www` del hosting, por FTP o con el gestor de archivos del panel.
+3. Activar el certificado SSL gratuito en el panel y, después, descomentar el bloque «Forzar HTTPS» de `.htaccess`.
+4. Cada cambio en la web: volver a generar y subir los archivos modificados.
+
+### Dominio propio con GitHub Pages
 1. Escribir el dominio en `site.config.mjs` (`domain: "vulkanotribbu.com"`). El build genera `CNAME`, `sitemap.xml` y las URLs canónicas.
 2. En el proveedor del dominio, crear estos registros DNS:
    - Dominio raíz (`@`), registros `A`: `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`
