@@ -14,24 +14,25 @@ export default {
   ],
   // Marcas: el logo se toma de assets/logos/<slug>.svg si existe (en monocromo,
   // fill="currentColor"); si no, se muestra el nombre.
-  // scene: render 3D de assets/img/scenes/<scene>.jpg (o una foto propia en image).
+  // image: fotograma o foto del proyecto; si falta, se usa el render 3D de assets/img/scenes/<scene>.jpg.
   // featured: aparece en las tarjetas apiladas de la portada.
   brands: [
-    { slug: "ikea", name: "IKEA", sector: "Hogar · Retail", scene: "knot", featured: true },
-    { slug: "santander", name: "Banco Santander", sector: "Banca", scene: "ember", featured: true },
-    { slug: "ey", name: "EY", sector: "Consultoría", scene: "noir", featured: true },
-    { slug: "prisa-radio", name: "Prisa Radio", sector: "Medios · Audio", scene: "spheres", featured: true },
-    { slug: "leroymerlin", name: "Leroy Merlin", sector: "Hogar · Retail", scene: "lime", featured: true },
-    { slug: "carnaval-tenerife", name: "Carnaval de Tenerife", sector: "Cultura · Evento", scene: "silk" },
-    { slug: "coverwallet", name: "Coverwallet", sector: "Seguros · Digital", scene: "rings" },
-    { slug: "zertiban", name: "Zertiban", sector: "Empresa", scene: "drop" },
-    { slug: "ignia", name: "Ignia Institution", sector: "Institución", scene: "twist" }
+    { slug: "ikea", name: "IKEA", sector: "Hogar · Retail", scene: "knot", featured: true, image: "assets/img/projects/ikea.jpg" },
+    { slug: "santander", name: "Banco Santander", sector: "Banca", scene: "ember", featured: true, image: "assets/img/projects/santander.jpg" },
+    { slug: "ey", name: "EY", sector: "Consultoría", scene: "noir", featured: true, image: "assets/img/projects/ey.jpg" },
+    { slug: "prisa-radio", name: "Prisa Radio", sector: "Medios · Audio", scene: "spheres", featured: true, image: "assets/img/projects/prisa-radio.jpg" },
+    { slug: "leroymerlin", name: "Leroy Merlin", sector: "Hogar · Retail", scene: "lime", featured: true, image: "assets/img/projects/leroymerlin.jpg" },
+    { slug: "carnaval-tenerife", name: "Carnaval de Tenerife", sector: "Cultura · Evento", scene: "silk", image: "assets/img/projects/carnaval-tenerife.jpg" },
+    { slug: "coverwallet", name: "Coverwallet", sector: "Seguros · Digital", scene: "rings", image: "assets/img/projects/coverwallet.jpg" },
+    { slug: "zertiban", name: "Zertiban", sector: "Empresa", scene: "drop", image: "assets/img/projects/zertiban.jpg" },
+    { slug: "ignia", name: "Ignia Institution", sector: "Institución", scene: "twist", image: "assets/img/projects/ignia.jpg" }
   ],
-  // Galería horizontal de la portada (assets/img/gallery). shape: tall | wide | square
+  // Galería horizontal de la portada: fotogramas de vuestros vídeos (assets/img/gallery/<file>.jpg).
+  // shape: tall | wide | square
   gallery: [
-    { scene: "rock", shape: "square" }, { scene: "pearl", shape: "wide" }, { scene: "twist", shape: "tall" },
-    { scene: "sunrock", shape: "square" }, { scene: "knot", shape: "wide" }, { scene: "drop", shape: "tall" },
-    { scene: "rings", shape: "square" }, { scene: "lime", shape: "wide" }
+    { file: "g1", shape: "square" }, { file: "g2", shape: "wide" }, { file: "g3", shape: "tall" },
+    { file: "g4", shape: "square" }, { file: "g5", shape: "wide" }, { file: "g6", shape: "tall" },
+    { file: "g7", shape: "square" }, { file: "g8", shape: "wide" }
   ],
   nav: [
     { slug: "agencia", label: "Agencia" },

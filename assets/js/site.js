@@ -354,9 +354,12 @@
       tx = e.clientX; ty = e.clientY; cur.classList.remove("is-hidden");
       var t = e.target.closest ? e.target.closest("[data-cursor], a, button, input, select, textarea, label") : null;
       var text = t && t.getAttribute("data-cursor");
+      if (text && label.textContent !== text) {
+        label.textContent = text;
+        cur.style.setProperty("--cw", Math.ceil(label.scrollWidth + 30) + "px");
+      }
       cur.classList.toggle("is-label", !!text);
       cur.classList.toggle("is-link", !!t && !text);
-      if (text) label.textContent = text;
     }, { passive: true });
     document.documentElement.addEventListener("pointerleave", function () { cur.classList.add("is-hidden"); });
     (function loop() {

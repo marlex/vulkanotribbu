@@ -1,7 +1,7 @@
 // Genera, desde scripts/studio.html (renders 3D abstractos con WebGL):
 //   assets/img/scenes/<escena>.jpg   → imágenes de las cards de marcas (1600×1000)
-//   assets/img/gallery/<escena>.jpg  → galería horizontal de la portada (720×900)
-//   assets/video/hero.mp4 / hero.webm / hero-poster.jpg → vídeo de la portada
+//   (--video) assets/video/hero.* → vídeo abstracto alternativo. Ojo: sobrescribe el montaje
+//   actual de la portada, hecho con vuestros clips reales (ver README).
 // Requiere Playwright y ffmpeg (con libx264 y libvpx-vp9).
 const { writeFileSync, mkdirSync, rmSync, readdirSync } = require("node:fs");
 const { join } = require("node:path");
@@ -11,7 +11,6 @@ try { ({ chromium } = require("playwright")); } catch { ({ chromium } = require(
 
 const root = join(__dirname, "..");
 const SCENES = ["knot", "spheres", "lime", "noir", "silk", "ember", "rings", "drop", "twist"];
-const GALLERY = ["rock", "pearl", "sunrock", "knot", "drop", "rings", "twist", "lime"];
 
 function ffmpeg(args, frames) {
   return new Promise((resolve, reject) => {
@@ -28,7 +27,7 @@ const save = (file, url) => writeFileSync(file, Buffer.from(url.split(",")[1], "
   await page.goto("file://" + join(__dirname, "studio.html"));
 
   // node scripts/render-media.cjs --video  → solo el vídeo
-  const stills = process.argv.includes("--video") ? [] : [["scenes", SCENES, 1600, 1000], ["gallery", GALLERY, 720, 900]];
+  const stills = process.argv.includes("--video") ? [] : [["scenes", SCENES, 1600, 1000]];
   for (const [dir, list, w, h] of stills) {
     const out = join(root, "assets/img", dir);
     rmSync(out, { recursive: true, force: true });

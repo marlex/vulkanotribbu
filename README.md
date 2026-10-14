@@ -80,8 +80,11 @@ Al pulsar una marca se abre un panel que sube desde abajo, sin ocupar toda la pa
 
 Los textos viven en `src/data/projects.mjs`. **Son borradores sin cifras: hay que sustituirlos por el contexto, el proceso y los resultados reales de cada proyecto.**
 
-## Vídeo e imágenes 3D
-Todo es generado, sin fotos de stock: renders 3D abstractos de estudio en blanco y negro (esferas, nudos, gotas líquidas, roca, anillos, seda) hechos con raymarching en WebGL (`scripts/studio.html`). El vídeo de la portada son cuatro tomas de 4,5 s que se funden y enlazan en bucle (18 s). Para regenerar todo: `node scripts/render-media.cjs` (Playwright + ffmpeg). Las paletas y formas se ajustan en `LOOKS`; las tomas del vídeo, en `SHOTS`.
+## Vídeo e imágenes
+- **Vídeo de la portada** (`assets/video/hero.*`): montaje de vuestros cinco clips (atardecer, avión, revista, dron, feria), unos 3 s por plano con corte seco, 16 s en bucle. Para rehacerlo con otros cortes, ver el comando `ffmpeg` del historial de commits o pedirlo de nuevo.
+- **Imágenes de proyectos** (`assets/img/projects/<slug>.jpg`): fotogramas de esos clips, asignados en `brands` (`image`) de `site.config.mjs`. Cambiar la imagen de una marca es cambiar esa ruta.
+- **Galería horizontal** (`assets/img/gallery/g1…g8.jpg`): fotogramas recortados en vertical, definidos en `gallery` de `site.config.mjs`.
+- **Renders 3D en blanco y negro** (`assets/img/scenes/`, `scripts/studio.html`): se usan solo si una marca no tiene `image`. `node scripts/render-media.cjs` los regenera; con `--video` genera un vídeo abstracto que sustituiría al montaje actual.
 
 ## Contraste entre bloques
 Las secciones alternan blanco (`s-light`), gris muy claro (`s-mist`) y negro (`s-ink`). `s-ink` invierte los tokens dentro de su ámbito, así cualquier componente funciona sobre fondo oscuro sin estilos extra; la cabecera cambia a claro al pasar por encima.

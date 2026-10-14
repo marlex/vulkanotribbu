@@ -89,7 +89,7 @@ const brandLogos = (
   )
 ).join("\n      ");
 const gallery = config.gallery
-  .map((g, i) => `<li class="gallery-item gallery-item--${g.shape}"><img src="assets/img/gallery/${g.scene}.jpg" alt="" width="720" height="900" loading="lazy" decoding="async"></li>`)
+  .map((g, i) => `<li class="gallery-item gallery-item--${g.shape}"><img src="assets/img/gallery/${g.file}.jpg" alt="" width="720" height="900" loading="lazy" decoding="async"></li>`)
   .join("\n      ");
 const expertise = services
   .map((s, i) => `<li class="exp-row reveal">
