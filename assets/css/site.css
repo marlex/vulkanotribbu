@@ -613,10 +613,10 @@ p { text-wrap: pretty; }
 }
 
 /* Texto que se colorea palabra a palabra */
-.intro { position: relative; z-index: 2; background: var(--basalt); min-height: 100svh; display: flex; align-items: center; }
+.intro { position: relative; z-index: 2; background: var(--basalt); padding-bottom: clamp(2.5rem, 5vw, 4.5rem); }
 .intro .wrap { max-width: none; }
 .lit-text { font-family: var(--font-body); font-weight: 300; font-size: clamp(1.15rem, 1.75vw, 1.65rem); line-height: 1.5; letter-spacing: -.025em; max-width: none; }
-.intro .lit-text { font-weight: 400; font-size: clamp(1.9rem, 4.3vw, 4.6rem); line-height: 1.12; letter-spacing: -.045em; }
+.intro .lit-text { font-weight: 400; font-size: clamp(calc(1.9rem + 3px), calc(4.3vw + 3px), calc(4.6rem + 3px)); line-height: 1.22; letter-spacing: -.035em; }
 .lit-text em { font-weight: 300; }
 .lit-text .w { transition: color .35s linear; }
 .js .lit-text .w { color: #d4d4d8; }

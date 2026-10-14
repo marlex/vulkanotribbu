@@ -18,6 +18,8 @@
 <script>
   (function (d) {
     d.classList.add("js");
+    // Cada página nueva empieza arriba del todo (sin restaurar el scroll anterior).
+    if ("scrollRestoration" in history) history.scrollRestoration = "manual";
     try {
       if (sessionStorage.getItem("vt-nav") === "1" && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
         d.classList.add("is-arriving");

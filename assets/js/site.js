@@ -5,6 +5,17 @@
   "use strict";
 
   window.__vtReady = true;
+
+  /* ---------- Cada página empieza arriba del todo ---------- */
+  // También dentro de visores que muestran la web en un marco (scrollIntoView
+  // desplaza los contenedores exteriores). Los enlaces con #ancla se respetan.
+  function toTop() {
+    if (location.hash && document.getElementById(decodeURIComponent(location.hash.slice(1)))) return;
+    window.scrollTo(0, 0);
+    try { document.documentElement.scrollIntoView({ block: "start" }); } catch (e) {}
+  }
+  toTop();
+  window.addEventListener("pageshow", function (e) { if (e.persisted) toTop(); });
   var doc = document.documentElement;
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var finePointer = window.matchMedia("(pointer: fine)").matches;
