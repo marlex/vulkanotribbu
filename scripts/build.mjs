@@ -31,7 +31,7 @@ const navLinks = (active) =>
 const mobileLinks = (active) =>
   [{ slug: "", label: "Inicio" }, ...config.nav, { slug: "contacto", label: "Contacto" }]
     .map((n, i) => {
-      const url = n.slug ? href(n.slug) : "./";
+      const url = n.slug ? href(n.slug) : "index.html";
       const current = (n.slug || "inicio") === active ? ' aria-current="page"' : "";
       return `<a href="${url}"${current}><small>0${i + 1}</small>${n.label}</a>`;
     })
@@ -55,6 +55,7 @@ const brandStack = (list) =>
           <div class="sheet-head">
             <span class="sheet-kicker"><span>${pad(i)}</span><span>${b.sector}</span></span>
             <h2 class="sheet-title" id="sheet-title">${b.name}</h2>
+            ${p.title ? `<p class="sheet-type">${p.title}</p>` : ""}
             <p class="sheet-lead">${p.project}</p>
             <ul class="sheet-tags">${p.services.map((t) => `<li>${t}</li>`).join("")}</ul>
           </div>
@@ -70,7 +71,7 @@ const brandStack = (list) =>
         <a class="stack-card" href="marcas.html#${b.slug}" data-project data-cursor="Ver proyecto">
           <img src="${img}" alt="" width="1600" height="1000" loading="lazy" decoding="async">
           <span class="stack-top"><span>${pad(i)}</span><span>${b.sector}</span></span>
-          <span class="stack-name">${b.name}</span>
+          <span class="stack-name">${b.name}${p && p.title ? `<small>${p.title}</small>` : ""}</span>
           <span class="stack-open">Ver proyecto <span aria-hidden="true">+</span></span>
         </a>
         ${sheet}

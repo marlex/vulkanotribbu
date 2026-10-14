@@ -1,55 +1,62 @@
 // Fichas de proyecto que se abren en el panel inferior (portada y marcas.html).
-// BORRADOR: textos de partida, sin cifras. Sustituir por el contexto, el proceso
-// y los resultados reales de cada proyecto antes de publicar.
-//   services  → disciplinas que intervinieron
+// IKEA, Banco Santander, EY y Leroy Merlin describen el proyecto real (validar
+// detalles y, si se puede, añadir resultados con cifra). El resto son borradores.
+//   title     → qué fue el proyecto (se muestra en la tarjeta y en la ficha)
+//   services  → disciplinas y capacidades que intervinieron
 //   project   → qué hicimos, en una frase
 //   challenge → el problema de partida
 //   approach  → cómo lo resolvimos (pasos)
 //   results   → qué conseguimos
 export default {
   ikea: {
-    services: ["Contenido", "Motion", "Experiencias"],
-    project: "Contenido y activaciones para acercar la propuesta de la marca al día a día de sus clientes.",
-    challenge: "Contar una oferta muy amplia con claridad, en muchos formatos a la vez y sin perder la coherencia de una marca global con un lenguaje muy definido.",
+    title: "App interna de gestión de stock",
+    services: ["Estrategia de producto", "Research UX", "Diseño UX/UI", "Design system", "Prototipado", "Desarrollo"],
+    project: "Aplicación interna para que los equipos de tienda y almacén gestionen el inventario en tiempo real: recuento, reposición e incidencias desde un mismo dispositivo.",
+    challenge: "Los equipos trabajaban con procesos y herramientas fragmentados para controlar el stock. Cada recuento, ajuste o reposición consumía tiempo, generaba errores y dificultaba tener una visión fiable de la disponibilidad de producto en lineal y almacén.",
     approach: [
-      "Partimos de las guías globales de la marca y definimos cómo adaptarlas al contexto local sin romper el sistema.",
-      "Diseñamos una familia de piezas modulares para redes, punto de venta y espacio físico.",
-      "Produjimos y animamos el contenido con un único equipo, del guion a la entrega final."
+      "Discovery y shadowing en tienda y almacén: mapeamos el journey del empleado, los flujos de reposición y los puntos de fricción de cada rol.",
+      "Estrategia de producto y un MVP priorizado por impacto operativo: recuento cíclico, alertas de rotura de stock, ubicaciones y gestión de incidencias.",
+      "Experiencia mobile-first para uso en planta: escaneo de códigos, flujos de pocos toques, alto contraste y uso con una mano, alineada con el design system de la marca.",
+      "Prototipado y test de usabilidad con empleados reales antes de desarrollar, con integración en los sistemas de inventario existentes."
     ],
     results: [
-      "Un sistema de piezas reutilizable, fácil de ampliar en cada campaña.",
-      "Coherencia total con la marca global en todos los formatos.",
-      "Menos tiempo de producción entre una campaña y la siguiente."
+      "Una sola herramienta para recuento, reposición e incidencias.",
+      "Visibilidad del stock en tiempo real para tienda y almacén.",
+      "Procesos más ágiles y con menos errores en el día a día del equipo."
     ]
   },
   santander: {
-    services: ["Estrategia", "Contenido", "Web"],
-    project: "Contenido y piezas digitales para explicar productos financieros con claridad y cercanía.",
-    challenge: "Hacer comprensibles productos complejos para públicos muy distintos, dentro de un marco regulatorio exigente y con los estándares de una marca global.",
+    title: "App de gestión de la PRL",
+    services: ["Estrategia digital", "Service design", "Diseño UX/UI", "Accesibilidad", "Desarrollo de app", "Comunicación interna"],
+    project: "Aplicación para digitalizar la Prevención de Riesgos Laborales: evaluaciones de riesgos, formación obligatoria, comunicación de incidentes y seguimiento de acciones correctivas.",
+    challenge: "La PRL en una organización de gran escala implica normativa exigente, múltiples centros y miles de empleados. La información estaba dispersa entre documentos y procesos manuales, lo que dificultaba la trazabilidad, el cumplimiento normativo y la respuesta rápida ante incidentes.",
     approach: [
-      "Ordenamos los mensajes por necesidad del cliente, no por producto.",
-      "Creamos un tono de voz claro y una estructura de contenido repetible.",
-      "Diseñamos y produjimos piezas adaptadas a cada canal digital."
+      "Service blueprint del proceso de prevención con los equipos de PRL, RR. HH. y responsables de centro, recogiendo los requisitos de compliance y auditoría.",
+      "Arquitectura de información y flujos por perfil: técnico de prevención, responsable de centro y empleado.",
+      "Diseño UX/UI accesible (WCAG) para comunicar incidentes y casi accidentes en segundos, consultar protocolos y completar la formación.",
+      "Cuadros de mando con indicadores de siniestralidad, estado de las evaluaciones y acciones pendientes, con trazabilidad completa para auditorías."
     ],
     results: [
-      "Mensajes más claros y fáciles de validar por los equipos internos.",
-      "Una estructura de contenido que el equipo puede reutilizar.",
-      "Una experiencia consistente en todos los canales."
+      "Gestión de la PRL centralizada y trazable en una sola app.",
+      "Comunicación de incidentes más rápida y sencilla para cualquier empleado.",
+      "Información lista para auditoría y para la toma de decisiones."
     ]
   },
   ey: {
-    services: ["Identidad", "Contenido", "Motion"],
-    project: "Piezas visuales y audiovisuales para comunicar conocimiento experto con impacto.",
-    challenge: "Convertir análisis densos y especializados en contenido atractivo, sin perder el rigor que se espera de una firma de referencia.",
+    title: "Sistema de invitaciones a clientes",
+    services: ["Estrategia", "Customer experience", "Diseño UX/UI", "Branding de eventos", "Marketing automation", "Desarrollo web"],
+    project: "Plataforma de invitaciones y gestión de eventos para clientes: de la invitación personalizada al registro, la acreditación y el seguimiento posterior.",
+    challenge: "Los eventos son un canal clave de relación con clientes en una firma de servicios profesionales. Gestionar invitaciones, confirmaciones y aforos de forma manual entre varias áreas restaba tiempo a los equipos y no daba una visión clara del engagement de cada cliente.",
     approach: [
-      "Identificamos las ideas clave de cada informe y su público.",
-      "Diseñamos un lenguaje visual de datos sobrio y reconocible.",
-      "Animamos las piezas para redes, eventos y presentaciones."
+      "Mapeamos el journey del invitado y el del equipo organizador, de la segmentación de contactos al follow-up tras el evento.",
+      "Invitaciones personalizadas on-brand y un flujo de registro (RSVP) sencillo, pensado para móvil y alineado con la identidad de la firma.",
+      "Automatización de recordatorios, listas de espera, control de aforo y acreditación con código QR el día del evento.",
+      "Datos de asistencia conectados con el CRM y un panel de métricas de engagement para medir el retorno de cada evento."
     ],
     results: [
-      "Contenido experto más fácil de consumir y compartir.",
-      "Un estilo visual coherente para toda la serie.",
-      "Piezas listas para varios canales desde una sola producción."
+      "Una experiencia de invitación premium y coherente con la marca.",
+      "Menos gestión manual para los equipos organizadores.",
+      "Datos de asistencia y engagement conectados con la relación comercial."
     ]
   },
   "prisa-radio": {
@@ -68,18 +75,20 @@ export default {
     ]
   },
   leroymerlin: {
-    services: ["Contenido", "Web", "Motion"],
-    project: "Contenido práctico y piezas digitales que inspiran y ayudan a resolver proyectos en casa.",
-    challenge: "Combinar inspiración y utilidad: mostrar posibilidades y, a la vez, dar al cliente la información que necesita para decidir.",
+    title: "Experiencia omnicanal de cocinas",
+    services: ["Estrategia omnicanal", "Customer journey", "Diseño UX/UI", "Contenido", "Retail experience", "Marketing"],
+    project: "Experiencia omnicanal para el proyecto de cocina: de la inspiración online al diseño con un proyectista en tienda y la instalación en casa.",
+    challenge: "Comprar una cocina es una decisión de alto valor y ciclo de compra largo. El cliente salta entre web, app, tienda y atención telefónica, y cada salto sin continuidad genera dudas, abandonos y una experiencia fragmentada.",
     approach: [
-      "Estructuramos el contenido por proyectos reales del cliente.",
-      "Diseñamos formatos que van de la idea al paso a paso.",
-      "Produjimos piezas para web, redes y tienda."
+      "Customer journey mapping del proyecto de cocina con clientes y vendedores: inspiración, planificación, presupuesto, compra, instalación y posventa.",
+      "Puntos de contacto clave conectados entre sí: contenidos de inspiración, planificador 3D, cita previa con proyectista y seguimiento del pedido.",
+      "Diseño UX/UI y contenidos para web y app, y materiales para el espacio de cocinas en tienda, con un mismo lenguaje y mensajes.",
+      "Recorrido phygital: el proyecto empezado online continúa en tienda sin volver a empezar, y la tienda alimenta el canal digital."
     ],
     results: [
-      "Contenido útil que conecta inspiración y compra.",
-      "Formatos repetibles para nuevas categorías.",
-      "Una voz cercana y práctica en todos los canales."
+      "Un recorrido continuo entre online, tienda y casa.",
+      "Más confianza del cliente en una compra de alto valor.",
+      "Tienda y canal digital trabajando sobre el mismo proyecto del cliente."
     ]
   },
   "carnaval-tenerife": {

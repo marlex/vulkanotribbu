@@ -7,15 +7,55 @@
   window.__vtReady = true;
 
   /* ---------- Cada página empieza arriba del todo ---------- */
-  // También dentro de visores que muestran la web en un marco (scrollIntoView
-  // desplaza los contenedores exteriores). Los enlaces con #ancla se respetan.
-  function toTop() {
-    if (location.hash && document.getElementById(decodeURIComponent(location.hash.slice(1)))) return;
+  // En visores que muestran la web dentro de un marco (como la URL de pruebas)
+  // el scroll que se queda abajo es el del contenedor exterior, y ese contenedor
+  // puede ajustarse después de cargar. Por eso se sube la página y, con
+  // scrollIntoView, también los contenedores exteriores, y se repite mientras
+  // la página termina de cargar, salvo que la persona ya haya empezado a moverse.
+  // Los enlaces con #ancla se respetan.
+  var userMoved = false;
+  ["wheel", "touchstart", "keydown", "pointerdown"].forEach(function (ev) {
+    window.addEventListener(ev, function () { userMoved = true; }, { once: true, passive: true });
+  });
+  function hasAnchor() { return location.hash && document.getElementById(decodeURIComponent(location.hash.slice(1))); }
+  // Marca invisible en lo alto del documento: la cabecera es fija y no sirve
+  // para arrastrar el scroll de los contenedores exteriores.
+  function topMark() {
+    var m = document.getElementById("vt-top");
+    if (!m && document.body) {
+      m = document.createElement("div");
+      m.id = "vt-top";
+      m.setAttribute("aria-hidden", "true");
+      m.style.cssText = "position:absolute;top:0;left:0;width:1px;height:1px;pointer-events:none";
+      document.body.insertBefore(m, document.body.firstChild);
+    }
+    return m || document.documentElement;
+  }
+  function toTop(force) {
+    if (!force && (userMoved || hasAnchor())) return;
     window.scrollTo(0, 0);
-    try { document.documentElement.scrollIntoView({ block: "start" }); } catch (e) {}
+    var first = topMark();
+    try { first.scrollIntoView({ block: "start", inline: "nearest", behavior: "instant" }); }
+    catch (e) { try { first.scrollIntoView(true); } catch (e2) {} }
+    try { if (window.top !== window) window.top.scrollTo(0, 0); } catch (e) {}
   }
   toTop();
-  window.addEventListener("pageshow", function (e) { if (e.persisted) toTop(); });
+  document.addEventListener("DOMContentLoaded", function () { toTop(); });
+  window.addEventListener("load", function () { toTop(); [60, 250, 600, 1200].forEach(function (t) { setTimeout(toTop, t); }); });
+  window.addEventListener("pageshow", function (e) { if (e.persisted) toTop(true); });
+
+  // El logo en la propia portada sube arriba del todo en lugar de recargar.
+  document.addEventListener("click", function (e) {
+    var logo = e.target.closest && e.target.closest(".brand");
+    if (!logo) return;
+    var here = location.pathname.replace(/index\.html$/, "");
+    var dest = new URL(logo.getAttribute("href"), location.href).pathname.replace(/index\.html$/, "");
+    if (here === dest) {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" });
+      try { topMark().scrollIntoView({ block: "start", behavior: reduceMotion ? "auto" : "smooth" }); } catch (err) {}
+    }
+  });
   var doc = document.documentElement;
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var finePointer = window.matchMedia("(pointer: fine)").matches;

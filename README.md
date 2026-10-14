@@ -101,7 +101,7 @@ Las marcas se definen en `brands` (`site.config.mjs`). Las que llevan `featured:
 - **Manrope** (Google Fonts) en todo el sitio: titulares en 500 con interletraje cerrado, párrafos grandes en 300, texto en 400–500. Sin negritas fuertes ni cursivas.
 
 ## Pendiente de validar
-- Textos reales de cada proyecto en `src/data/projects.mjs` (reto, proceso y resultados).
+- Fichas de proyecto (`src/data/projects.mjs`): IKEA, Santander, EY y Leroy Merlin ya describen el proyecto real (validar detalles y añadir resultados con cifra si se puede); Prisa Radio, Carnaval, Coverwallet, Zertiban e Ignia siguen siendo borradores.
 - Logos en SVG de Prisa Radio, EY, Carnaval de Tenerife, Banco Santander, Coverwallet, Zertiban e Ignia Institution.
 - Email de contacto y perfiles sociales en `site.config.mjs`.
 - Sectores de Zertiban e Ignia Institution en `site.config.mjs`.
