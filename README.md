@@ -104,7 +104,7 @@ Las marcas se definen en `brands` (`site.config.mjs`). Las que llevan `featured:
 - **Imagen de fondo:** `scene` elige un render de `assets/img/scenes/`. Para usar una foto propia, añadir `image: "assets/img/brands/archivo.jpg"`.
 
 ## Tipografía
-- **Manrope** (Google Fonts) en todo el sitio: titulares en 500 con interletraje cerrado, párrafos grandes en 300, texto en 400–500. Sin negritas fuertes ni cursivas.
+- **Manrope** (licencia SIL OFL, servida desde `assets/fonts/`, sin Google Fonts) en todo el sitio: titulares en 500 con interletraje cerrado, párrafos grandes en 300, texto en 400–500. Sin negritas fuertes ni cursivas.
 
 ## Pendiente de validar
 - Fichas de proyecto (`src/data/projects.mjs`): IKEA, Santander, EY y Leroy Merlin ya describen el proyecto real (validar detalles y añadir resultados con cifra si se puede); Prisa Radio, Carnaval, Coverwallet, Zertiban e Ignia siguen siendo borradores.
