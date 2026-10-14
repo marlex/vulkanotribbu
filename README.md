@@ -67,6 +67,13 @@ Cada push a `main` o a `claude/vulkano-tribbu-website-ly55uj` publica la web en 
 
 Activación (una sola vez): en GitHub, **Settings → Pages → Build and deployment → Source: GitHub Actions**. Si se publica desde una rama distinta de la principal, añadirla en **Settings → Environments → github-pages → Deployment branches**.
 
+### Vercel (recomendado: no le afectan los bloqueos de LaLiga)
+`vercel.json` ya está listo: compila con `node scripts/build.mjs`, publica `dist/` y redirige `www` a la raíz.
+1. En vercel.com → **Add New → Project** → importar el repositorio `marlex/vulkanotribbu` (rama `main`, o la de trabajo). No hay que cambiar ningún ajuste.
+2. En el proyecto → **Settings → Domains**: añadir `vulkanotribbu.com` y `www.vulkanotribbu.com`.
+3. En el DNS del dominio (Dinahosting): `A @ 76.76.21.21` y `CNAME www cname.vercel-dns.com`. Si el DNS estuviera en Cloudflare, siempre en nube gris (DNS only).
+4. Cada push a la rama vinculada vuelve a publicar la web sola.
+
 ### Subir a Dinahosting (hosting propio)
 1. `npm run build` genera `dist/` (incluye `.htaccess` con portada, página 404, compresión y caché).
 2. Subir **el contenido** de `dist/` (no la carpeta) a la carpeta `www` del hosting, por FTP o con el gestor de archivos del panel.
