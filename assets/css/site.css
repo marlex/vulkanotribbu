@@ -42,7 +42,7 @@
 
   /* Espacio y ritmo */
   --gutter: clamp(20px, 3.4vw, 48px);
-  --section: clamp(5rem, 11vw, 10rem);
+  --section: clamp(6.5rem, 14vw, 13rem);
   --max: 1440px;
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
@@ -613,7 +613,7 @@ p { text-wrap: pretty; }
 }
 
 /* Texto que se colorea palabra a palabra */
-.intro { position: relative; z-index: 2; background: var(--basalt); padding-bottom: clamp(2.5rem, 5vw, 4.5rem); }
+.intro { position: relative; z-index: 2; background: var(--basalt); padding-bottom: clamp(5rem, 9vw, 8.5rem); }
 .intro .wrap { max-width: none; }
 .lit-text { font-family: var(--font-body); font-weight: 300; font-size: clamp(1.15rem, 1.75vw, 1.65rem); line-height: 1.5; letter-spacing: -.025em; max-width: none; }
 .intro .lit-text { font-weight: 400; font-size: clamp(calc(1.9rem + 3px), calc(4.3vw + 3px), calc(4.6rem + 3px)); line-height: 1.22; letter-spacing: -.035em; }
@@ -625,8 +625,8 @@ p { text-wrap: pretty; }
 .js .lit-text .w.hot { color: var(--ash); }
 
 /* Contadores de color con paralaje escalonado */
-.counters-wrap { position: relative; z-index: 2; background: var(--basalt); padding-bottom: clamp(4rem, 8vw, 7rem); }
-.counters { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(.75rem, 1.6vw, 1.5rem); align-items: start; }
+.counters-wrap { position: relative; z-index: 2; background: var(--basalt); padding-bottom: var(--section); }
+.counters { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(1rem, 2.2vw, 2.25rem); align-items: start; }
 .counter {
   --y: 0px;
   aspect-ratio: 10 / 10.5; border-radius: var(--radius);
@@ -648,7 +648,7 @@ p { text-wrap: pretty; }
 }
 
 /* Carrusel de marcas: gira siempre, sin pausa */
-.logos-wrap { position: relative; z-index: 2; background: var(--basalt); padding-block: clamp(1rem, 3vw, 2.5rem) clamp(4.5rem, 9vw, 8rem); overflow: hidden; }
+.logos-wrap { position: relative; z-index: 2; background: var(--basalt); padding-block: 0 var(--section); overflow: hidden; }
 .logos-marquee { -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent); mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent); }
 .logos-track { display: flex; width: max-content; animation: logos-loop 38s linear infinite; }
 .logos { display: flex; align-items: center; flex: none; color: var(--ink); }
@@ -659,11 +659,11 @@ p { text-wrap: pretty; }
 @keyframes logos-loop { to { transform: translate3d(-50%, 0, 0); } }
 
 /* Tarjetas apiladas (marcas) */
-.projects-head { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 1.5rem var(--gutter); align-items: end; margin-bottom: clamp(2.5rem, 5vw, 4.5rem); }
+.projects-head { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 1.5rem var(--gutter); align-items: end; margin-bottom: clamp(4rem, 8vw, 7rem); }
 .projects-title { font-size: var(--fs-l); }
 .projects-head p { color: var(--pumice); max-width: 38ch; justify-self: end; }
 @media (max-width: 760px) { .projects-head { grid-template-columns: 1fr; } .projects-head p { justify-self: start; } }
-.stack-list { display: grid; gap: clamp(1.5rem, 4vw, 3rem); }
+.stack-list { display: grid; gap: clamp(3rem, 7vw, 6rem); }
 .stack-item { position: sticky; top: calc(90px + var(--i) * 0px); height: min(76svh, 720px); }
 .stack-card {
   --s: 1; --dim: 0;
@@ -730,11 +730,11 @@ p { text-wrap: pretty; }
   .sheet-panel { max-height: 90svh; border-radius: 16px 16px 0 0; }
 }
 .sheet-lock { overflow: hidden; }
-.projects-more { margin-top: clamp(3rem, 6vw, 5rem); text-align: center; }
+.projects-more { margin-top: clamp(4.5rem, 9vw, 8rem); text-align: center; }
 .stack-item:target .stack-card { box-shadow: 0 0 0 1px #fff; }
 
 /* Galería horizontal ligada al scroll */
-.gallery-wrap { overflow: hidden; padding-block: clamp(4rem, 9vw, 8rem); }
+.gallery-wrap { overflow: hidden; padding-block: var(--section); }
 .gallery { --x: 0px; display: flex; align-items: center; gap: clamp(1rem, 2.4vw, 2rem); width: max-content; padding-inline: var(--gutter); transform: translate3d(var(--x), 0, 0); will-change: transform; }
 .gallery-item { flex: none; overflow: hidden; border-radius: var(--radius); }
 .gallery-item img { width: 100%; height: 100%; object-fit: cover; }
@@ -746,7 +746,7 @@ p { text-wrap: pretty; }
 .expertise {
   --p: 0;
   position: relative; z-index: 2; background: var(--basalt);
-  padding-block: clamp(3rem, 6vw, 5rem) clamp(4rem, 8vw, 7rem);
+  padding-block: clamp(4.5rem, 9vw, 8rem) clamp(6rem, 11vw, 10rem);
   margin-inline: calc(clamp(6px, .9vw, 14px) + var(--p) * 2.2vw);
   border-radius: 0 0 var(--radius-l) var(--radius-l);
 }
@@ -755,10 +755,10 @@ p { text-wrap: pretty; }
 .has-reveal main > section:not(.s-ink):not(.s-mist) { background: var(--basalt); }
 .has-reveal main > .expertise { background: var(--basalt); }
 .has-reveal .site-footer.is-static { position: relative; }
-.exp-head { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; flex-wrap: wrap; margin-bottom: clamp(2rem, 4vw, 3.5rem); }
+.exp-head { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; flex-wrap: wrap; margin-bottom: clamp(3rem, 6vw, 5rem); }
 .exp-head h2 { font-size: var(--fs-headline); letter-spacing: -.045em; }
 .exp-list { display: grid; }
-.exp-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) minmax(0, 3fr); gap: 1rem 2rem; align-items: start; padding-block: clamp(1.5rem, 3vw, 2.4rem); border-top: 1px solid var(--line-dark); }
+.exp-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) minmax(0, 3fr); gap: 1rem 2rem; align-items: start; padding-block: clamp(2rem, 4vw, 3.25rem); border-top: 1px solid var(--line-dark); }
 .exp-num { font-weight: 500; font-size: clamp(1.6rem, 2.6vw, 2.25rem); letter-spacing: -.04em; line-height: 1; }
 .exp-row h3 { font-size: clamp(1.15rem, 1.5vw, 1.375rem); letter-spacing: -.03em; line-height: 1.3; }
 .exp-row h3 a { background: linear-gradient(currentColor, currentColor) 0 100% / 0 1.5px no-repeat; transition: background-size .6s var(--ease-out); }
