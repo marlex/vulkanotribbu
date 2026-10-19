@@ -26,8 +26,7 @@ Web de la agencia Vulkano Tribbu. Sitio estático, sin dependencias: HTML, CSS y
 | `servicios.html` | Seis disciplinas, diagnóstico de marca interactivo, formatos de colaboración, preguntas frecuentes |
 | `servicio-<slug>.html` | Una página por servicio (estrategia, identidad, web, contenido, motion, experiencias), generada desde `src/data/services.mjs` |
 | `marcas.html` | Las nueve marcas en tarjetas apiladas |
-| `manifiesto.html` | Lo que creemos y nuestros compromisos éticos |
-| `trabajo.html` | Casos en preparación (se irán añadiendo) |
+| `manifiesto.html` | Cinco principios y cuatro compromisos, en tarjetas |
 | `diario.html` | Blog con los primeros temas en preparación |
 | `contacto.html` | Email, formulario y otras vías de contacto |
 | `legal.html` | Aviso legal, privacidad y cookies (faltan datos fiscales) |

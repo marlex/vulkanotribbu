@@ -39,7 +39,6 @@ export default {
     { slug: "servicios", label: "Servicios" },
     { slug: "marcas", label: "Marcas" },
     { slug: "manifiesto", label: "Manifiesto" },
-    { slug: "trabajo", label: "Trabajo" },
     { slug: "diario", label: "Diario" }
   ]
 };

@@ -827,9 +827,9 @@ p { text-wrap: pretty; }
 .tag, .chip span, .copy-btn, .service .plus { border-radius: 999px; }
 .tag { letter-spacing: 0; text-transform: none; font-weight: 500; }
 .forge-card { border-radius: var(--radius-l); }
-.forge-card:nth-child(1) { background: var(--ash); color: var(--basalt); }
-.forge-card:nth-child(2) { background: var(--scoria); color: var(--ash); }
-.forge-card:nth-child(3) { background: transparent; box-shadow: inset 0 0 0 1px var(--line-dark); color: var(--ink); }
+.forge-card:nth-child(3n+1) { background: var(--ash); color: var(--basalt); }
+.forge-card:nth-child(3n+2) { background: var(--scoria); color: var(--ash); }
+.forge-card:nth-child(3n) { background: transparent; box-shadow: inset 0 0 0 1px var(--line-dark); color: var(--ink); }
 .forge-card::before { display: none; }
 .form-status { border-radius: var(--radius); }
 .table-scroll { border-radius: var(--radius); }
@@ -874,3 +874,17 @@ main p:not(.lit-text):not(.sheet-type), .sheet p:not(.sheet-type), .sheet li,
 .footer-col, .footer-col a { font-size: 1rem; }
 h1 a, h2 a, h3 a, h4 a, .mobile-menu nav a { font-weight: inherit; }
 .mobile-menu nav a { font-weight: 500; }
+
+/* Manifiesto: tarjetas de principios y compromisos con el estilo de casos */
+.forge-card p { font-size: 1rem; line-height: 1.55; opacity: .75; max-width: 34ch; }
+.forge-card .stack { gap: .9rem; }
+.forge--manifest .forge-card { aspect-ratio: 4 / 4.4; }
+.forge--four { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.forge--four .forge-card { aspect-ratio: 3 / 4; }
+.forge--four .forge-card h3 { font-size: clamp(1.35rem, 1.9vw, 1.75rem); }
+@media (max-width: 1100px) { .forge--four { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 860px) { .forge--manifest .forge-card, .forge--four .forge-card { aspect-ratio: auto; min-height: 280px; gap: 3rem; } }
+@media (max-width: 560px) { .forge--four { grid-template-columns: 1fr; } }
+.forge-card .status { color: inherit; opacity: .7; }
+.forge-card .status::before { background: currentColor; }
+.forge-card .muted { color: inherit; opacity: .6; }
