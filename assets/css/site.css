@@ -35,7 +35,8 @@
   --font-mono: var(--font-body);
 
   /* Escala tipográfica: 9 niveles por jerarquía (ver estilos.html).
-     Base 16px. Nada por debajo de 14px. Los alias --fs-* apuntan aquí. */
+     Base y mínimo absoluto: 16px. Small y Caption se distinguen por color
+     y peso, no por tamaño. Los alias --fs-* apuntan aquí. */
   --t-display:   clamp(3.25rem, min(9.2vw, 14.5svh), 9.75rem); /* 1 · titular de portada, «Hablemos» del pie */
   --t-h1:        clamp(2.75rem, 6vw, 6rem);                  /* 2 · título de página */
   --t-statement: clamp(2rem, 4.4vw, 4.75rem);                /* 3 · frase destacada, cifras, nombres de marca */
@@ -43,8 +44,8 @@
   --t-h3:        clamp(1.5rem, 2.2vw, 2.125rem);             /* 5 · título de tarjeta */
   --t-h4:        clamp(1.25rem, 1.5vw, 1.375rem);            /* 6 · subtítulo, título de lista */
   --t-body:      1rem;                                       /* 7 · párrafos, menú, enlaces, botones (16px) */
-  --t-small:     .9375rem;                                   /* 8 · datos secundarios, etiquetas, cabeceras del pie (15px) */
-  --t-caption:   .875rem;                                    /* 9 · antetítulos, legal, mínimos (14px) */
+  --t-small:     1rem;                                       /* 8 · datos secundarios, etiquetas, cabeceras del pie (16px, gris) */
+  --t-caption:   1rem;                                       /* 9 · antetítulos, píldoras, legal (16px, peso 500) */
 
   --fs-mega: var(--t-display);
   --fs-xl: var(--t-h1);
@@ -578,18 +579,18 @@ p { text-wrap: pretty; }
 .diag-row input[type="range"]:active::-webkit-slider-thumb { transform: scale(1.3); }
 .diag-row input[type="range"]:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; }
 .diag-visual { display: grid; gap: 1.5rem; justify-items: center; }
-.radar { width: min(100%, 520px); height: auto; overflow: visible; }
+.radar { width: min(100%, 600px); height: auto; overflow: visible; }
 .radar-grid polygon { fill: none; stroke: var(--line-dark); }
 .radar-grid line { stroke: var(--line-dark); }
 .radar-target { fill: none; stroke: var(--pumice); stroke-dasharray: 3 4; }
 .radar-shape { fill: color-mix(in srgb, var(--ink) 9%, transparent); stroke: var(--ink); stroke-width: 1.25; stroke-linejoin: round; }
 .radar-dots circle { fill: var(--basalt); stroke: var(--ink); }
-.radar-labels text { font-family: var(--font-body); font-size: 9.5px; letter-spacing: 0; font-weight: 500; fill: var(--pumice); }
+.radar-labels text { font-family: var(--font-body); letter-spacing: 0; font-weight: 500; fill: var(--pumice); }
 .diag-result { width: 100%; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 1.25rem 2rem; align-items: end; padding-top: 1.5rem; border-top: 1px solid var(--line-dark); }
 .diag-result .btn { grid-column: 1 / -1; justify-self: start; }
 .diag-score { display: grid; gap: .4rem; }
 .diag-score strong { font-family: var(--font-display); font-weight: 500; font-size: var(--t-statement); line-height: .9; letter-spacing: -.04em; font-variant-numeric: tabular-nums; }
-.diag-score small { font-size: .35em; color: var(--pumice); margin-left: .15em; letter-spacing: 0; }
+.diag-score small { font-size: var(--t-body); color: var(--pumice); margin-left: .15em; letter-spacing: 0; }
 .diag-reco { display: grid; gap: .4rem; }
 .diag-reco p { font-size: var(--t-body); line-height: 1.45; }
 .diag-reco a { text-decoration: underline; text-underline-offset: 3px; }
@@ -923,8 +924,8 @@ h1 a, h2 a, h3 a, h4 a, .mobile-menu nav a { font-weight: inherit; }
 /* Guía de estilos (estilos.html) */
 .guide-note { max-width: 70ch; color: var(--stone); margin-bottom: clamp(2rem, 4vw, 3rem); }
 .s-ink .guide-note, .s-mist .guide-note { margin-top: clamp(2rem, 4vw, 3rem); margin-bottom: 0; }
-.guide code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .85em; }
-.guide-row { display: grid; grid-template-columns: 9rem minmax(0, 1.6fr) 13rem minmax(0, 1fr); gap: 1rem 2rem; align-items: center; padding-block: clamp(1.25rem, 2.5vw, 2rem); border-top: 1px solid var(--line-dark); }
+.guide code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 1em; }
+.guide-row { display: grid; grid-template-columns: 9rem minmax(0, 1.6fr) 15rem minmax(0, 1fr); gap: 1rem 2rem; align-items: center; padding-block: clamp(1.25rem, 2.5vw, 2rem); border-top: 1px solid var(--line-dark); }
 .guide-row--head { color: var(--pumice); font-size: var(--t-small); padding-block: .75rem; align-items: end; }
 .guide-lvl { font-size: var(--t-small); color: var(--pumice); }
 .guide-sample { min-width: 0; overflow-wrap: anywhere; grid-template-columns: minmax(0, 1fr); }

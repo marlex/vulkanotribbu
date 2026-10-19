@@ -124,10 +124,10 @@ Escala fija de 9 niveles (tokens `--t-*` en `:root` y clases `.t-*`):
 | 5 H3 | `--t-h3` | 24 → 34px | Título de tarjeta |
 | 6 H4 | `--t-h4` | 20 → 22px | Subtítulos, listas, campos de formulario |
 | 7 Body | `--t-body` | 16px | Párrafos, menú, enlaces, botones |
-| 8 Small | `--t-small` | 15px | Datos secundarios, cabeceras del pie, etiquetas |
-| 9 Caption | `--t-caption` | 14px | Antetítulos, píldoras, legal (mínimo absoluto) |
+| 8 Small | `--t-small` | 16px (gris) | Datos secundarios, cabeceras del pie, etiquetas |
+| 9 Caption | `--t-caption` | 16px (peso 500) | Antetítulos, píldoras, legal |
 
-Regla: no escribir tamaños sueltos en el CSS; usar siempre un nivel de la escala.
+Reglas: **ningún texto por debajo de 16px** (la jerarquía pequeña se marca con color y peso) y no escribir tamaños sueltos en el CSS; usar siempre un nivel de la escala.
 
 ## Pendiente de validar
 - Fichas de proyecto (`src/data/projects.mjs`): IKEA, Santander, EY y Leroy Merlin ya describen el proyecto real (validar detalles y añadir resultados con cifra si se puede); Prisa Radio, Carnaval, Coverwallet, Zertiban e Ignia siguen siendo borradores.

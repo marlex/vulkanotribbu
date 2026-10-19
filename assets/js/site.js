@@ -527,6 +527,15 @@
       t.textContent = inp.getAttribute("data-name").split(" ")[0];
       return el("circle", { r: 3.2, cx: 0, cy: 0 }, dotsG);
     });
+    // Etiquetas del radar: siempre 16px reales, sea cual sea el tamaño del gráfico.
+    var radarSvg = diag.querySelector(".radar");
+    var sizeLabels = function () {
+      var w = radarSvg.getBoundingClientRect().width || 540;
+      labelsG.setAttribute("font-size", (16 * 540 / w).toFixed(2));
+      labelsG.querySelectorAll("text").forEach(function (t) { t.style.fontSize = "inherit"; });
+    };
+    sizeLabels();
+    window.addEventListener("resize", sizeLabels);
     var current = inputs.map(function () { return 0; });
     var goal = inputs.map(function (inp) { return +inp.value; });
     var shownScore = 0, raf = null;

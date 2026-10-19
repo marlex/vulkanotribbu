@@ -15,9 +15,9 @@
   <div class="wrap">
     <div class="section-head section-head--row">
       <h2 class="display xl" id="g-tipo">Tipografía</h2>
-      <span class="mono muted">Manrope · 9 niveles · base 16px · mínimo 14px</span>
+      <span class="mono muted">Manrope · 9 niveles · mínimo absoluto 16px</span>
     </div>
-    <p class="guide-note">Una sola familia, Manrope, en tres pesos: <strong>300</strong> (no se usa en texto corrido), <strong>400</strong> (texto, enlaces, menú) y <strong>500</strong> (títulos). Nunca cursiva ni negrita por encima de 500. Los tamaños grandes son fluidos: crecen con la pantalla entre un mínimo y un máximo. La columna «Ahora» muestra el tamaño real en tu pantalla.</p>
+    <p class="guide-note">Una sola familia, Manrope, en tres pesos: <strong>300</strong> (no se usa en texto corrido), <strong>400</strong> (texto, enlaces, menú) y <strong>500</strong> (títulos). Nunca cursiva ni negrita por encima de 500. Los tamaños grandes son fluidos: crecen con la pantalla entre un mínimo y un máximo. La columna «Ahora» muestra el tamaño real en tu pantalla. Ningún texto baja de 16px.</p>
     <div class="guide-scale">
       <div class="guide-row guide-row--head"><span>Nivel</span><span>Muestra</span><span>Token · tamaño</span><span>Uso</span></div>
       <div class="guide-row"><span class="guide-lvl">1 · Display</span><span class="t-display guide-sample" data-measure>Direction</span><span class="guide-meta"><code>--t-display</code><br>52 → 156px · 500 · 0,94<br>Ahora: <b data-px></b></span><span class="guide-use">Titular de portada y «Hablemos» del pie. Una vez por página como mucho.</span></div>
@@ -27,8 +27,8 @@
       <div class="guide-row"><span class="guide-lvl">5 · H3</span><span class="t-h3 guide-sample" data-measure>Título de tarjeta</span><span class="guide-meta"><code>--t-h3</code><br>24 → 34px · 500 · 1,1<br>Ahora: <b data-px></b></span><span class="guide-use">Tarjetas de servicio, principios, pasos del método, números de especialidad.</span></div>
       <div class="guide-row"><span class="guide-lvl">6 · H4</span><span class="t-h4 guide-sample" data-measure>Subtítulo o título de lista</span><span class="guide-meta"><code>--t-h4</code><br>20 → 22px · 500 · 1,3<br>Ahora: <b data-px></b></span><span class="guide-use">Nombres en listas, preguntas frecuentes, título del proyecto en la ficha, campos de formulario.</span></div>
       <div class="guide-row"><span class="guide-lvl">7 · Body</span><span class="t-body guide-sample" data-measure>Párrafos, menú, enlaces y botones. Es el tamaño de lectura de toda la web.</span><span class="guide-meta"><code>--t-body</code><br>16px · 400 · 1,65<br>Ahora: <b data-px></b></span><span class="guide-use">Todo el texto corrido, el menú, los enlaces del pie y los botones.</span></div>
-      <div class="guide-row"><span class="guide-lvl">8 · Small</span><span class="t-small guide-sample" data-measure>Sector · Información secundaria</span><span class="guide-meta"><code>--t-small</code><br>15px · 400 · 1,5<br>Ahora: <b data-px></b></span><span class="guide-use">Cabeceras de columna del pie, sectores en tarjetas, etiquetas de formulario, datos de apoyo.</span></div>
-      <div class="guide-row"><span class="guide-lvl">9 · Caption</span><span class="t-caption guide-sample" data-measure>Antetítulo · Etiqueta · Legal</span><span class="guide-meta"><code>--t-caption</code><br>14px · 500 · 1,45<br>Ahora: <b data-px></b></span><span class="guide-use">Antetítulos, píldoras, barra legal del pie. Es el mínimo: nada más pequeño.</span></div>
+      <div class="guide-row"><span class="guide-lvl">8 · Small</span><span class="t-small guide-sample" data-measure>Sector · Información secundaria</span><span class="guide-meta"><code>--t-small</code><br>16px · 400 · gris · 1,5<br>Ahora: <b data-px></b></span><span class="guide-use">Cabeceras de columna del pie, sectores en tarjetas, etiquetas de formulario, datos de apoyo. Se distingue por el color gris.</span></div>
+      <div class="guide-row"><span class="guide-lvl">9 · Caption</span><span class="t-caption guide-sample" data-measure>Antetítulo · Etiqueta · Legal</span><span class="guide-meta"><code>--t-caption</code><br>16px · 500 · 1,45<br>Ahora: <b data-px></b></span><span class="guide-use">Antetítulos, píldoras, barra legal del pie. Mismo tamaño que el texto: se distingue por peso y color.</span></div>
     </div>
   </div>
 </section>
@@ -75,7 +75,7 @@
     <div class="guide-components">
       <div class="guide-card"><span class="t-small muted">Botones · body 16px</span><div class="guide-inline"><a class="btn" href="contacto.html">Hablemos <span class="arrow" aria-hidden="true">→</span></a><a class="btn btn--ghost" href="marcas.html">Ver marcas</a></div></div>
       <div class="guide-card"><span class="t-small muted">Enlace · body 16px, peso 400</span><div class="guide-inline"><a class="link" href="servicios.html">Todos los servicios</a></div></div>
-      <div class="guide-card"><span class="t-small muted">Antetítulo y píldoras · caption 14px</span><div class="guide-inline"><span class="eyebrow">Antetítulo</span><span class="tag">Estrategia</span><span class="tag">Diseño UX/UI</span></div></div>
+      <div class="guide-card"><span class="t-small muted">Antetítulo y píldoras · caption 16px</span><div class="guide-inline"><span class="eyebrow">Antetítulo</span><span class="tag">Estrategia</span><span class="tag">Diseño UX/UI</span></div></div>
       <div class="guide-card"><span class="t-small muted">Logotipo e imagotipo</span><div class="guide-inline"><span class="brand"><svg class="brand-mark" viewBox="0 0 30 16" width="30" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path fill="none" d="M1 15 L5.4 11.9 L8 10 L10.2 9.6 L11.5 8.5 L13.5 4.2 L14.4 1.4 L15.2 1 L15.9 1.6 L17.2 4.6 L20.3 7.6 L24.6 11.1 L29 13.7"/></svg><span class="brand-word">Vulkano Tribbu<i>.</i></span></span></div><p class="t-small muted">Imagotipo: solo línea, nunca relleno. Negro sobre claro, blanco sobre oscuro.</p></div>
     </div>
   </div>
@@ -89,7 +89,7 @@
     </div>
     <ol class="guide-rules">
       <li><span class="t-h3">01</span><p>Usa siempre un nivel de la escala (<code>--t-*</code> o las clases <code>.t-*</code>). No escribas tamaños sueltos en el CSS.</p></li>
-      <li><span class="t-h3">02</span><p>16px para leer, 14px como mínimo absoluto. Menú, pie y botones nunca bajan de 16px.</p></li>
+      <li><span class="t-h3">02</span><p>16px es el mínimo absoluto: ningún texto de la web, ni menú, ni pie, ni etiquetas, baja de 16px. La jerarquía pequeña se marca con color y peso.</p></li>
       <li><span class="t-h3">03</span><p>Un solo titular Display por página. Debajo, la jerarquía baja de nivel en nivel sin saltarse más de dos.</p></li>
       <li><span class="t-h3">04</span><p>Pesos 400 y 500. Sin cursivas, sin negritas fuertes, sin mayúsculas forzadas.</p></li>
       <li><span class="t-h3">05</span><p>Interfaz en blanco y negro; el color lo ponen las fotos y vídeos de los proyectos.</p></li>

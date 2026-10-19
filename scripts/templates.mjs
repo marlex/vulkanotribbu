@@ -47,7 +47,7 @@ export function diagnostic(services) {
 ${sliders}
       </form>
       <div class="diag-visual" aria-live="polite">
-        <svg class="radar" viewBox="-200 -165 400 330" role="img" aria-labelledby="radar-title">
+        <svg class="radar" viewBox="-270 -175 540 350" role="img" aria-labelledby="radar-title">
           <title id="radar-title">Mapa de tu marca en seis ejes</title>
           <g class="radar-grid"></g>
           <polygon class="radar-target" points=""></polygon>
