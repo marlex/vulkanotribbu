@@ -147,7 +147,7 @@ p { text-wrap: pretty; }
 .btn--ghost::before { background: var(--ink); }
 .btn--ghost:hover, .btn--ghost:focus-visible { color: var(--paper); }
 
-.link { position: relative; display: inline-flex; align-items: center; gap: .5rem; font-size: .9375rem; font-weight: 500; padding-bottom: .2rem; }
+.link { position: relative; display: inline-flex; align-items: center; gap: .5rem; font-size: 1rem; font-weight: 400; padding-bottom: .2rem; }
 .link::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 1.5px; background: currentColor; transform: scaleX(0); transform-origin: right; transition: transform .6s var(--ease-out); }
 .link:hover::after { transform: scaleX(1); transform-origin: left; }
 
@@ -167,11 +167,16 @@ p { text-wrap: pretty; }
 .site-header.is-hidden { transform: translateY(-100%); }
 
 .brand { display: inline-flex; align-items: center; line-height: 1; font-weight: 500; font-size: 1.15rem; letter-spacing: -.04em; }
+.brand { gap: .6rem; }
+.brand-mark { width: 30px; height: auto; flex: none; overflow: visible; }
+.brand-mark path { fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linejoin: round; stroke-linecap: round; vector-effect: non-scaling-stroke; stroke-dasharray: 60; stroke-dashoffset: 0; }
+.brand:hover .brand-mark path { animation: mark-draw 1.2s var(--ease-out); }
+@keyframes mark-draw { from { stroke-dashoffset: 60; } to { stroke-dashoffset: 0; } }
 .brand-word { display: inline-flex; align-items: baseline; }
 .brand-word i { color: var(--pumice); }
 
 .nav { display: flex; align-items: center; gap: clamp(1rem, 2vw, 2rem); }
-.nav a { font-size: .8125rem; font-weight: 500; position: relative; padding-block: .4rem; transition: opacity .3s; }
+.nav a { font-size: .875rem; font-weight: 400; position: relative; padding-block: .4rem; transition: opacity .3s; }
 .nav:hover a { opacity: .45; }
 .nav a:hover, .nav a:focus-visible { opacity: 1; }
 .nav a[aria-current="page"] { color: var(--pumice); }
@@ -682,7 +687,7 @@ p { text-wrap: pretty; }
 .stack-top { position: absolute; top: 0; left: 0; right: 0; display: flex; justify-content: space-between; padding: clamp(1rem, 2vw, 1.75rem) clamp(1.25rem, 2.5vw, 2.25rem); font-size: var(--fs-s); color: rgb(255 255 255 / .8); }
 .stack-name { position: absolute; left: clamp(1.25rem, 2.5vw, 2.25rem); bottom: clamp(1.1rem, 2.2vw, 2rem); right: 12rem; font-weight: 500; font-size: clamp(2.2rem, 6vw, 5.5rem); letter-spacing: -.05em; line-height: .95; }
 .stack-name small { display: block; margin-top: .6rem; font-size: clamp(.95rem, 1.3vw, 1.2rem); letter-spacing: -.01em; font-weight: 400; color: rgb(255 255 255 / .85); }
-.stack-open { position: absolute; right: clamp(1.25rem, 2.5vw, 2.25rem); bottom: clamp(1.25rem, 2.4vw, 2.2rem); display: inline-flex; gap: .6rem; align-items: center; padding: .7rem 1.1rem; border-radius: 999px; box-shadow: inset 0 0 0 1px rgb(255 255 255 / .55); font-size: var(--fs-s); font-weight: 500; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); transition: background-color .4s, color .4s; }
+.stack-open { position: absolute; right: clamp(1.25rem, 2.5vw, 2.25rem); bottom: clamp(1.25rem, 2.4vw, 2.2rem); display: inline-flex; gap: .6rem; align-items: center; padding: .7rem 1.1rem; border-radius: 999px; box-shadow: inset 0 0 0 1px rgb(255 255 255 / .55); font-size: var(--fs-s); font-weight: 400; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); transition: background-color .4s, color .4s; }
 .stack-card:hover .stack-open, .stack-card:focus-visible .stack-open { background: #fff; color: var(--night); }
 @media (max-width: 600px) { .stack-name { right: 1.25rem; bottom: 4.5rem; } .stack-open { left: 1.25rem; right: auto; } }
 .stack-item > template { display: none; }
@@ -854,3 +859,18 @@ p { text-wrap: pretty; }
   .cursor { display: none; }
 }
 @media (pointer: coarse) { .cursor { display: none; } }
+
+/* ==========================================================================
+   Texto corrido: párrafos a 16px y enlaces en peso normal
+   ========================================================================== */
+main p:not(.lit-text):not(.sheet-type), .sheet p:not(.sheet-type), .sheet li,
+.lead, .body-l, .exp-row p, .projects-head p, .principle p, .step p, .svc-card p,
+.post p, .faq details p, .prose p, .prose li, .incl p, .service-body p, .forge-card p {
+  font-size: 1rem; line-height: 1.65; font-weight: 400;
+}
+.sheet-cta p { font-size: 1.15rem; font-weight: 500; }
+:where(a:not(.btn):not(.brand):not(.footer-talk):not(.stack-card):not(.big-mail)) { font-weight: 400; }
+.counter span { font-size: 1rem; line-height: 1.45; max-width: 22ch; }
+.footer-col, .footer-col a { font-size: 1rem; }
+h1 a, h2 a, h3 a, h4 a, .mobile-menu nav a { font-weight: inherit; }
+.mobile-menu nav a { font-weight: 500; }
