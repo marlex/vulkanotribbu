@@ -122,12 +122,12 @@ const urls = [];
 for (const { file, meta, body } of pages) {
   const slug = file.replace(/\.html$/, "");
   const pageUrl = config.domain ? `https://${config.domain}/${slug === "index" ? "" : file}` : "";
-  if (config.domain && slug !== "404") urls.push(pageUrl);
+  if (config.domain && slug !== "404" && !meta.noindex) urls.push(pageUrl);
 
   const vars = {
     title: meta.title,
     description: meta.description,
-    canonical: pageUrl ? `<link rel="canonical" href="${pageUrl}">` : "",
+    canonical: (pageUrl ? `<link rel="canonical" href="${pageUrl}">` : "") + (meta.noindex ? `\n<meta name="robots" content="noindex">` : ""),
     email: config.email,
     tagline: config.tagline,
     navLinks: navLinks(meta.nav),

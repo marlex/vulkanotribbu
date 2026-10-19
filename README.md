@@ -29,6 +29,7 @@ Web de la agencia Vulkano Tribbu. Sitio estático, sin dependencias: HTML, CSS y
 | `manifiesto.html` | Cinco principios y cuatro compromisos, en tarjetas |
 | `diario.html` | Blog con los primeros temas en preparación |
 | `contacto.html` | Email, formulario y otras vías de contacto |
+| `estilos.html` | Guía de estilos: escala tipográfica, color, espacio y componentes (noindex) |
 | `legal.html` | Aviso legal, privacidad y cookies (faltan datos fiscales) |
 | `404.html` | Página no encontrada |
 
@@ -109,8 +110,24 @@ Las marcas se definen en `brands` (`site.config.mjs`). Las que llevan `featured:
 - **Logo** (carrusel de marcas de la portada, siempre girando): se usa `assets/logos/<slug>.svg` si existe, monocromo con `fill="currentColor"`. Ahora hay logos de IKEA y Leroy Merlin (Simple Icons, CC0); el resto se muestra con su nombre.
 - **Imagen de fondo:** `scene` elige un render de `assets/img/scenes/`. Para usar una foto propia, añadir `image: "assets/img/brands/archivo.jpg"`.
 
-## Tipografía
-- **Manrope** (licencia SIL OFL, servida desde `assets/fonts/`, sin Google Fonts) en todo el sitio: titulares en 500 con interletraje cerrado, párrafos grandes en 300, texto en 400–500. Sin negritas fuertes ni cursivas.
+## Tipografía y guía de estilos
+**Manrope** (licencia SIL OFL, servida desde `assets/fonts/`), pesos 400 y 500, sin cursivas. La guía completa, con muestras y el tamaño real en tu pantalla, está en **`estilos.html`** (no aparece en el menú ni en Google).
+
+Escala fija de 9 niveles (tokens `--t-*` en `:root` y clases `.t-*`):
+
+| Nivel | Token | Tamaño | Uso |
+| --- | --- | --- | --- |
+| 1 Display | `--t-display` | 52 → 156px | Titular de portada, «Hablemos» del pie |
+| 2 H1 | `--t-h1` | 44 → 96px | Título de página |
+| 3 Statement | `--t-statement` | 32 → 76px | Texto de presentación, cifras, nombres de marca |
+| 4 H2 | `--t-h2` | 32 → 60px | Título de sección |
+| 5 H3 | `--t-h3` | 24 → 34px | Título de tarjeta |
+| 6 H4 | `--t-h4` | 20 → 22px | Subtítulos, listas, campos de formulario |
+| 7 Body | `--t-body` | 16px | Párrafos, menú, enlaces, botones |
+| 8 Small | `--t-small` | 15px | Datos secundarios, cabeceras del pie, etiquetas |
+| 9 Caption | `--t-caption` | 14px | Antetítulos, píldoras, legal (mínimo absoluto) |
+
+Regla: no escribir tamaños sueltos en el CSS; usar siempre un nivel de la escala.
 
 ## Pendiente de validar
 - Fichas de proyecto (`src/data/projects.mjs`): IKEA, Santander, EY y Leroy Merlin ya describen el proyecto real (validar detalles y añadir resultados con cifra si se puede); Prisa Radio, Carnaval, Coverwallet, Zertiban e Ignia siguen siendo borradores.

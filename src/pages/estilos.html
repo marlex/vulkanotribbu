@@ -1,0 +1,112 @@
+<!--{"title":"Guía de estilos · Vulkano Tribbu","description":"Sistema visual de Vulkano Tribbu: escala tipográfica por jerarquía, color, espaciado y componentes.","nav":"estilos","noindex":true}-->
+<section class="hero hero--page s-dark">
+  <div class="wrap">
+    <span class="eyebrow settle" style="--d:.1s">Sistema visual</span>
+    <h1 class="hero-title display xl">
+      <span class="line ignite" style="--d:.2s">Guía de estilos</span>
+    </h1>
+    <div class="hero-foot">
+      <p class="lead settle" style="--d:.6s">Tipografía, color, espaciado y componentes de Vulkano Tribbu. Todo sale de los tokens de <span class="mono">assets/css/site.css</span>: si cambias un token, cambia en toda la web.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section s-light guide" aria-labelledby="g-tipo">
+  <div class="wrap">
+    <div class="section-head section-head--row">
+      <h2 class="display xl" id="g-tipo">Tipografía</h2>
+      <span class="mono muted">Manrope · 9 niveles · base 16px · mínimo 14px</span>
+    </div>
+    <p class="guide-note">Una sola familia, Manrope, en tres pesos: <strong>300</strong> (no se usa en texto corrido), <strong>400</strong> (texto, enlaces, menú) y <strong>500</strong> (títulos). Nunca cursiva ni negrita por encima de 500. Los tamaños grandes son fluidos: crecen con la pantalla entre un mínimo y un máximo. La columna «Ahora» muestra el tamaño real en tu pantalla.</p>
+    <div class="guide-scale">
+      <div class="guide-row guide-row--head"><span>Nivel</span><span>Muestra</span><span>Token · tamaño</span><span>Uso</span></div>
+      <div class="guide-row"><span class="guide-lvl">1 · Display</span><span class="t-display guide-sample" data-measure>Direction</span><span class="guide-meta"><code>--t-display</code><br>52 → 156px · 500 · 0,94<br>Ahora: <b data-px></b></span><span class="guide-use">Titular de portada y «Hablemos» del pie. Una vez por página como mucho.</span></div>
+      <div class="guide-row"><span class="guide-lvl">2 · H1</span><span class="t-h1 guide-sample" data-measure>Título de página</span><span class="guide-meta"><code>--t-h1</code><br>44 → 96px · 500 · 1<br>Ahora: <b data-px></b></span><span class="guide-use">Título principal de cada página interior.</span></div>
+      <div class="guide-row"><span class="guide-lvl">3 · Statement</span><span class="t-statement guide-sample" data-measure>Una frase que se lee de lejos.</span><span class="guide-meta"><code>--t-statement</code><br>32 → 76px · 400 · 1,18<br>Ahora: <b data-px></b></span><span class="guide-use">Texto de presentación, cifras, nombres de marca en tarjetas y carrusel, email grande.</span></div>
+      <div class="guide-row"><span class="guide-lvl">4 · H2</span><span class="t-h2 guide-sample" data-measure>Título de sección</span><span class="guide-meta"><code>--t-h2</code><br>32 → 60px · 500 · 1,02<br>Ahora: <b data-px></b></span><span class="guide-use">Cabeceras de bloque: «Marcas que confían…», «Lo que creemos».</span></div>
+      <div class="guide-row"><span class="guide-lvl">5 · H3</span><span class="t-h3 guide-sample" data-measure>Título de tarjeta</span><span class="guide-meta"><code>--t-h3</code><br>24 → 34px · 500 · 1,1<br>Ahora: <b data-px></b></span><span class="guide-use">Tarjetas de servicio, principios, pasos del método, números de especialidad.</span></div>
+      <div class="guide-row"><span class="guide-lvl">6 · H4</span><span class="t-h4 guide-sample" data-measure>Subtítulo o título de lista</span><span class="guide-meta"><code>--t-h4</code><br>20 → 22px · 500 · 1,3<br>Ahora: <b data-px></b></span><span class="guide-use">Nombres en listas, preguntas frecuentes, título del proyecto en la ficha, campos de formulario.</span></div>
+      <div class="guide-row"><span class="guide-lvl">7 · Body</span><span class="t-body guide-sample" data-measure>Párrafos, menú, enlaces y botones. Es el tamaño de lectura de toda la web.</span><span class="guide-meta"><code>--t-body</code><br>16px · 400 · 1,65<br>Ahora: <b data-px></b></span><span class="guide-use">Todo el texto corrido, el menú, los enlaces del pie y los botones.</span></div>
+      <div class="guide-row"><span class="guide-lvl">8 · Small</span><span class="t-small guide-sample" data-measure>Sector · Información secundaria</span><span class="guide-meta"><code>--t-small</code><br>15px · 400 · 1,5<br>Ahora: <b data-px></b></span><span class="guide-use">Cabeceras de columna del pie, sectores en tarjetas, etiquetas de formulario, datos de apoyo.</span></div>
+      <div class="guide-row"><span class="guide-lvl">9 · Caption</span><span class="t-caption guide-sample" data-measure>Antetítulo · Etiqueta · Legal</span><span class="guide-meta"><code>--t-caption</code><br>14px · 500 · 1,45<br>Ahora: <b data-px></b></span><span class="guide-use">Antetítulos, píldoras, barra legal del pie. Es el mínimo: nada más pequeño.</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="section s-mist guide" aria-labelledby="g-color">
+  <div class="wrap">
+    <div class="section-head section-head--row">
+      <h2 class="display xl" id="g-color">Color</h2>
+      <span class="mono muted">Blanco y negro · sin acentos</span>
+    </div>
+    <ul class="guide-swatches">
+      <li><span class="sw" style="background:#141416"></span><b>Noche</b><code>#141416 · --night</code><small>Texto principal, secciones oscuras, botones</small></li>
+      <li><span class="sw sw--line" style="background:#ffffff"></span><b>Blanco</b><code>#FFFFFF · --basalt</code><small>Fondo principal</small></li>
+      <li><span class="sw" style="background:#f4f4f5"></span><b>Niebla</b><code>#F4F4F5 · --obsidian</code><small>Fondos alternos y tarjetas claras</small></li>
+      <li><span class="sw" style="background:#2a2a2d"></span><b>Grafito</b><code>#2A2A2D</code><small>Tarjetas oscuras alternas</small></li>
+      <li><span class="sw" style="background:#5b5b63"></span><b>Pizarra</b><code>#5B5B63 · --stone</code><small>Texto secundario sobre blanco</small></li>
+      <li><span class="sw" style="background:#8a8a93"></span><b>Gris</b><code>#8A8A93 · --pumice</code><small>Etiquetas y datos de apoyo</small></li>
+    </ul>
+    <p class="guide-note">Dentro de una sección oscura (<code>.s-ink</code>) los tokens se invierten solos: el mismo componente funciona sobre blanco y sobre negro sin estilos extra. Las fotos y vídeos de proyectos van en color; la interfaz, siempre en blanco y negro.</p>
+  </div>
+</section>
+
+<section class="section s-light guide" aria-labelledby="g-espacio">
+  <div class="wrap">
+    <div class="section-head section-head--row">
+      <h2 class="display xl" id="g-espacio">Espacio y forma</h2>
+      <span class="mono muted">Ritmo fluido</span>
+    </div>
+    <div class="guide-grid">
+      <div><span class="t-small muted">Separación entre secciones</span><p class="t-h4">--section · 104 → 208px</p></div>
+      <div><span class="t-small muted">Márgenes laterales</span><p class="t-h4">--gutter · 20 → 48px</p></div>
+      <div><span class="t-small muted">Esquinas</span><p class="t-h4">--radius 6px · --radius-l 8 → 12px</p></div>
+      <div><span class="t-small muted">Ancho máximo</span><p class="t-h4">--max · 1440px</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section s-light guide" aria-labelledby="g-comp" style="padding-top:0">
+  <div class="wrap">
+    <div class="section-head section-head--row">
+      <h2 class="display xl" id="g-comp">Componentes</h2>
+      <span class="mono muted">Interfaz</span>
+    </div>
+    <div class="guide-components">
+      <div class="guide-card"><span class="t-small muted">Botones · body 16px</span><div class="guide-inline"><a class="btn" href="contacto.html">Hablemos <span class="arrow" aria-hidden="true">→</span></a><a class="btn btn--ghost" href="marcas.html">Ver marcas</a></div></div>
+      <div class="guide-card"><span class="t-small muted">Enlace · body 16px, peso 400</span><div class="guide-inline"><a class="link" href="servicios.html">Todos los servicios</a></div></div>
+      <div class="guide-card"><span class="t-small muted">Antetítulo y píldoras · caption 14px</span><div class="guide-inline"><span class="eyebrow">Antetítulo</span><span class="tag">Estrategia</span><span class="tag">Diseño UX/UI</span></div></div>
+      <div class="guide-card"><span class="t-small muted">Logotipo e imagotipo</span><div class="guide-inline"><span class="brand"><svg class="brand-mark" viewBox="0 0 30 16" width="30" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path fill="none" d="M1 15 L5.4 11.9 L8 10 L10.2 9.6 L11.5 8.5 L13.5 4.2 L14.4 1.4 L15.2 1 L15.9 1.6 L17.2 4.6 L20.3 7.6 L24.6 11.1 L29 13.7"/></svg><span class="brand-word">Vulkano Tribbu<i>.</i></span></span></div><p class="t-small muted">Imagotipo: solo línea, nunca relleno. Negro sobre claro, blanco sobre oscuro.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section s-ink guide" aria-labelledby="g-reglas">
+  <div class="wrap">
+    <div class="section-head section-head--row">
+      <h2 class="display xl" id="g-reglas">Reglas</h2>
+      <span class="mono muted">Para mantener el sistema estable</span>
+    </div>
+    <ol class="guide-rules">
+      <li><span class="t-h3">01</span><p>Usa siempre un nivel de la escala (<code>--t-*</code> o las clases <code>.t-*</code>). No escribas tamaños sueltos en el CSS.</p></li>
+      <li><span class="t-h3">02</span><p>16px para leer, 14px como mínimo absoluto. Menú, pie y botones nunca bajan de 16px.</p></li>
+      <li><span class="t-h3">03</span><p>Un solo titular Display por página. Debajo, la jerarquía baja de nivel en nivel sin saltarse más de dos.</p></li>
+      <li><span class="t-h3">04</span><p>Pesos 400 y 500. Sin cursivas, sin negritas fuertes, sin mayúsculas forzadas.</p></li>
+      <li><span class="t-h3">05</span><p>Interfaz en blanco y negro; el color lo ponen las fotos y vídeos de los proyectos.</p></li>
+      <li><span class="t-h3">06</span><p>Mucho aire: entre secciones, <code>--section</code>; dentro de un bloque, múltiplos de 8px.</p></li>
+    </ol>
+  </div>
+</section>
+
+<script>
+  // Tamaño real de cada nivel en la pantalla actual
+  (function () {
+    function measure() {
+      document.querySelectorAll("[data-measure]").forEach(function (el) {
+        var out = el.parentNode.querySelector("[data-px]");
+        if (out) out.textContent = Math.round(parseFloat(getComputedStyle(el).fontSize)) + "px";
+      });
+    }
+    measure(); window.addEventListener("resize", measure);
+  })();
+</script>
