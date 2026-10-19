@@ -932,7 +932,7 @@ h1 a, h2 a, h3 a, h4 a, .mobile-menu nav a { font-weight: inherit; }
 .guide-meta b { color: var(--ink); font-weight: 500; }
 @media (max-width: 900px) { .guide-row { grid-template-columns: 1fr; gap: .6rem; } .guide-row--head { display: none; } }
 .guide-swatches { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(1rem, 2vw, 1.5rem); }
-.guide-swatches li { display: grid; gap: .3rem; font-size: var(--t-small); }
+.guide-swatches li { display: grid; gap: .3rem; font-size: var(--t-small); min-width: 0; overflow-wrap: anywhere; }
 .guide-swatches b { font-weight: 500; font-size: var(--t-body); margin-top: .5rem; }
 .guide-swatches small { color: var(--stone); font-size: var(--t-small); }
 .sw { display: block; aspect-ratio: 16 / 9; border-radius: var(--radius); }
