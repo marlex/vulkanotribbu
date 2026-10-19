@@ -950,3 +950,12 @@ h1 a, h2 a, h3 a, h4 a, .mobile-menu nav a { font-weight: inherit; }
 .guide-rules li { display: grid; gap: .75rem; align-content: start; padding-top: 1.25rem; border-top: 1px solid var(--line-dark); }
 .guide-rules p { color: var(--stone); }
 @media (max-width: 900px) { .guide-rules { grid-template-columns: 1fr; } }
+
+/* Tarjetas de proyecto a sangre: todo el ancho de la ventana */
+.stack-list { width: 100vw; margin-inline: calc(50% - 50vw); }
+.stack-item { height: min(88svh, 900px); }
+.stack-card { border-radius: 0; }
+.stack-top { padding-inline: var(--gutter); }
+.stack-name { left: var(--gutter); }
+.stack-open { right: var(--gutter); }
+@media (max-width: 600px) { .stack-name { right: var(--gutter); } .stack-open { left: var(--gutter); right: auto; } .stack-item { height: min(78svh, 640px); } }
