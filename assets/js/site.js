@@ -6,6 +6,11 @@
 
   window.__vtReady = true;
 
+  // Ancho útil de la ventana sin la barra de scroll (para bloques a sangre con margen exacto).
+  function setVw() { document.documentElement.style.setProperty("--vw", document.documentElement.clientWidth + "px"); }
+  setVw();
+  window.addEventListener("resize", setVw);
+
   /* ---------- Cada página empieza arriba del todo ---------- */
   // En visores que muestran la web dentro de un marco (como la URL de pruebas)
   // el scroll que se queda abajo es el del contenedor exterior, y ese contenedor
