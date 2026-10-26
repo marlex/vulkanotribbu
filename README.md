@@ -30,7 +30,7 @@ Web de la agencia Vulkano Tribbu. Sitio estático, sin dependencias: HTML, CSS y
 | `diario.html` | Blog con los primeros temas en preparación |
 | `contacto.html` | Email, formulario y otras vías de contacto |
 | `estilos.html` | Guía de estilos: escala tipográfica, color, espacio y componentes (noindex) |
-| `legal.html` | Aviso legal, privacidad y cookies (faltan datos fiscales) |
+| `legal.html` | Aviso legal, privacidad y cookies con los datos del titular |
 | `404.html` | Página no encontrada |
 
 ## Estructura
@@ -136,4 +136,3 @@ Reglas: **ningún texto por debajo de 16px** (la jerarquía pequeña se marca co
 - Email de contacto y perfiles sociales en `site.config.mjs`.
 - Sector de Ignia Institution en `site.config.mjs`.
 - Compromisos con cifra: respuesta en 48 h y plazos orientativos en las preguntas frecuentes.
-- Datos fiscales en `legal.html`.
