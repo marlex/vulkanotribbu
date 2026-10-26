@@ -1062,3 +1062,6 @@ h1 a, h2 a, h3 a, h4 a, .mobile-menu nav a { font-weight: inherit; }
 /* Fondos alternos: blanco / gris muy sutil (#f4f4f5, siempre el mismo) / negro */
 .s-mist .counter--2 { background: var(--basalt); }
 .legal-body { max-width: 760px; }
+.legal-page, .legal-page * { background: none !important; }
+.legal-page { padding-top: clamp(9rem, 16vw, 13rem); }
+.legal-body h1 { font-size: var(--t-h1); line-height: 1; letter-spacing: -.05em; font-weight: 500; margin-bottom: var(--s-title); }
