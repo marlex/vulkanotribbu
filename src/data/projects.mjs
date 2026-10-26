@@ -91,21 +91,6 @@ export default {
       "Tienda y canal digital trabajando sobre el mismo proyecto del cliente."
     ]
   },
-  "carnaval-tenerife": {
-    services: ["Identidad", "Experiencias", "Motion"],
-    project: "Identidad y piezas para uno de los grandes eventos culturales del país.",
-    challenge: "Renovar la imagen de un evento con una tradición enorme, respetando su historia y conectando con nuevas generaciones y visitantes.",
-    approach: [
-      "Estudiamos la historia visual del evento y lo que lo hace único.",
-      "Creamos un sistema gráfico flexible para cartelería, calle y digital.",
-      "Animamos la identidad para pantallas, redes y retransmisiones."
-    ],
-    results: [
-      "Una imagen reconocible que convive con la tradición.",
-      "Un sistema aplicable a decenas de soportes distintos.",
-      "Más presencia del evento en canales digitales."
-    ]
-  },
   coverwallet: {
     services: ["Estrategia", "Web", "Contenido"],
     project: "Estrategia de comunicación y producto digital para simplificar los seguros de empresa.",
@@ -119,21 +104,6 @@ export default {
       "Una propuesta de valor más clara y diferencial.",
       "Recorridos digitales más sencillos.",
       "Contenido que acompaña al cliente en la decisión."
-    ]
-  },
-  zertiban: {
-    services: ["Estrategia", "Identidad", "Web"],
-    project: "Posicionamiento, identidad y web para una compañía en crecimiento.",
-    challenge: "Pasar de una imagen funcional a una marca que transmita solidez y ambición y que acompañe la siguiente etapa de la compañía.",
-    approach: [
-      "Trabajamos con la dirección para definir posicionamiento y propósito.",
-      "Diseñamos una identidad visual escalable.",
-      "Construimos una web rápida, clara y fácil de mantener."
-    ],
-    results: [
-      "Una marca alineada con la ambición de la compañía.",
-      "Un sistema visual listo para crecer.",
-      "Una web que el equipo gestiona con autonomía."
     ]
   },
   ignia: {

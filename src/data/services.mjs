@@ -269,7 +269,7 @@ export default [
     stack: ["Diseño 3D", "Planos técnicos", "Gráfica de gran formato", "Producción audiovisual", "Iluminación", "Proveedores locales"],
     faq: [
       ["¿Gestionáis la producción completa?", "Sí. Coordinamos proveedores, montaje y la operación en el día para que tú solo disfrutes del resultado."],
-      ["¿Trabajáis con eventos multitudinarios?", "Sí, tenemos experiencia diseñando para miles de personas en la calle, como el Carnaval de Tenerife."],
+      ["¿Trabajáis con eventos multitudinarios?", "Sí, tenemos experiencia diseñando para miles de personas en la calle y en recintos de gran formato."],
       ["¿Hacéis espacios permanentes?", "También: oficinas, tiendas y señalética para espacios que se viven a diario."],
       ["¿Podéis extender el evento al digital?", "Sí, con retransmisiones, contenido para redes y experiencias online complementarias."]
     ],

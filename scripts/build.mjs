@@ -9,7 +9,7 @@ import { fileURLToPath } from "node:url";
 import config from "../site.config.mjs";
 import services from "../src/data/services.mjs";
 import projects from "../src/data/projects.mjs";
-import { serviceCards, diagnostic, servicePage, servicePath } from "./templates.mjs";
+import { serviceCards, serviceList, diagnostic, servicePage, servicePath } from "./templates.mjs";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const preview = process.argv.includes("--preview");
@@ -84,22 +84,16 @@ const brandLogos = (
     config.brands.map(async (b) => {
       for (const ext of ["svg", "webp", "png"]) {
         const path = `assets/logos/${b.slug}.${ext}`;
-        if (await exists(path)) return `<li class="logo"><img src="${path}" alt="${b.name}" height="70" decoding="async"></li>`;
+        if (await exists(path)) return `<li class="logo"><img src="${path}" alt="${b.name}" height="55" decoding="async"></li>`;
       }
-      return `<li class="logo logo--text"><span>${b.name}</span></li>`;
+      return ""; // sin logo propio → fuera del carrusel
     })
   )
-).join("\n      ");
+).filter(Boolean).join("\n      ");
 const gallery = config.gallery
   .map((g, i) => `<li class="gallery-item gallery-item--${g.shape}"><img src="assets/img/gallery/${g.file}.jpg" alt="" width="720" height="900" loading="lazy" decoding="async"></li>`)
   .join("\n      ");
-const expertise = services
-  .map((s, i) => `<li class="exp-row reveal">
-        <span class="exp-num">${pad(i)}</span>
-        <h3><a href="${servicePath(s)}">${s.name}</a></h3>
-        <p>${s.lead.split(". ")[0].replace(/\.$/, "")}.</p>
-      </li>`)
-  .join("\n      ");
+const expertise = serviceList(services);
 
 const fill = (tpl, vars) => tpl.replace(/\{\{(\w+)\}\}/g, (m, k) => (k in vars ? vars[k] : m));
 

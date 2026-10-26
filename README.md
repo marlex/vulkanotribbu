@@ -107,7 +107,7 @@ Seis ejes (uno por servicio) con deslizadores de 0 a 10. El radar se dibuja en v
 
 ## Marcas y logos
 Las marcas se definen en `brands` (`site.config.mjs`). Las que llevan `featured: true` aparecen en las tarjetas apiladas de la portada; `marcas.html` muestra las nueve.
-- **Logo** (carrusel de marcas de la portada, siempre girando): `assets/logos/<slug>.svg|webp|png`, se muestra a 70px de alto con ancho proporcional y en sus colores originales. Hay logo de IKEA, Banco Santander, EY, Prisa, Leroy Merlin, Coverwallet e Ignia; Carnaval de Tenerife y Zertiban aparecen con su nombre hasta tener su logo.
+- **Logo** (carrusel de marcas de la portada, siempre girando): `assets/logos/<slug>.svg|webp|png`, se muestra a 55px de alto con ancho proporcional, sin separadores y en sus colores originales. Solo entran en el carrusel las marcas con logo en esa carpeta.
 - **Imagen de fondo:** `scene` elige un render de `assets/img/scenes/`. Para usar una foto propia, añadir `image: "assets/img/brands/archivo.jpg"`.
 
 ## Tipografía y guía de estilos
@@ -132,9 +132,8 @@ Espaciado vertical por relación: `--s-title` (título → contenido, 28–48px)
 Reglas: **ningún texto por debajo de 16px** (la jerarquía pequeña se marca con color y peso) y no escribir tamaños sueltos en el CSS; usar siempre un nivel de la escala.
 
 ## Pendiente de validar
-- Fichas de proyecto (`src/data/projects.mjs`): IKEA, Santander, EY y Leroy Merlin ya describen el proyecto real (validar detalles y añadir resultados con cifra si se puede); Prisa Radio, Carnaval, Coverwallet, Zertiban e Ignia siguen siendo borradores.
-- Logos de Carnaval de Tenerife y Zertiban.
+- Fichas de proyecto (`src/data/projects.mjs`): IKEA, Santander, EY y Leroy Merlin ya describen el proyecto real (validar detalles y añadir resultados con cifra si se puede); Prisa Radio, Coverwallet e Ignia siguen siendo borradores.
 - Email de contacto y perfiles sociales en `site.config.mjs`.
-- Sectores de Zertiban e Ignia Institution en `site.config.mjs`.
+- Sector de Ignia Institution en `site.config.mjs`.
 - Compromisos con cifra: respuesta en 48 h y plazos orientativos en las preguntas frecuentes.
 - Datos fiscales en `legal.html`.

@@ -22,9 +22,7 @@ export default {
     { slug: "ey", name: "EY", sector: "Consultoría · Eventos", scene: "noir", featured: true, image: "assets/img/projects/ey.jpg" },
     { slug: "prisa-radio", name: "Prisa Radio", sector: "Medios · Audio", scene: "spheres", featured: true, image: "assets/img/projects/prisa-radio.jpg" },
     { slug: "leroymerlin", name: "Leroy Merlin", sector: "Retail · Omnicanalidad", scene: "lime", featured: true, image: "assets/img/projects/leroymerlin.jpg" },
-    { slug: "carnaval-tenerife", name: "Carnaval de Tenerife", sector: "Cultura · Evento", scene: "silk", image: "assets/img/projects/carnaval-tenerife.jpg" },
     { slug: "coverwallet", name: "Coverwallet", sector: "Seguros · Digital", scene: "rings", image: "assets/img/projects/coverwallet.jpg" },
-    { slug: "zertiban", name: "Zertiban", sector: "Empresa", scene: "drop", image: "assets/img/projects/zertiban.jpg" },
     { slug: "ignia", name: "Ignia Institution", sector: "Institución", scene: "twist", image: "assets/img/projects/ignia.jpg" }
   ],
   // Galería horizontal de la portada: fotogramas de vuestros vídeos (assets/img/gallery/<file>.jpg).

@@ -8,21 +8,26 @@ const icon = (s, cls = "svc-icon") =>
   `<svg class="${cls}" viewBox="0 0 24 24" aria-hidden="true" focusable="false">${s.icon}</svg>`;
 
 // Tarjetas de servicio (portada y servicios.html)
-export function serviceCards(services) {
-  return `<ul class="svc-grid">
+// Listado de servicios (portada, servicios y relacionados). Cada fila es un enlace completo.
+//   detail: false → título + frase (portada, relacionados)
+//   detail: true  → título + resumen + descripción + etiquetas (página de servicios)
+const arrow = `<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+export function serviceList(services, { detail = false } = {}) {
+  return `<ul class="svc-list${detail ? " svc-list--detail" : ""}">
 ${services
   .map(
-    (s, i) => `      <li class="reveal" style="--rd:${(i % 3) * 0.08}s"><a class="svc-card" href="${servicePath(s)}">
-        <span class="svc-top"><span class="mono">${num(i)}</span>${icon(s)}</span>
-        <h3>${inline(s.title)}</h3>
-        <p>${esc(s.short)}</p>
-        <span class="svc-tags">${s.tags.map((t) => `<span class="tag">${esc(t)}</span>`).join("")}</span>
-        <span class="svc-more">Ver servicio <span aria-hidden="true">→</span></span>
-      </a></li>`
+    (s, i) => `      <li class="svc-row reveal" style="--rd:${(i * 0.08).toFixed(2)}s">
+        <a class="svc-link" href="${servicePath(s)}" data-cursor="Ver servicio">
+          <span class="svc-title"><h3>${esc(s.name)}</h3>${detail ? `<span class="svc-short">${esc(s.short)}</span>` : ""}</span>
+          <span class="svc-desc">${detail ? `<span class="svc-lead">${esc(s.lead)}</span><span class="svc-tags">${s.tags.map((t) => `<span class="tag">${esc(t)}</span>`).join("")}</span>` : esc(s.short)}</span>
+          <span class="svc-go">${arrow}</span>
+        </a>
+      </li>`
   )
   .join("\n")}
     </ul>`;
 }
+export const serviceCards = (services) => serviceList(services, { detail: true });
 
 // Diagnóstico de marca: un eje por servicio
 export function diagnostic(services) {
@@ -35,7 +40,7 @@ export function diagnostic(services) {
           </div>`
     )
     .join("\n");
-  return `<section class="section s-mist diag" id="diagnostico" aria-labelledby="diag-title">
+  return `<section class="section s-light diag" id="diagnostico" aria-labelledby="diag-title">
   <div class="wrap">
     <div class="section-head">
       <span class="eyebrow">Diagnóstico de marca</span>
@@ -99,7 +104,7 @@ export function servicePage(s, services) {
   </div>
 </section>
 
-<section class="section s-light" aria-labelledby="logros-title">
+<section class="section s-mist" aria-labelledby="logros-title">
   <div class="wrap">
     <div class="section-head">
       <span class="eyebrow">Lo que consigues</span>
@@ -176,13 +181,11 @@ ${s.faq.map(([q, a]) => `        <details><summary>${esc(q)}</summary><p>${esc(a
       <span class="eyebrow">Se combina con</span>
       <h2 class="display xl reveal" id="combina-title">Más fuerza<br><span class="serif">juntos</span></h2>
     </div>
-    <div class="related">
-${related.map((r) => `      <a class="svc-card reveal" href="${servicePath(r)}"><span class="svc-top"><span class="mono">${num(services.indexOf(r))}</span>${icon(r)}</span><h3>${inline(r.title)}</h3><p>${esc(r.short)}</p><span class="svc-more">Ver servicio <span aria-hidden="true">→</span></span></a>`).join("\n")}
-    </div>
+    ${serviceList(related)}
   </div>
 </section>
 
-<section class="section s-light closing" aria-labelledby="cierre-title">
+<section class="section s-mist closing" aria-labelledby="cierre-title">
   <div class="wrap">
     <h2 class="display xl reveal" id="cierre-title">¿Empezamos<br><span class="serif">por aquí?</span></h2>
     <div class="closing-row reveal">
