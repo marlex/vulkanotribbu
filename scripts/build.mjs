@@ -6,6 +6,7 @@
 import { readFile, writeFile, mkdir, readdir, cp, rm, access } from "node:fs/promises";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
+import { createHash } from "node:crypto";
 import config from "../site.config.mjs";
 import services from "../src/data/services.mjs";
 import projects from "../src/data/projects.mjs";
@@ -79,6 +80,8 @@ const brandStack = (list) =>
     })
     .join("\n      ");
 // Carrusel de logos: assets/logos/<slug>.(svg|webp|png), siempre 70px de alto y ancho proporcional.
+const ver = async (f) => createHash("sha1").update(await readFile(f)).digest("hex").slice(0, 8);
+const assetVer = { css: await ver("assets/css/site.css"), js: await ver("assets/js/site.js") };
 const brandLogos = (
   await Promise.all(
     config.brands.map(async (b) => {
@@ -148,6 +151,8 @@ for (const { file, meta, body } of pages) {
   } else {
     html = `<!doctype html>\n<html lang="es">\n<head>\n${headHtml}</head>\n<body class="page-${slug}">\n${bodyHtml}</body>\n</html>\n`;
   }
+  // Versión por contenido: cada cambio de CSS/JS obliga al navegador a descargarlo de nuevo
+  html = html.replace('href="assets/css/site.css"', `href="assets/css/site.css?v=${assetVer.css}"`).replace('src="assets/js/site.js"', `src="assets/js/site.js?v=${assetVer.js}"`);
   await writeFile(join(out, file), html);
 }
 

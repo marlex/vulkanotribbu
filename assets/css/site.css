@@ -1061,3 +1061,4 @@ h1 a, h2 a, h3 a, h4 a, .mobile-menu nav a { font-weight: inherit; }
 
 /* Fondos alternos: blanco / gris muy sutil (#f4f4f5, siempre el mismo) / negro */
 .s-mist .counter--2 { background: var(--basalt); }
+.legal-body { max-width: 760px; }

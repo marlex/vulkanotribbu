@@ -11,7 +11,7 @@ const icon = (s, cls = "svc-icon") =>
 // Listado de servicios (portada, servicios y relacionados). Cada fila es un enlace completo.
 //   detail: false → título + frase (portada, relacionados)
 //   detail: true  → título + resumen + descripción + etiquetas (página de servicios)
-const arrow = `<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+const arrow = `<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 export function serviceList(services, { detail = false } = {}) {
   return `<ul class="svc-list${detail ? " svc-list--detail" : ""}">
 ${services
