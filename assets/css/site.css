@@ -991,3 +991,8 @@ h1 a, h2 a, h3 a, h4 a, .mobile-menu nav a { font-weight: inherit; }
 .post p { margin-top: var(--s-block); }
 .exp-row h3 + p, .post > h3 + p { margin-top: 0; }
 @media (max-width: 760px) { .exp-row h3 + p { margin-top: 0; } }
+
+/* Carrusel de logos: alto fijo 70px, ancho proporcional */
+.logo { height: 70px; }
+.logo img { height: 70px; width: auto; max-width: none; display: block; }
+.logo--text span { font-size: var(--t-h2); line-height: 70px; }

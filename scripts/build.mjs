@@ -78,14 +78,15 @@ const brandStack = (list) =>
       </li>`;
     })
     .join("\n      ");
+// Carrusel de logos: assets/logos/<slug>.(svg|webp|png), siempre 70px de alto y ancho proporcional.
 const brandLogos = (
   await Promise.all(
     config.brands.map(async (b) => {
-      const logoPath = `assets/logos/${b.slug}.svg`;
-      const inner = (await exists(logoPath))
-        ? (await read(logoPath)).replace(/<svg /, `<svg role="img" aria-label="${b.name}" `)
-        : `<span>${b.name}</span>`;
-      return `<li class="logo">${inner}</li>`;
+      for (const ext of ["svg", "webp", "png"]) {
+        const path = `assets/logos/${b.slug}.${ext}`;
+        if (await exists(path)) return `<li class="logo"><img src="${path}" alt="${b.name}" height="70" decoding="async"></li>`;
+      }
+      return `<li class="logo logo--text"><span>${b.name}</span></li>`;
     })
   )
 ).join("\n      ");

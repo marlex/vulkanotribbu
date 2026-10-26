@@ -107,7 +107,7 @@ Seis ejes (uno por servicio) con deslizadores de 0 a 10. El radar se dibuja en v
 
 ## Marcas y logos
 Las marcas se definen en `brands` (`site.config.mjs`). Las que llevan `featured: true` aparecen en las tarjetas apiladas de la portada; `marcas.html` muestra las nueve.
-- **Logo** (carrusel de marcas de la portada, siempre girando): se usa `assets/logos/<slug>.svg` si existe, monocromo con `fill="currentColor"`. Ahora hay logos de IKEA y Leroy Merlin (Simple Icons, CC0); el resto se muestra con su nombre.
+- **Logo** (carrusel de marcas de la portada, siempre girando): `assets/logos/<slug>.svg|webp|png`, se muestra a 70px de alto con ancho proporcional y en sus colores originales. Hay logo de IKEA, Banco Santander, EY, Prisa, Leroy Merlin, Coverwallet e Ignia; Carnaval de Tenerife y Zertiban aparecen con su nombre hasta tener su logo.
 - **Imagen de fondo:** `scene` elige un render de `assets/img/scenes/`. Para usar una foto propia, añadir `image: "assets/img/brands/archivo.jpg"`.
 
 ## Tipografía y guía de estilos
@@ -133,7 +133,7 @@ Reglas: **ningún texto por debajo de 16px** (la jerarquía pequeña se marca co
 
 ## Pendiente de validar
 - Fichas de proyecto (`src/data/projects.mjs`): IKEA, Santander, EY y Leroy Merlin ya describen el proyecto real (validar detalles y añadir resultados con cifra si se puede); Prisa Radio, Carnaval, Coverwallet, Zertiban e Ignia siguen siendo borradores.
-- Logos en SVG de Prisa Radio, EY, Carnaval de Tenerife, Banco Santander, Coverwallet, Zertiban e Ignia Institution.
+- Logos de Carnaval de Tenerife y Zertiban.
 - Email de contacto y perfiles sociales en `site.config.mjs`.
 - Sectores de Zertiban e Ignia Institution en `site.config.mjs`.
 - Compromisos con cifra: respuesta en 48 h y plazos orientativos en las preguntas frecuentes.
