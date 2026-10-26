@@ -1047,7 +1047,7 @@ h1 a, h2 a, h3 a, h4 a, .mobile-menu nav a { font-weight: inherit; }
 /* Footer: logotipo a todo el ancho (sin imagotipo) */
 .site-footer .wrap { container-type: inline-size; }
 .footer-logo { display: block; margin-bottom: clamp(3rem, 6vw, 5rem); line-height: .8; transition: color .4s; }
-.footer-logo span { display: block; font-weight: 500; font-size: calc(100cqw / var(--fl-k, 6.29)); letter-spacing: -.06em; white-space: nowrap; }
+.footer-logo span { display: block; font-weight: 300; font-size: calc(100cqw / var(--fl-k, 6.29)); letter-spacing: -.04em; white-space: nowrap; }
 .footer-logo i { font-style: normal; color: var(--pumice); }
 .footer-logo:hover { color: var(--pumice); }
 
@@ -1060,5 +1060,4 @@ h1 a, h2 a, h3 a, h4 a, .mobile-menu nav a { font-weight: inherit; }
 }
 
 /* Fondos alternos: blanco / gris muy sutil (#f4f4f5, siempre el mismo) / negro */
-.logos-wrap.s-mist { background: var(--obsidian); padding-block: clamp(4rem, 8vw, 7rem); }
 .s-mist .counter--2 { background: var(--basalt); }
