@@ -63,6 +63,13 @@
       <div><span class="t-small muted">Esquinas</span><p class="t-h4">--radius 6px · --radius-l 8 → 12px</p></div>
       <div><span class="t-small muted">Ancho máximo</span><p class="t-h4">--max · 1440px</p></div>
     </div>
+    <div class="guide-grid" style="margin-top:clamp(2rem,4vw,3rem)">
+      <div><span class="t-small muted">Título → contenido</span><p class="t-h4">--s-title · 28 → 48px</p></div>
+      <div><span class="t-small muted">Texto → botón o acción</span><p class="t-h4">--s-block · 20 → 28px</p></div>
+      <div><span class="t-small muted">Antetítulo → título</span><p class="t-h4">--s-tight · 12 → 16px</p></div>
+      <div><span class="t-small muted">Título de tarjeta → texto</span><p class="t-h4">--s-block · 20 → 28px</p></div>
+    </div>
+    <p class="guide-note" style="margin-top:clamp(2rem,4vw,3rem)">Regla de espaciado: ningún texto queda pegado a un titular. Después de cualquier título grande va siempre <code>--s-title</code>; entre un texto y su botón, <code>--s-block</code>; entre el antetítulo y el título, <code>--s-tight</code>. Se aplica sola en toda la web: no hace falta añadir márgenes a mano.</p>
   </div>
 </section>
 
@@ -93,7 +100,7 @@
       <li><span class="t-h3">03</span><p>Un solo titular Display por página. Debajo, la jerarquía baja de nivel en nivel sin saltarse más de dos.</p></li>
       <li><span class="t-h3">04</span><p>Pesos 400 y 500. Sin cursivas, sin negritas fuertes, sin mayúsculas forzadas.</p></li>
       <li><span class="t-h3">05</span><p>Interfaz en blanco y negro; el color lo ponen las fotos y vídeos de los proyectos.</p></li>
-      <li><span class="t-h3">06</span><p>Mucho aire: entre secciones, <code>--section</code>; dentro de un bloque, múltiplos de 8px.</p></li>
+      <li><span class="t-h3">06</span><p>Mucho aire: entre secciones, <code>--section</code>; después de un titular, <code>--s-title</code>; entre texto y botón, <code>--s-block</code>. Nunca un texto pegado a un título.</p></li>
     </ol>
   </div>
 </section>

@@ -56,6 +56,12 @@
   --fs-s: var(--t-small);
   --fs-micro: var(--t-caption);
 
+  /* Espaciado vertical por relación (ver estilos.html):
+     título → contenido · texto → acción · antetítulo → título */
+  --s-title: clamp(1.75rem, 3vw, 3rem);
+  --s-block: clamp(1.25rem, 2vw, 1.75rem);
+  --s-tight: clamp(.75rem, 1.2vw, 1rem);
+
   /* Espacio y ritmo */
   --gutter: clamp(20px, 3.4vw, 48px);
   --section: clamp(6.5rem, 14vw, 13rem);
@@ -959,3 +965,29 @@ h1 a, h2 a, h3 a, h4 a, .mobile-menu nav a { font-weight: inherit; }
 .stack-name { left: clamp(1.25rem, 2.5vw, 2.25rem); }
 .stack-open { right: clamp(1.25rem, 2.5vw, 2.25rem); }
 @media (max-width: 600px) { .stack-name { right: 1.25rem; } .stack-open { left: 1.25rem; right: auto; } .stack-item { height: min(78svh, 640px); } }
+
+/* ==========================================================================
+   Regla de espaciado: ningún texto pegado a un titular
+   1. Título grande → lo que venga después: --s-title
+   2. Texto → botón o acción dentro de un mismo grupo: --s-block
+   3. Antetítulo → título: --s-tight
+   ========================================================================== */
+:where(.wrap, .col-body, .col-head, .split > div, .exp-head) > :is(h1, h2, .display) + :not(br) { margin-top: var(--s-title); }
+:is(.stack, .stack-l) > :is(h1, h2, .display) + * { margin-top: calc(var(--s-title) - 1.5rem); }
+.stack-l > :is(h1, h2, .display) + * { margin-top: calc(var(--s-title) - 2.5rem); }
+.section-head--row > * { margin-top: 0; }
+.closing-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--s-block) 2rem; }
+.closing .closing-row { flex-direction: column; justify-content: center; gap: var(--s-block); }
+.hero-foot { margin-top: var(--s-title); gap: var(--s-block); }
+.hero--page .eyebrow, .section-head .eyebrow { margin-bottom: 0; }
+.hero--page .eyebrow + .hero-title { margin-top: var(--s-tight); }
+.section-head { gap: var(--s-tight); }
+.section-head--row { gap: var(--s-block) 2rem; }
+.sheet-head { gap: var(--s-block); }
+.sheet-type { margin-top: calc(var(--s-tight) * -1); }
+.section-head:not(.section-head--row) > :is(h2, .display) + * { margin-top: calc(var(--s-title) - var(--s-tight)); }
+:is(h3, h4) + p { margin-top: var(--s-block); }
+.forge-card .stack { gap: var(--s-block); }
+.post p { margin-top: var(--s-block); }
+.exp-row h3 + p, .post > h3 + p { margin-top: 0; }
+@media (max-width: 760px) { .exp-row h3 + p { margin-top: 0; } }

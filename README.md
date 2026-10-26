@@ -127,6 +127,8 @@ Escala fija de 9 niveles (tokens `--t-*` en `:root` y clases `.t-*`):
 | 8 Small | `--t-small` | 16px (gris) | Datos secundarios, cabeceras del pie, etiquetas |
 | 9 Caption | `--t-caption` | 16px (peso 500) | Antetítulos, píldoras, legal |
 
+Espaciado vertical por relación: `--s-title` (título → contenido, 28–48px), `--s-block` (texto → botón, título de tarjeta → texto, 20–28px) y `--s-tight` (antetítulo → título, 12–16px). Se aplican solos en toda la web; ningún texto queda pegado a un titular.
+
 Reglas: **ningún texto por debajo de 16px** (la jerarquía pequeña se marca con color y peso) y no escribir tamaños sueltos en el CSS; usar siempre un nivel de la escala.
 
 ## Pendiente de validar
