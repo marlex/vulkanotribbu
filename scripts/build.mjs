@@ -112,7 +112,7 @@ for (const file of (await readdir(join(root, "src/pages"))).filter((f) => f.ends
   if (!metaMatch) throw new Error(`Falta la cabecera JSON en ${file}`);
   pages.push({ file, meta: JSON.parse(metaMatch[1]), body: src.slice(metaMatch[0].length) });
 }
-for (const s of services) pages.push({ file: servicePath(s), ...servicePage(s, services) });
+for (const s of services) pages.push({ file: servicePath(s), ...servicePage(s, services, { brands: config.brands, projects }) });
 const svcCards = serviceCards(services);
 const diag = diagnostic(services);
 const urls = [];

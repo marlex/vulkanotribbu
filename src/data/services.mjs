@@ -48,7 +48,7 @@ export default [
       ["¿Qué recibo al final?", "Un documento de plataforma de marca, los mensajes clave y un plan de activación con prioridades."],
       ["¿Se puede hacer con un equipo pequeño?", "Por supuesto. Adaptamos el formato de talleres al tamaño y ritmo de tu organización."]
     ],
-    related: ["identidad", "web"]
+    related: ["identidad", "ux"]
   },
   {
     slug: "identidad",
@@ -93,18 +93,64 @@ export default [
       ["¿Recibo los archivos editables?", "Todos: archivos maestros, fuentes con licencia, plantillas y el manual completo."],
       ["¿Incluye el design system para producto digital?", "Puede incluirlo. Lo entregamos en Figma con tokens listos para desarrollo."]
     ],
-    related: ["estrategia", "web"]
+    related: ["estrategia", "ux"]
+  },
+  {
+    slug: "ux",
+    name: "UX y producto digital",
+    title: ["UX y producto", "digital"],
+    icon: "",
+    short: "Apps y herramientas que la gente entiende y usa sin ayuda.",
+    tags: ["Research UX", "Journey maps", "Prototipado", "Diseño UX/UI", "Test de usabilidad"],
+    axis: "¿Tus usuarios consiguen lo que vienen a hacer sin ayuda?",
+    hero: ["Producto que se entiende", "a la primera."],
+    lead: "Diseñamos apps internas, herramientas de gestión y experiencias omnicanal a partir de cómo trabaja y decide la gente real. Investigamos, prototipamos y validamos antes de construir, para que cada pantalla ahorre tiempo y errores.",
+    outcomes: [
+      { title: ["Adopción", "real"], text: "Herramientas que los equipos quieren usar porque encajan en su día a día, no al revés." },
+      { title: ["Menos", "fricción"], text: "Flujos de pocos pasos, claros y accesibles, que reducen errores, soporte y formación." },
+      { title: ["Decisiones", "con datos"], text: "Cada funcionalidad se prioriza por impacto y se valida con usuarios antes de desarrollarla." }
+    ],
+    includes: [
+      ["Discovery", "Objetivos de negocio, usuarios, procesos y métricas de éxito."],
+      ["Research UX", "Entrevistas, shadowing y analítica para entender el uso real."],
+      ["Customer journey", "Mapas de experiencia de cliente y de empleado, extremo a extremo."],
+      ["Service design", "Procesos, roles y canales alineados detrás de cada pantalla."],
+      ["Arquitectura de información", "Estructura y navegación pensadas para cada perfil."],
+      ["Estrategia de producto", "Visión, roadmap y MVP priorizado por impacto."],
+      ["Wireframes y prototipo", "Recorridos navegables para validar antes de diseñar el detalle."],
+      ["Diseño UX/UI", "Interfaces claras, mobile-first y coherentes con tu marca."],
+      ["Design system de producto", "Componentes y pautas para escalar con coherencia."],
+      ["Test de usabilidad", "Pruebas con usuarios reales e iteración continua."],
+      ["Accesibilidad", "Criterios WCAG desde el primer boceto."],
+      ["Handoff y acompañamiento", "Especificaciones y soporte al equipo de desarrollo hasta el lanzamiento."]
+    ],
+    process: [
+      ["Entender", "Usuarios, procesos y objetivos: qué problema resolvemos y cómo lo mediremos."],
+      ["Definir", "Journeys, prioridades y alcance del MVP."],
+      ["Prototipar", "Flujos navegables que se prueban con usuarios reales."],
+      ["Diseñar", "Interfaz y design system listos para construir."],
+      ["Validar y evolucionar", "Test, métricas de uso y mejora continua."]
+    ],
+    stack: ["Figma", "FigJam", "Maze", "Hotjar", "Miro", "Notion", "Jira", "Google Analytics"],
+    faq: [
+      ["¿Hacéis solo el diseño o también el desarrollo?", "Las dos cosas. Podemos diseñar y desarrollar el producto completo, o trabajar junto a tu equipo técnico con un handoff detallado."],
+      ["¿Con qué usuarios hacéis las pruebas?", "Con los reales siempre que sea posible: empleados, clientes o perfiles equivalentes que reclutamos para cada estudio."],
+      ["¿Trabajáis con herramientas internas?", "Sí, es una de nuestras especialidades: apps de gestión, operaciones y prevención para grandes compañías."],
+      ["¿Cuánto tarda un MVP?", "Depende del alcance, pero un primer producto validado suele estar listo entre ocho y dieciséis semanas."]
+    ],
+    cases: ["ikea", "santander", "ey", "leroymerlin"],
+    related: ["web", "estrategia"]
   },
   {
     slug: "web",
-    name: "Web y producto digital",
-    title: ["Web y producto", "digital"],
+    name: "Web y desarrollo",
+    title: ["Web y", "desarrollo"],
     icon: '<rect x="3" y="4.5" width="18" height="15"/><path d="M3 8.5h18M6 6.5h.01M8.5 6.5h.01"/>',
-    short: "Webs y experiencias digitales rápidas, accesibles y que convierten.",
-    tags: ["Diseño web", "UX / UI", "Desarrollo", "E-commerce", "Accesibilidad"],
+    short: "Webs y tiendas online rápidas, accesibles y que convierten.",
+    tags: ["Diseño web", "Desarrollo", "E-commerce", "SEO", "Accesibilidad"],
     axis: "¿Tu web trabaja para ti las 24 horas?",
     hero: ["Tu mejor comercial,", "abierto las 24 horas."],
-    lead: "Diseñamos y desarrollamos webs, tiendas online y productos digitales que cargan rápido, se leen bien y convierten. Cuidamos el detalle del movimiento tanto como el rendimiento, la accesibilidad y el SEO.",
+    lead: "Diseñamos y desarrollamos webs y tiendas online que cargan rápido, se leen bien y convierten. Cuidamos el detalle del movimiento tanto como el rendimiento, la accesibilidad y el SEO.",
     outcomes: [
       { title: ["Más", "conversión"], text: "Recorridos claros que llevan a cada visitante a la acción que importa: contactar, comprar, reservar." },
       { title: ["Velocidad", "y alcance"], text: "Webs ligeras y bien posicionadas que llegan a más gente y se disfrutan en cualquier dispositivo." },
@@ -112,8 +158,6 @@ export default [
     ],
     includes: [
       ["Arquitectura de información", "Estructura, navegación y contenidos ordenados para tu usuario."],
-      ["Investigación UX", "Entrevistas, analítica y pruebas para decidir con datos."],
-      ["Wireframes y prototipo", "Recorridos validados antes de diseñar el detalle."],
       ["Diseño UI", "Interfaces con la identidad de tu marca y un sistema de componentes."],
       ["Motion e interacción", "Microinteracciones y transiciones que dan vida a la experiencia."],
       ["Desarrollo front-end", "Código limpio, rápido y mantenible."],
@@ -138,6 +182,6 @@ export default [
       ["¿Incluye posicionamiento SEO?", "Incluimos SEO técnico de base en todos los proyectos y podemos acompañarte en la estrategia de contenidos."],
       ["¿Qué pasa después del lanzamiento?", "Te acompañamos con mantenimiento, analítica y mejoras continuas en el formato que prefieras."]
     ],
-    related: ["estrategia", "identidad"]
+    related: ["ux", "identidad"]
   }
 ];

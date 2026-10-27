@@ -44,7 +44,7 @@ export function diagnostic(services) {
   <div class="wrap">
     <div class="section-head">
       <span class="eyebrow">Diagnóstico de marca</span>
-      <h2 class="display xl reveal" id="diag-title">Tres ejes.<br><span class="serif">La foto de tu marca hoy.</span></h2>
+      <h2 class="display xl reveal" id="diag-title">Cuatro ejes.<br><span class="serif">La foto de tu marca hoy.</span></h2>
       <p class="body-l reveal" id="diag-hint">Mueve cada eje según cómo ves tu marca hoy, de 0 a 10. El mapa se dibuja al momento y te muestra dónde está tu mayor oportunidad de crecer.</p>
     </div>
     <div class="diag-grid">
@@ -53,7 +53,7 @@ ${sliders}
       </form>
       <div class="diag-visual" aria-live="polite">
         <svg class="radar" viewBox="-270 -175 540 350" role="img" aria-labelledby="radar-title">
-          <title id="radar-title">Mapa de tu marca en tres ejes</title>
+          <title id="radar-title">Mapa de tu marca en cuatro ejes</title>
           <g class="radar-grid"></g>
           <polygon class="radar-target" points=""></polygon>
           <polygon class="radar-shape" points=""></polygon>
@@ -72,10 +72,33 @@ ${sliders}
 }
 
 // Página de detalle de un servicio
-export function servicePage(s, services) {
+export function servicePage(s, services, { brands = [], projects = {} } = {}) {
   const i = services.indexOf(s);
   const related = s.related.map((slug) => services.find((x) => x.slug === slug)).filter(Boolean);
   const lower = s.name.toLowerCase();
+  const cases = (s.cases || []).map((slug) => ({ b: brands.find((x) => x.slug === slug), p: projects[slug] })).filter((c) => c.b && c.p);
+  const casesHtml = cases.length ? `
+<section class="section s-light" aria-labelledby="casos-title">
+  <div class="wrap">
+    <div class="section-head section-head--row">
+      <div class="stack">
+        <span class="eyebrow">Casos</span>
+        <h2 class="display xl reveal" id="casos-title">Lo hemos hecho<br><span class="serif">para marcas líderes</span></h2>
+      </div>
+      <a class="btn btn--ghost" href="marcas.html">Ver todas las marcas <span class="arrow" aria-hidden="true">→</span></a>
+    </div>
+    <ul class="svc-list">
+${cases.map(({ b, p }, k) => `      <li class="svc-row reveal" style="--rd:${(k * 0.08).toFixed(2)}s">
+        <a class="svc-link" href="marcas.html" data-cursor="Ver caso">
+          <span class="svc-title"><h3>${esc(b.name)}</h3><span class="svc-short">${esc(b.sector)}</span></span>
+          <span class="svc-desc">${esc(p.title)}. ${esc(p.project)}</span>
+          <span class="svc-go">${arrow}</span>
+        </a>
+      </li>`).join("\n")}
+    </ul>
+  </div>
+</section>
+` : "";
   const formats = [
     ["Qué es", "Un proyecto concreto, con alcance cerrado", "El servicio completo, de principio a fin", "Equipo senior de forma continua"],
     ["Para", `Una pieza clave de ${lower}`, `Un salto completo en ${lower}`, `Evolucionar ${lower} mes a mes`],
@@ -88,7 +111,7 @@ export function servicePage(s, services) {
     meta: { title: `${s.name} · Vulkano Tribbu`, description: `${s.short} ${s.lead.split(". ")[0]}.`, nav: "servicios" },
     body: `<section class="hero hero--page s-light">
   <div class="wrap">
-    <nav class="crumbs mono settle" style="--d:.05s" aria-label="Migas"><a href="servicios.html">Servicios</a> <span aria-hidden="true">/</span> ${num(i)}</nav>
+    <nav class="crumbs mono settle" style="--d:.05s" aria-label="Migas"><a href="servicios.html">Servicios</a> <span aria-hidden="true">/</span> ${esc(s.name)}</nav>
     <span class="eyebrow settle" style="--d:.1s">${esc(s.name)}</span>
     <h1 class="hero-title display xl">
       <span class="line ignite" style="--d:.2s">${esc(s.hero[0])}</span>
@@ -116,6 +139,7 @@ ${s.outcomes.map((o, k) => `      <article class="principle reveal" style="--rd:
   </div>
 </section>
 
+${casesHtml}
 <section class="section s-ink" aria-labelledby="incluye-title">
   <div class="wrap">
     <div class="section-head section-head--row">

@@ -14,7 +14,7 @@ Web de la agencia Vulkano Tribbu. Sitio estático, sin dependencias: HTML, CSS y
 5. Carrusel de las nueve marcas, grande y siempre girando.
 6. Sección oscura con tarjetas apiladas (sticky): la anterior se reduce y se oscurece al llegar la siguiente. Cada tarjeta abre su ficha de proyecto.
 7. Galería horizontal que se desplaza de lado con el scroll.
-8. «Nuestra especialidad»: los tres servicios en un listado animado, cada fila clicable hacia su página.
+8. «Nuestra especialidad»: los cuatro servicios en un listado animado, cada fila clicable hacia su página.
 9. Pie con «Hablemos» gigante y cuatro columnas. Cursor propio: punto blanco en modo diferencia que se convierte en píldora («Ver proyecto», «Play») sobre tarjetas y vídeo.
 
 ## Páginas
@@ -23,7 +23,7 @@ Web de la agencia Vulkano Tribbu. Sitio estático, sin dependencias: HTML, CSS y
 | --- | --- |
 | `index.html` | Portada (ver arriba) |
 | `agencia.html` | Origen, cómo somos, equipo, únete a la tribbu |
-| `servicios.html` | Tres disciplinas (mismo listado que la portada, versión detallada), diagnóstico de marca interactivo, formatos de colaboración, preguntas frecuentes |
+| `servicios.html` | Cuatro disciplinas (mismo listado que la portada, versión detallada), diagnóstico de marca interactivo, formatos de colaboración, preguntas frecuentes |
 | `servicio-<slug>.html` | Una página por servicio (estrategia, identidad, web, contenido, motion, experiencias), generada desde `src/data/services.mjs` |
 | `marcas.html` | Las nueve marcas en tarjetas apiladas |
 | `manifiesto.html` | Cinco principios y cuatro compromisos, en tarjetas |
@@ -45,7 +45,7 @@ assets/video/          Vídeo de la portada, MP4 + WebM + póster
 src/partials/          Cabecera, pie, <head> y vídeo de la portada
 src/pages/             Contenido de cada página (primera línea: título y descripción en JSON)
 site.config.mjs        Dominio, email, redes, menú y marcas (logo, sector, imagen)
-src/data/services.mjs  Contenido de los tres servicios (estrategia, identidad, web y producto digital) (páginas, tarjetas y ejes del diagnóstico)
+src/data/services.mjs  Contenido de los cuatro servicios (estrategia, identidad, UX y producto digital, web y desarrollo); `cases` enlaza fichas de marca en la página del servicio (páginas, tarjetas y ejes del diagnóstico)
 scripts/templates.mjs  Plantillas de página de servicio, tarjetas y diagnóstico
 scripts/build.mjs      Genera dist/
 ```
@@ -103,7 +103,7 @@ Los textos viven en `src/data/projects.mjs`. **Son borradores sin cifras: hay qu
 Las secciones alternan blanco (`s-light`), gris muy claro (`s-mist`) y negro (`s-ink`). `s-ink` invierte los tokens dentro de su ámbito, así cualquier componente funciona sobre fondo oscuro sin estilos extra; la cabecera cambia a claro al pasar por encima.
 
 ## Diagnóstico de marca
-Tres ejes (uno por servicio) con deslizadores de 0 a 10. El radar se dibuja en vivo, calcula el índice de marca (media × 10), muestra con línea discontinua el potencial de cada eje y recomienda empezar por los dos ejes con más recorrido, enlazando a su página de servicio.
+Cuatro ejes (uno por servicio) con deslizadores de 0 a 10. El radar se dibuja en vivo, calcula el índice de marca (media × 10), muestra con línea discontinua el potencial de cada eje y recomienda empezar por los dos ejes con más recorrido, enlazando a su página de servicio.
 
 ## Marcas y logos
 Las marcas se definen en `brands` (`site.config.mjs`). Las que llevan `featured: true` aparecen en las tarjetas apiladas de la portada; `marcas.html` muestra las nueve.
