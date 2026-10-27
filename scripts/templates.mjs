@@ -34,7 +34,7 @@ export function diagnostic(services) {
   const sliders = services
     .map(
       (s, i) => `          <div class="diag-row">
-            <label for="diag-${s.slug}"><span class="mono">${num(i)}</span> ${esc(s.name)}<small>${esc(s.axis)}</small></label>
+            <label for="diag-${s.slug}">${esc(s.name)}<small>${esc(s.axis)}</small></label>
             <input type="range" id="diag-${s.slug}" min="0" max="10" step="1" value="${[6, 5, 4, 3, 4, 5][i % 6]}" data-slug="${s.slug}" data-name="${esc(s.name)}" data-href="${servicePath(s)}" aria-describedby="diag-hint">
             <output for="diag-${s.slug}">${[6, 5, 4, 3, 4, 5][i % 6]}</output>
           </div>`
@@ -44,7 +44,7 @@ export function diagnostic(services) {
   <div class="wrap">
     <div class="section-head">
       <span class="eyebrow">Diagnóstico de marca</span>
-      <h2 class="display xl reveal" id="diag-title">Seis ejes.<br><span class="serif">La foto de tu marca hoy.</span></h2>
+      <h2 class="display xl reveal" id="diag-title">Tres ejes.<br><span class="serif">La foto de tu marca hoy.</span></h2>
       <p class="body-l reveal" id="diag-hint">Mueve cada eje según cómo ves tu marca hoy, de 0 a 10. El mapa se dibuja al momento y te muestra dónde está tu mayor oportunidad de crecer.</p>
     </div>
     <div class="diag-grid">
@@ -53,7 +53,7 @@ ${sliders}
       </form>
       <div class="diag-visual" aria-live="polite">
         <svg class="radar" viewBox="-270 -175 540 350" role="img" aria-labelledby="radar-title">
-          <title id="radar-title">Mapa de tu marca en seis ejes</title>
+          <title id="radar-title">Mapa de tu marca en tres ejes</title>
           <g class="radar-grid"></g>
           <polygon class="radar-target" points=""></polygon>
           <polygon class="radar-shape" points=""></polygon>
